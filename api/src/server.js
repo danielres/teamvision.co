@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require("apollo-server");
+const neo4jDriver = require("./neo4jDriver");
 
 const books = [
   {
@@ -28,7 +29,11 @@ const resolvers = {
   }
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: { driver: neo4jDriver }
+});
 
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
