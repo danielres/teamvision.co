@@ -9,6 +9,7 @@
   "dependencies": {
     "apollo-server": "^2.9.0",
     "graphql-resolvers": "^0.3.3",
+    "nanoid": "^2.0.4",
     "neo4j-driver": "^1.7.5"
   },
   "devDependencies": {
