@@ -706,6 +706,10 @@ decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
 
+deep-equal@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
+
 deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
@@ -1055,6 +1059,13 @@ graphql-extensions@0.9.1:
     "@apollographql/apollo-tools" "^0.4.0"
     apollo-server-env "2.4.1"
     apollo-server-types "0.2.1"
+
+graphql-resolvers@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/graphql-resolvers/-/graphql-resolvers-0.3.3.tgz#a0d0d810f8935ec501205b17a1d88dfdfe7bbae4"
+  dependencies:
+    deep-equal "^1.0.1"
+    object-path "^0.11.4"
 
 graphql-subscriptions@^1.0.0:
   version "1.1.0"
