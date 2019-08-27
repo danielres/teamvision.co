@@ -4,7 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "docker:up": "docker-compose up",
+    "docker:reset": "docker-compose down && docker-compose rm -f",
+    "docker:stop:all": "docker stop $(docker ps -aq)"
   },
   "dependencies": {
     "apollo-server": "^2.9.0",
