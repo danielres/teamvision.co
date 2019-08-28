@@ -35,14 +35,20 @@ const resolvers = {
   Mutation: {
     createCurrentUserPerson: combineResolvers(
       // TODO: isAuthenticated,
-      (obj, args, { user = { email: TEMP_EMAIL } }) =>
-        createCurrentUserPerson(user.email)
+      (obj, args, { user }) => {
+        // FIXME
+        console.log({ user });
+        return createCurrentUserPerson(TEMP_EMAIL);
+      }
     ),
 
     updateCurrentUserPersonName: combineResolvers(
       // TODO: isAuthenticated,
-      (obj, { name }, { user = { email: TEMP_EMAIL } }) =>
-        updateCurrentUserPersonName({ name }, user.email)
+      (obj, { name }, { user }) => {
+        // FIXME
+        console.log({ user });
+        return updateCurrentUserPersonName({ name }, TEMP_EMAIL);
+      }
     )
   }
 };
