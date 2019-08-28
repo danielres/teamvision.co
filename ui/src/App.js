@@ -3,13 +3,13 @@ import { useQuery } from "@apollo/react-hooks";
 
 import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
 
-function Books() {
+function Persons() {
   const { loading, error, data } = useQuery(
     gql`
       {
-        books {
-          author
-          title
+        persons {
+          email
+          name
         }
       }
     `
@@ -20,10 +20,10 @@ function Books() {
 
   return (
     <ul>
-      {data.books.map(({ author, title }) => (
-        <li key={title}>
+      {data.persons.map(({ email, name }) => (
+        <li key={email}>
           <p>
-            {title} <small> -- {author}</small>
+            {email} <small> -- {name}</small>
           </p>
         </li>
       ))}
@@ -32,11 +32,7 @@ function Books() {
 }
 
 function App() {
-  return (
-    <div className="App">
-      <Books></Books>
-    </div>
-  );
+  return <Persons />;
 }
 
 export default App;
