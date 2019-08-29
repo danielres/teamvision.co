@@ -3,29 +3,45 @@ const jwt = require("jsonwebtoken");
 
 const env = require("./env");
 
+const util = require("util");
+const request = util.promisify(require("request"));
+
 const client = jwksClient({ jwksUri: env.AUTH0_JKWS_URI });
 
-const options = {
-  algorithms: ["RS256"],
-  audience: env.AUTH0_AUDIENCE,
-  issuer: env.AUTH0_ISSUER
-};
-
-function getKey(header, cb) {
+const getKey = (header, callback) => {
   client.getSigningKey(header.kid, (err, key) => {
-    const signingKey = key.publicKey || key.rsaPublicKey;
-    cb(null, signingKey);
+    if (err) {
+      callback(err);
+    } else {
+      const signingKey = key.publicKey || key.rsaPublicKey;
+      callback(null, signingKey);
+    }
   });
-}
-
-const getUser = async ({ token }) => {
-  const user = new Promise((resolve, reject) => {
-    jwt.verify(token, getKey, options, (err, decoded) => {
-      if (err) return reject(err);
-      resolve(decoded.email);
-    });
-  });
-  return user;
 };
 
-module.exports = { getUser };
+const getUserInfo = token =>
+  request({
+    url: env.AUTH0_ISSUER + "userinfo",
+    headers: { authorization: "Bearer " + token }
+  }).then(resp => resp.body);
+
+const verifyToken = token => {
+  const options = {
+    algorithms: ["RS256"],
+    audience: env.AUTH0_AUDIENCE,
+    issuer: env.AUTH0_ISSUER
+  };
+
+  return new Promise((resolve, reject) =>
+    jwt.verify(token, getKey, options, (err, decoded) =>
+      err ? reject(err) : resolve(decoded)
+    )
+  );
+};
+
+const verifyTokenAndGetUserInfo = async token => {
+  await verifyToken(token);
+  return getUserInfo(token);
+};
+
+module.exports = { verifyTokenAndGetUserInfo };

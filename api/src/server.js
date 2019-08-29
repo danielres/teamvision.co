@@ -1,15 +1,16 @@
-const { ApolloServer, gql, AuthenticationError } = require("apollo-server");
-const { getUser } = require("./auth");
+const { ApolloServer, AuthenticationError } = require("apollo-server");
 
+const { verifyTokenAndGetUserInfo } = require("./auth");
 const schema = require("./schema");
 
 const server = new ApolloServer({
   schema,
   context: async ({ req }) => {
     try {
-      // simple auth check on every request
-      const user = await getUser({ token: req.headers.authorization });
-      return { user };
+      const token = req.headers.authorization;
+      const userInfo = await verifyTokenAndGetUserInfo(token);
+      console.log({ userInfo });
+      return { user: userInfo };
     } catch (error) {
       throw new AuthenticationError(error.message);
     }

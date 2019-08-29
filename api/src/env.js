@@ -9,10 +9,10 @@ const env = envalid.cleanEnv(
       choices: ["development", "production", "staging", "test"],
       devDefault: "development"
     }),
-    AUTH0_AUDIENCE: str({ devDefault: "5d6570d7dc768007476ad381" }),
-    AUTH0_ISSUER: url({ devDefault: "https://api.uptal.me/" }),
+    AUTH0_AUDIENCE: str({ devDefault: "https://api.uptal.me" }),
+    AUTH0_ISSUER: url({ devDefault: "https://uptal.eu.auth0.com/" }),
     AUTH0_JKWS_URI: url({
-      devDefault: "https://api.uptal.me/.well-known/jwks.json"
+      devDefault: "https://uptal.eu.auth0.com/.well-known/jwks.json"
     })
   },
   { strict: true }
