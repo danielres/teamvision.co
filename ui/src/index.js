@@ -1,17 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
+
 import "./index.css";
-import App from "./App";
+
 import * as serviceWorker from "./serviceWorker";
 
-import { ApolloProvider } from "@apollo/react-hooks";
+import ApolloProvider from "./providers/ApolloProvider";
+import Auth0Provider from "./providers/Auth0Provider";
 
-import client from "./client";
+import App from "./App";
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <Auth0Provider>
+    <ApolloProvider>
+      <App />
+    </ApolloProvider>
+  </Auth0Provider>,
+
   document.getElementById("root")
 );
 

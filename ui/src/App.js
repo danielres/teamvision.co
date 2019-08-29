@@ -1,38 +1,18 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
 
-import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
+import Nav from "./Nav";
+import Persons from "./Persons";
+import Profile from "./Profile";
+import Protected from "./Protected";
 
-function Persons() {
-  const { loading, error, data } = useQuery(
-    gql`
-      {
-        persons {
-          email
-          name
-        }
-      }
-    `
-  );
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
+export default function App() {
   return (
-    <ul>
-      {data.persons.map(({ email, name }) => (
-        <li key={email}>
-          <p>
-            {email} <small> -- {name}</small>
-          </p>
-        </li>
-      ))}
-    </ul>
+    <>
+      <Nav />
+      <Protected>
+        <Profile />
+        <Persons />
+      </Protected>
+    </>
   );
 }
-
-function App() {
-  return <Persons />;
-}
-
-export default App;
