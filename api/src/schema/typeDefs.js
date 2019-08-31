@@ -9,6 +9,17 @@ const typeDefs = /* GraphQL */ `
     persons(search: String): [Person]
   }
 
+  type User {
+    email: String!
+    email_verified: Boolean
+    picture: String
+    given_name: String
+    family_name: String
+    name: String
+    locale: String
+    updated_at: String
+  }
+
   type Mutation {
     createCurrentUserPerson: Person
     updateCurrentUserPersonName(name: String!): Person
