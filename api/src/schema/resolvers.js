@@ -1,5 +1,5 @@
 const { combineResolvers } = require("graphql-resolvers");
-
+const { AuthenticationError } = require("apollo-server-express");
 // TODO: replace by user data coming from auth
 const TEMP_EMAIL = "TODO@example.com";
 
@@ -14,15 +14,22 @@ const {
 
 const resolvers = {
   Query: {
-    persons(obj, { search }) {
+    persons(obj, { search }, { isAuthenticated }) {
+      if (!isAuthenticated) return new AuthenticationError("Forbidden");
       if (search) return searchPersons(search);
       return findNodesByLabel("Person");
     },
 
-    person(obj, { id, email }) {
+    person(obj, { id, email }, { isAuthenticated }) {
+      if (!isAuthenticated) return new AuthenticationError("Forbidden");
       if (email) return findNodeByLabelAndProperty("Person", "email", email);
       if (id) return findNodeByLabelAndId("Person", id);
       return new Error('Missing argument "email" or "id"');
+    },
+
+    userInfo(obj, {}, { isAuthenticated, userInfo }) {
+      if (!isAuthenticated) return new AuthenticationError("Forbidden");
+      return userInfo;
     }
   },
 

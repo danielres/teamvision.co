@@ -1,20 +1,25 @@
+import ApolloClient from "apollo-boost";
 import React from "react";
 import ReactDOM from "react-dom";
+import { ApolloProvider } from "@apollo/react-hooks";
 
 import "./index.css";
 
 import * as serviceWorker from "./serviceWorker";
-
-import ApolloProvider from "./providers/ApolloProvider";
 import Auth0Provider from "./providers/Auth0Provider";
+import AuthProvider from "./auth";
 
 import App from "./App";
 
+const client = new ApolloClient();
+
 ReactDOM.render(
   <Auth0Provider>
-    <ApolloProvider>
-      <App />
-    </ApolloProvider>
+    <AuthProvider>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </AuthProvider>
   </Auth0Provider>,
 
   document.getElementById("root")

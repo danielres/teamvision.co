@@ -1,18 +1,26 @@
 import React from "react";
 
+import { useAuth } from "./auth";
 import Nav from "./Nav";
 import Persons from "./Persons";
 import Profile from "./Profile";
-import Protected from "./Protected";
 
 export default function App() {
-  return (
-    <>
-      <Nav />
-      <Protected>
-        <Profile />
+  const { isAuthenticated, login } = useAuth();
+
+  if (isAuthenticated)
+    return (
+      <>
+        <Nav />
+        <hr />
         <Persons />
-      </Protected>
-    </>
+        <Profile />
+      </>
+    );
+
+  return (
+    <div>
+      <button onClick={login}>Login</button>
+    </div>
   );
 }

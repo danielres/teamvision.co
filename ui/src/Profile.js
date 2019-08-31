@@ -1,14 +1,32 @@
 import React from "react";
+import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
+import { useQuery } from "@apollo/react-hooks";
 
-import { useAuth0 } from "./auth0";
+export default function() {
+  const { loading, error, data } = useQuery(
+    gql`
+      {
+        userInfo {
+          email
+          email_verified
+          picture
+          given_name
+          family_name
+          name
+          locale
+          updated_at
+        }
+      }
+    `
+  );
 
-export default function Profile() {
-  const { user } = useAuth0();
+  if (loading) return <p>Loading profile...</p>;
+  if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>;
 
   return (
     <section>
-      <h2>Profile</h2>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <h2>User info (from API)</h2>
+      <pre>{JSON.stringify(data.userInfo, null, 2)}</pre>
     </section>
   );
 }

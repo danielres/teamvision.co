@@ -7,6 +7,7 @@ const typeDefs = /* GraphQL */ `
   type Query {
     person(email: String, id: ID): Person
     persons(search: String): [Person]
+    userInfo: User
   }
 
   type User {

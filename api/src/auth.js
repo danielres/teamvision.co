@@ -7,22 +7,32 @@ const env = require("./env");
 
 const client = jwksClient({ jwksUri: env.AUTH0_JKWS_URI });
 
-const getKey = (header, callback) => {
+let signingKeyCache = {};
+const getKeyCached = (header, callback) => {
+  if (signingKeyCache[header]) {
+    return callback(null, signingKeyCache[header]);
+  }
+
   client.getSigningKey(header.kid, (err, key) => {
-    if (err) {
-      callback(err);
-    } else {
-      const signingKey = key.publicKey || key.rsaPublicKey;
-      callback(null, signingKey);
-    }
+    if (err) return callback(err);
+    const signingKey = key.publicKey || key.rsaPublicKey;
+    signingKeyCache[header] = signingKey;
+    callback(null, signingKey);
   });
 };
 
-const getUserInfo = token =>
-  request({
+let userInfoCache = {};
+const getUserInfoCached = async token => {
+  if (userInfoCache[token]) return userInfoCache[token];
+  await request({
     url: env.AUTH0_ISSUER + "userinfo",
     headers: { authorization: "Bearer " + token }
-  }).then(resp => resp.body);
+  }).then(resp => {
+    userInfoCache[token] = resp.body;
+  });
+
+  return userInfoCache[token];
+};
 
 const verifyToken = token => {
   const options = {
@@ -32,15 +42,13 @@ const verifyToken = token => {
   };
 
   return new Promise((resolve, reject) =>
-    jwt.verify(token, getKey, options, (err, decoded) =>
+    jwt.verify(token, getKeyCached, options, (err, decoded) =>
       err ? reject(err) : resolve(decoded)
     )
   );
 };
 
-const verifyTokenAndGetUserInfo = async token => {
-  await verifyToken(token);
-  return getUserInfo(token);
+module.exports = {
+  getUserInfoCached,
+  verifyToken
 };
-
-module.exports = { verifyTokenAndGetUserInfo };
