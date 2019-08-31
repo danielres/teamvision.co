@@ -1,6 +1,7 @@
-import React from "react";
-import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
 import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
+import React from "react";
+import { Link } from "react-router-dom";
 
 import { useAuth } from "./auth";
 
@@ -23,17 +24,30 @@ export default function() {
   if (loading) return null;
 
   return (
-    <div>
-      {data.userInfo.email}
+    <nav>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/persons">Persons</Link>
+        </li>
+      </ul>
 
-      <img
-        alt="User portrait"
-        src={data.userInfo.picture}
-        height="50"
-        width="50"
-      />
-
-      <button onClick={logout}>Logout</button>
-    </div>
+      <ul>
+        <li>
+          <Link to="/profile">{data.userInfo.email}</Link>
+          <img
+            alt="User portrait"
+            src={data.userInfo.picture}
+            height="50"
+            width="50"
+          />
+        </li>
+        <li>
+          <button onClick={logout}>Logout</button>
+        </li>
+      </ul>
+    </nav>
   );
 }

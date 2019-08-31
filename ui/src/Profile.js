@@ -25,7 +25,7 @@ export default function() {
 
   return (
     <section>
-      <h2>User info (from API)</h2>
+      <h2>User profile</h2>
       <pre>{JSON.stringify(data.userInfo, null, 2)}</pre>
     </section>
   );
