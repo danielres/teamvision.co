@@ -1,10 +1,9 @@
 const jwksClient = require("jwks-rsa");
 const jwt = require("jsonwebtoken");
-
-const env = require("./env");
-
 const util = require("util");
 const request = util.promisify(require("request"));
+
+const env = require("./env");
 
 const client = jwksClient({ jwksUri: env.AUTH0_JKWS_URI });
 
