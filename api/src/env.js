@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === "test") {
   dotenv.config({ path: ".env.development" });
 }
 
-const { port, str, url } = envalid;
+const { bool, port, str, url } = envalid;
 
 const testLocalDesc = "Must be set in .env.test.local";
 
@@ -28,6 +28,7 @@ const env = envalid.cleanEnv(
     AUTH0_AUDIENCE: str(),
     AUTH0_ISSUER: url(),
     AUTH0_JKWS_URI: url(),
+    AUTH0_GET_USER_INFO: bool(),
     PORT: port(),
     NEO4J_URL: url(),
     ...(process.env.NODE_ENV === "test" && {

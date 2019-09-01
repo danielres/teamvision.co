@@ -1,6 +1,8 @@
 const { verifyToken, getUserInfoCached } = require("./auth");
 const { AuthenticationError } = require("apollo-server-express");
 
+const env = require("./env");
+
 module.exports = async (req, res, next) => {
   const token = req.headers.authorization || req.cookies.uptal_jwt;
 
@@ -14,7 +16,9 @@ module.exports = async (req, res, next) => {
     res.cookie("uptal_authenticated", true, { expires });
 
     req.isAuthenticated = true;
-    req.userInfo = JSON.parse(await getUserInfoCached(token));
+
+    if (env.AUTH0_GET_USER_INFO)
+      req.userInfo = JSON.parse(await getUserInfoCached(token));
 
     next();
   } catch (error) {
