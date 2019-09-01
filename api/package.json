@@ -8,7 +8,9 @@
     "docker:up": "docker-compose up",
     "docker:reset": "docker-compose down && docker-compose rm -f",
     "docker:stop:all": "docker stop $(docker ps -aq)",
-    "test:api": "NODE_ENV=test node tests/persons.test.js | faucet"
+    "test:api": "yarn test:api:base | faucet",
+    "test:api:once": "yarn test:api:base --once | faucet",
+    "test:api:base": "NODE_ENV=test tape-watch tests/**/*.test.js"
   },
   "dependencies": {
     "apollo-server": "^2.9.0",
@@ -25,6 +27,7 @@
     "faucet": "^0.0.1",
     "nodemon": "^1.19.1",
     "supertest": "^4.0.2",
-    "tape": "^4.11.0"
+    "tape": "^4.11.0",
+    "tape-watch": "^2.3.0"
   }
 }
