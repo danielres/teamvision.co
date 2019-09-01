@@ -16,6 +16,7 @@
     "@auth0/auth0-spa-js": "^1.2.1",
     "apollo-boost": "^0.4.4",
     "autoprefixer": "^9.6.1",
+    "classnames": "^2.2.6",
     "graphql": "^14.5.3",
     "js-cookie": "^2.2.1",
     "postcss-cli": "^6.1.3",
