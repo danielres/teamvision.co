@@ -2,6 +2,8 @@ import React from "react";
 import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
 import { useQuery } from "@apollo/react-hooks";
 
+import Avatar from "./Avatar";
+
 export default function() {
   const { loading, error, data } = useQuery(
     gql`
@@ -20,13 +22,20 @@ export default function() {
     `
   );
 
-  if (loading) return <p>Loading profile...</p>;
+  if (loading) return <p className="card">Loading profile...</p>;
   if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>;
 
   return (
-    <section>
-      <h2>User profile</h2>
-      <pre>{JSON.stringify(data.userInfo, null, 2)}</pre>
+    <section className="card">
+      <Avatar src={data.userInfo.picture} />
+
+      <div className="bg-gray-100 my-4 p-4">
+        {Object.entries(data.userInfo).map(([k, v]) => (
+          <div>
+            {k}: {`${v}`}
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
