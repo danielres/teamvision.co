@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { useAuth } from "./auth";
-import Nav from "./Nav";
+import Navbar from "./Navbar";
 import Persons from "./Persons";
 import Profile from "./Profile";
 
@@ -20,7 +20,7 @@ export default function App() {
   if (isAuthenticated)
     return (
       <Router>
-        <Nav />
+        <Navbar />
 
         <Switch>
           <Route path="/" component={Home} exact />
