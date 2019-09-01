@@ -7,7 +7,8 @@
     "dev": "nodemon src/server.js",
     "docker:up": "docker-compose up",
     "docker:reset": "docker-compose down && docker-compose rm -f",
-    "docker:stop:all": "docker stop $(docker ps -aq)"
+    "docker:stop:all": "docker stop $(docker ps -aq)",
+    "test:api": ""
   },
   "dependencies": {
     "apollo-server": "^2.9.0",
@@ -21,6 +22,9 @@
     "neo4j-driver": "^1.7.5"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "faucet": "^0.0.1",
+    "nodemon": "^1.19.1",
+    "supertest": "^4.0.2",
+    "tape": "^4.11.0"
   }
 }
