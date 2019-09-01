@@ -14,3 +14,7 @@ body {
 .card {
   @apply bg-white shadow-md px-6 py-6 mb-4;
 }
+
+.btn {
+  @apply px-3 py-2 border rounded leading-none;
+}
