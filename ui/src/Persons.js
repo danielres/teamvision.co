@@ -18,7 +18,7 @@ export default function Persons() {
   if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>;
 
   return (
-    <section>
+    <section className="card">
       <h2>Persons</h2>
       <ul>
         {data.persons.map(({ email, name }) => (
