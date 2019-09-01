@@ -8,7 +8,7 @@
     "docker:up": "docker-compose up",
     "docker:reset": "docker-compose down && docker-compose rm -f",
     "docker:stop:all": "docker stop $(docker ps -aq)",
-    "test:api": ""
+    "test:api": "NODE_ENV=test node tests/persons.test.js | faucet"
   },
   "dependencies": {
     "apollo-server": "^2.9.0",
