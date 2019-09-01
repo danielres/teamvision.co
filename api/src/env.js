@@ -1,22 +1,43 @@
+const dotenv = require("dotenv");
 const envalid = require("envalid");
 
+if (!process.env.NODE_ENV) process.env.NODE_ENV = "development";
+
+if (process.env.NODE_ENV === "development") {
+  dotenv.config({ path: ".env.development.local" });
+  dotenv.config({ path: ".env.development" });
+}
+
+if (process.env.NODE_ENV === "test") {
+  dotenv.config({ path: ".env.test.local" });
+  dotenv.config({ path: ".env.test" });
+  dotenv.config({ path: ".env.development.local" });
+  dotenv.config({ path: ".env.development" });
+}
+
 const { port, str, url } = envalid;
+
+const testLocalDesc = "Must be set in .env.test.local";
 
 const env = envalid.cleanEnv(
   process.env,
   {
     NODE_ENV: str({
-      choices: ["development", "production", "staging", "test"],
-      devDefault: "development"
+      choices: ["development", "production", "staging", "test"]
     }),
-    AUTH0_AUDIENCE: str({ devDefault: "https://api.uptal.me" }),
-    AUTH0_ISSUER: url({ devDefault: "https://uptal.eu.auth0.com/" }),
-    AUTH0_JKWS_URI: url({
-      devDefault: "https://uptal.eu.auth0.com/.well-known/jwks.json"
-    }),
-    PORT: port({ devDefault: 4000 })
+    AUTH0_AUDIENCE: str(),
+    AUTH0_ISSUER: url(),
+    AUTH0_JKWS_URI: url(),
+    PORT: port(),
+    NEO4J_URL: url(),
+    ...(process.env.NODE_ENV === "test" && {
+      AUTH0_TEST_CLIENT_ID: str({ desc: testLocalDesc }),
+      AUTH0_TEST_CLIENT_SECRET: str({ desc: testLocalDesc })
+    })
   },
-  { strict: true }
+  {
+    strict: true
+  }
 );
 
 module.exports = env;
