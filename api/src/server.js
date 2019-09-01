@@ -6,6 +6,7 @@ const { ApolloServer } = require("apollo-server-express");
 const authMiddleware = require("./authMiddleware");
 const env = require("./env");
 const schema = require("./schema");
+const neo4jDriver = require("./neo4jDriver");
 
 const app = express()
   .use(cookieParser())
@@ -38,9 +39,14 @@ const graphQlServer = new ApolloServer({
 
 graphQlServer.applyMiddleware({ app });
 
-httpServer.listen({ port: env.PORT }, () => {
-  console.log(`🚀 Socket.io ready at http://localhost:${env.PORT}`);
-  console.log(
-    `🚀 GraphQl ready at http://localhost:${env.PORT}${graphQlServer.graphqlPath}`
-  );
-});
+if (require.main === module) {
+  httpServer.listen({ port: env.PORT }, () => {
+    console.log(
+      `🚀 GraphQl ready at http://localhost:${env.PORT}${graphQlServer.graphqlPath}`
+    );
+  });
+} else {
+  httpServer.on("close", () => neo4jDriver.close());
+}
+
+module.exports = httpServer;
