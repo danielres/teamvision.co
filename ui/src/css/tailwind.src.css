@@ -19,6 +19,10 @@ body {
   @apply px-3 py-2 border rounded leading-tight;
 }
 
+.alert {
+  @apply text-red-700 bg-red-100;
+}
+
 /* Forms */
 .formInput:focus,
 .formButton:focus {
