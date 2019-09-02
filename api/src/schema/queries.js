@@ -25,6 +25,12 @@ const getRecord = async (query, params) => {
 
 // === EXPORTED:
 
+const deleteAllRecords = async () => {
+  const session = driver.session();
+  await session.run(`MATCH (n) DETACH DELETE n`);
+  session.close();
+};
+
 const findNodeByLabelAndId = (label, id) => {
   const query = `
     MATCH (n:${label} {id: {id}})
@@ -85,6 +91,7 @@ const updateCurrentUserPersonName = ({ name }, email) => {
 };
 
 module.exports = {
+  deleteAllRecords,
   findNodeByLabelAndId,
   findNodeByLabelAndProperty,
   findNodesByLabel,
