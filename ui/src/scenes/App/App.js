@@ -22,7 +22,7 @@ export default function App() {
       <Router>
         <Navbar />
 
-        <div class="my-4 md:mx-4">
+        <div className="my-4 md:mx-4">
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/persons" component={Persons} />
