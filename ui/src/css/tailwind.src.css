@@ -16,5 +16,20 @@ body {
 }
 
 .btn {
-  @apply px-3 py-2 border rounded leading-none;
+  @apply px-3 py-2 border rounded leading-tight;
+}
+
+/* Forms */
+.formInput:focus,
+.formButton:focus {
+  @apply outline-none shadow-outline;
+}
+.formInput {
+  @apply shadow appearance-none border rounded w-full px-3 py-2 text-gray-700 leading-tight border-blue-300;
+}
+.formButton {
+  @apply bg-blue-500 text-white font-bold px-3 py-2 rounded leading-tight;
+}
+.formButton:hover {
+  @apply bg-blue-700;
 }
