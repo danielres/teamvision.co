@@ -36,7 +36,7 @@ export default () => {
       </div>
       <div
         className={classnames(
-          { hidden: isBurgerNavOpen },
+          { hidden: !isBurgerNavOpen },
           "md:flex w-full block flex-grow md:w-auto"
         )}
       >
