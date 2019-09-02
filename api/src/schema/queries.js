@@ -1,5 +1,7 @@
-const driver = require("../neo4jDriver");
 const nanoid = require("nanoid");
+const yup = require("yup");
+
+const driver = require("../neo4jDriver");
 const { UniqueConstraintError } = require("../errors");
 
 // === PRIVATE:
@@ -76,6 +78,23 @@ const searchPersons = term => {
 
 const createPerson = async ({ email, name }) => {
   const params = { email, name, personId: genId() };
+
+  const PersonSchema = yup.object().shape({
+    email: yup
+      .string()
+      .required()
+      .email(),
+    personId: yup
+      .string()
+      .required()
+      .min(10),
+    name: yup
+      .string()
+      .required()
+      .min(3)
+  });
+
+  await PersonSchema.validate(params, { abortEarly: false });
   const existing = await findNodesByLabelAndProperty("Person", "email", email);
   if (existing.length)
     throw new UniqueConstraintError("This email is not available.");

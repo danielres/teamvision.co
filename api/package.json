@@ -21,7 +21,8 @@
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^1.6.0",
     "nanoid": "^2.0.4",
-    "neo4j-driver": "^1.7.5"
+    "neo4j-driver": "^1.7.5",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "faucet": "^0.0.1",
