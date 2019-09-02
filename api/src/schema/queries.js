@@ -1,5 +1,6 @@
 const driver = require("../neo4jDriver");
 const nanoid = require("nanoid");
+const { UniqueConstraintError } = require("../errors");
 
 // === PRIVATE:
 
@@ -47,6 +48,14 @@ const findNodeByLabelAndProperty = (label, key, value) => {
   return getRecord(query, { value });
 };
 
+const findNodesByLabelAndProperty = (label, key, value) => {
+  const query = `
+    MATCH (n:${label} {${key}: {value}})
+    RETURN n
+  `;
+  return getRecords(query, { value });
+};
+
 const findNodesByLabel = label => {
   const query = `
     MATCH (n:${label})
@@ -63,6 +72,19 @@ const searchPersons = term => {
     RETURN p
   `;
   return getRecords(query, { term });
+};
+
+const createPerson = async ({ email, name }) => {
+  const params = { email, name, personId: genId() };
+  const existing = await findNodesByLabelAndProperty("Person", "email", email);
+  if (existing.length)
+    throw new UniqueConstraintError("This email is not available.");
+
+  const query = `
+  CREATE (person:Person {email: {email}, name: {name}, id: {personId} })
+  RETURN person
+  `;
+  return getRecord(query, params);
 };
 
 const createCurrentUserPerson = email => {
@@ -96,6 +118,7 @@ module.exports = {
   findNodeByLabelAndProperty,
   findNodesByLabel,
   searchPersons,
+  createPerson,
   createCurrentUserPerson,
   updateCurrentUserPersonName
 };

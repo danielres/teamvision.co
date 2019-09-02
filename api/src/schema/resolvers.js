@@ -8,6 +8,7 @@ const {
   findNodeByLabelAndProperty,
   findNodesByLabel,
   searchPersons,
+  createPerson,
   createCurrentUserPerson,
   updateCurrentUserPersonName
 } = require("./queries");
@@ -40,6 +41,10 @@ const resolvers = {
   },
 
   Mutation: {
+    createPerson: combineResolvers((obj, args, vars) => {
+      return createPerson(args);
+    }),
+
     createCurrentUserPerson: combineResolvers(
       // TODO: isAuthenticated,
       (obj, args, { user }) => {

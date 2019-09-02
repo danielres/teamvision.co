@@ -22,6 +22,7 @@ const typeDefs = /* GraphQL */ `
   }
 
   type Mutation {
+    createPerson(email: String!, name: String!): Person
     createCurrentUserPerson: Person
     updateCurrentUserPersonName(name: String!): Person
   }
