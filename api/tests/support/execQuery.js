@@ -1,4 +1,6 @@
-const supertest = require("supertest");
+const util = require("util");
+const request = util.promisify(require("request"));
+
 const server = require("../../src/server");
 
 const getAccessToken = require("./getAccessToken");
@@ -6,12 +8,24 @@ const getAccessToken = require("./getAccessToken");
 module.exports = async query => {
   const { access_token } = await getAccessToken();
 
-  return supertest(server)
-    .post("/graphql")
-    .set("Authorization", access_token)
-    .set("Content-Type", "application/json")
-    .send({ query })
-    .expect("Content-Type", /json/)
-    .expect(200)
-    .then(({ body }) => body.data);
+  const response = new Promise((resolve, reject) => {
+    server.listen({ port: 0 }, () => {
+      const { port } = server.address();
+      console.log(`Test server running on port ${port}`);
+
+      request({
+        url: `http://localhost:${server.address().port}/graphql`,
+        method: "POST",
+        headers: { authorization: access_token },
+        json: { query }
+      })
+        .then(response => {
+          server.close();
+          resolve(response);
+        })
+        .catch(e => reject(e));
+    });
+  });
+
+  return response;
 };

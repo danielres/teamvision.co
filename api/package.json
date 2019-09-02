@@ -26,7 +26,6 @@
   "devDependencies": {
     "faucet": "^0.0.1",
     "nodemon": "^1.19.1",
-    "supertest": "^4.0.2",
     "tape": "^4.11.0",
     "tape-watch": "^2.3.0"
   }
