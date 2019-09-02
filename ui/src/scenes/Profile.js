@@ -2,7 +2,7 @@ import React from "react";
 import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
 import { useQuery } from "@apollo/react-hooks";
 
-import Avatar from "./Avatar";
+import Avatar from "../components/Avatar";
 
 export default function() {
   const { loading, error, data } = useQuery(

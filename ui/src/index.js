@@ -7,9 +7,9 @@ import "./css/tailwind.css";
 
 import * as serviceWorker from "./serviceWorker";
 import Auth0Provider from "./providers/Auth0Provider";
-import AuthProvider from "./auth";
+import AuthProvider from "./providers/auth";
 
-import App from "./App";
+import App from "./scenes/App";
 
 const client = new ApolloClient();
 

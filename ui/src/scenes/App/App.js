@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import { useAuth } from "./auth";
+import { useAuth } from "../../providers/auth";
 import Navbar from "./Navbar";
-import Persons from "./Persons";
-import Profile from "./Profile";
+import Persons from "../Persons";
+import Profile from "../Profile";
 
 function Home() {
   return <div className="card">Welcome aboard!</div>;

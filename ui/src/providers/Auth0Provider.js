@@ -1,7 +1,7 @@
 import React from "react";
 
 import history from "../utils/history";
-import { Auth0Provider } from "../auth0";
+import { Auth0Provider } from "./auth0";
 
 const {
   REACT_APP_AUTH0_AUDIENCE,
