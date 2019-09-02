@@ -1,5 +1,3 @@
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import classnames from "classnames";
@@ -19,21 +17,6 @@ const Hr = () => <div className="border-b border-teal-400 my-4" />;
 export default () => {
   const { logout } = useAuth();
   const [isBurgerNavOpen, setIsBurgerNavOpen] = useState(false);
-
-  const { loading, error, data } = useQuery(
-    gql`
-      {
-        userInfo {
-          email
-          email_verified
-          picture
-        }
-      }
-    `
-  );
-
-  if (error) return <pre>{JSON.stringify(error)}</pre>;
-  if (loading) return null;
 
   const onBurgerClick = () => setIsBurgerNavOpen(!isBurgerNavOpen);
 
