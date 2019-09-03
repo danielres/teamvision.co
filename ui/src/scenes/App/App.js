@@ -5,6 +5,7 @@ import { useAuth } from "../../providers/auth";
 import Navbar from "./Navbar";
 import Persons from "../Persons";
 import Profile from "../Profile";
+import Tags from "../Tags";
 
 function Home() {
   return <div className="card">Welcome aboard!</div>;
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/" component={Home} exact />
             <Route path="/persons" component={Persons} />
             <Route path="/profile" component={Profile} />
+            <Route path="/tags" component={Tags} />
             <Route component={NoMatch} />
           </Switch>
         </div>
