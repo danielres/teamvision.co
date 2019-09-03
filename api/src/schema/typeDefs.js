@@ -7,6 +7,7 @@ const typeDefs = /* GraphQL */ `
   type Query {
     person(email: String, id: ID): Person
     persons(search: String): [Person]
+    tags(search: String): [Tag]
     userInfo: User
   }
 
@@ -23,6 +24,7 @@ const typeDefs = /* GraphQL */ `
 
   type Mutation {
     createPerson(email: String!, name: String!): Person
+    createTag(name: String!, description: String): Tag
     createCurrentUserPerson: Person
     updateCurrentUserPersonName(name: String!): Person
   }
@@ -31,6 +33,13 @@ const typeDefs = /* GraphQL */ `
     id: ID!
     email: String!
     name: String
+    created: String
+  }
+
+  type Tag {
+    id: ID!
+    name: String!
+    description: String
     created: String
   }
 `;

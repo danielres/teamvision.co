@@ -10,6 +10,8 @@ const {
   searchPersons,
   createPerson,
   createCurrentUserPerson,
+  searchTags,
+  createTag,
   updateCurrentUserPersonName
 } = require("./queries");
 
@@ -28,6 +30,12 @@ const resolvers = {
       return new Error('Missing argument "email" or "id"');
     },
 
+    tags(obj, { search }, { isAuthenticated }) {
+      if (!isAuthenticated) return new AuthenticationError("Forbidden");
+      if (search) return searchTags(search);
+      return findNodesByLabel("Tag");
+    },
+
     userInfo(obj, {}, { isAuthenticated, userInfo }) {
       if (!isAuthenticated) return new AuthenticationError("Forbidden");
       return userInfo;
@@ -43,6 +51,12 @@ const resolvers = {
   Mutation: {
     createPerson: combineResolvers((obj, args, vars) => {
       return createPerson(args);
+    }),
+
+    createTag: combineResolvers(async (obj, args, vars) => {
+      const res = await createTag(args);
+      console.log({ res });
+      return res;
     }),
 
     createCurrentUserPerson: combineResolvers(

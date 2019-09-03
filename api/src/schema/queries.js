@@ -106,6 +106,35 @@ const createPerson = async ({ email, name }) => {
   return getRecord(query, params);
 };
 
+const createTag = async ({ description = "", name }) => {
+  const params = { description, name, tagId: genId() };
+
+  const TagSchema = yup.object().shape({
+    description: yup.string(),
+    tagId: yup
+      .string()
+      .required()
+      .min(10),
+    name: yup
+      .string()
+      .required()
+      .min(2)
+  });
+
+  await TagSchema.validate(params, { abortEarly: false });
+  const existing = await findNodesByLabelAndProperty("Tag", "name", name);
+  if (existing.length)
+    throw new UniqueConstraintError("This tag already exists.");
+
+  const query = `CREATE (tag:Tag {description: {description}, name: {name}, id: {tagId} }) RETURN tag`;
+  return getRecord(query, params);
+};
+
+const searchTags = term => {
+  const query = `MATCH (t:Tag) WHERE toLower(t.name) CONTAINS toLower({term}) RETURN t ORDER BY t.name`;
+  return getRecords(query, { term });
+};
+
 const createCurrentUserPerson = email => {
   const params = { email, personId: genId() };
   // Use cypher FOREACH hack to only set id for person if it isn't already set
@@ -138,6 +167,8 @@ module.exports = {
   findNodesByLabel,
   searchPersons,
   createPerson,
+  searchTags,
+  createTag,
   createCurrentUserPerson,
   updateCurrentUserPersonName
 };
