@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/react-hooks";
+import classnames from "classnames";
 import React, { useState } from "react";
-
 import Form from "./Form";
 import { GET_PERSONS } from "./gql";
 
@@ -38,15 +38,27 @@ export default function Persons() {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <ul>
-            {data.persons.map(({ email, name }) => (
-              <li key={email}>
-                <p>
-                  {email} <small> -- {name}</small>
-                </p>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <div className="flex font-semibold">
+              <div className="w-1/2 px-4">Name</div>
+              <div className="w-1/2 px-4">Email</div>
+            </div>
+
+            <ul>
+              {data.persons.map(({ email, name }, i) => (
+                <li
+                  key={email}
+                  className={classnames(
+                    { "bg-gray-200": !(i % 2) },
+                    "flex py-2"
+                  )}
+                >
+                  <div className="w-1/2 px-4">{name}</div>
+                  <div className="w-1/2 px-4">{email}</div>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </section>
     </>
