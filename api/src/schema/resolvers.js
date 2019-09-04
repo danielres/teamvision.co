@@ -12,6 +12,7 @@ const {
   createCurrentUserPerson,
   searchTags,
   createTag,
+  applyTagging,
   updateCurrentUserPersonName
 } = require("./queries");
 
@@ -43,21 +44,16 @@ const resolvers = {
   },
 
   Person: {
+    //?
     created({ created }) {
       return created.toString();
     }
   },
 
   Mutation: {
-    createPerson: combineResolvers((obj, args, vars) => {
-      return createPerson(args);
-    }),
-
-    createTag: combineResolvers(async (obj, args, vars) => {
-      const res = await createTag(args);
-      console.log({ res });
-      return res;
-    }),
+    createPerson: (obj, args, vars) => createPerson(args),
+    createTag: (obj, args, vars) => createTag(args),
+    applyTagging: (obj, args, vars) => applyTagging(args),
 
     createCurrentUserPerson: combineResolvers(
       // TODO: isAuthenticated,

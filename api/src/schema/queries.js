@@ -26,6 +26,31 @@ const getRecord = async (query, params) => {
   return records && records.length === 1 ? records[0] : null;
 };
 
+const getRelationships = async (query, params) => {
+  const session = driver.session();
+  const { records: relationships } = await session.run(query, params);
+  session.close();
+
+  return relationships.map(r => {
+    const { properties, type } = r.get(0);
+    return { ...properties, type };
+  });
+};
+
+const findTagging = async ({ name, targetLabel, targetKey, targetValue }) => {
+  const query = `
+    MATCH (n:Tag {name: {name}}) -[tagging:TAGGING]-> (target: ${targetLabel} {${targetKey}: {targetValue} })
+    RETURN tagging
+  `;
+  const taggings = await getRelationships(query, { name, targetValue });
+  if (taggings.length > 1)
+    console.warn(
+      `[findTagging] WARNING: DATA INCONSISTENCY: multiple taggings found, while only 0 or 1 should exist.`
+    );
+
+  return taggings[0];
+};
+
 // === EXPORTED:
 
 const deleteAllRecords = async () => {
@@ -135,6 +160,53 @@ const searchTags = term => {
   return getRecords(query, { term });
 };
 
+const applyTagging = async ({
+  name,
+  description = "",
+  targetLabel,
+  targetKey,
+  targetValue
+}) => {
+  const existing = await findTagging({
+    name,
+    targetLabel,
+    targetKey,
+    targetValue
+  });
+
+  if (existing)
+    throw new UniqueConstraintError(
+      "A tag can be applied only once per target."
+    );
+
+  const session = driver.session();
+
+  const params = {
+    name,
+    description,
+    targetLabel,
+    targetKey,
+    targetValue,
+    taggingId: genId()
+  };
+
+  const query = `
+    MATCH (tag:Tag {name: {name} })
+    MATCH (target: ${targetLabel} {${targetKey}: {targetValue}})
+    CREATE (tag)-[tagging:TAGGING {id: {taggingId}, description: {description}}]->(target)
+    RETURN tagging, tag, target
+  `;
+
+  const { records } = await session.run(query, params);
+
+  const { properties: tagging } = records[0].get(0);
+  const { properties: tag } = records[0].get(1);
+  const { properties: target } = records[0].get(2);
+
+  session.close();
+  return { ...tagging, tag, target: { label: targetLabel, ...target } };
+};
+
 const createCurrentUserPerson = email => {
   const params = { email, personId: genId() };
   // Use cypher FOREACH hack to only set id for person if it isn't already set
@@ -169,6 +241,7 @@ module.exports = {
   createPerson,
   searchTags,
   createTag,
+  applyTagging,
   createCurrentUserPerson,
   updateCurrentUserPersonName
 };
