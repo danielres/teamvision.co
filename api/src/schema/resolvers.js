@@ -43,11 +43,8 @@ const resolvers = {
     }
   },
 
-  Person: {
-    //?
-    created({ created }) {
-      return created.toString();
-    }
+  TaggingRelationshipTarget: {
+    __resolveType: obj => obj.label
   },
 
   Mutation: {

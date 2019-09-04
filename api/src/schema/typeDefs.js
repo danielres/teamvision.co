@@ -41,6 +41,7 @@ const typeDefs = /* GraphQL */ `
     email: String!
     name: String
     created: String
+    label: String!
   }
 
   type TaggingRelationship {
@@ -50,18 +51,14 @@ const typeDefs = /* GraphQL */ `
     target: TaggingRelationshipTarget!
   }
 
-  type TaggingRelationshipTarget {
-    id: ID!
-    label: String!
-    name: String
-    description: String
-  }
+  union TaggingRelationshipTarget = Person | Tag
 
   type Tag {
     id: ID!
     name: String!
     description: String
     created: String
+    label: String!
   }
 `;
 

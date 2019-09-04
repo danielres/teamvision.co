@@ -25,7 +25,10 @@ const applyTagging = ({
         id
         description
         tag{id name}
-        target{id label name}
+        target{
+          ... on Person { id label email }
+          ... on Tag  { id label name }
+        }
       }
     }
   `);
@@ -85,10 +88,11 @@ test("Mutation { applyTagging {...} } works on a Person", async assert => {
         id: taggingId,
         description: "John learned vegan rocket science at 4.",
         tag: { id: tag.id, name: "Smart" },
-        target: { id: person.id, label: "Person", name: "John" }
+        target: { id: person.id, label: "Person", email: "john@example.com" }
       }
     }
   };
+
   assert.deepEqual(body, expected);
   assert.end();
 });
