@@ -13,11 +13,9 @@ const getRecords = async (query, params) => {
   const { records } = await session.run(query, params);
   session.close();
 
-  if (!records) return null;
-
   return records.map(r => {
     const { properties, labels } = r.get(0);
-    return { ...properties, __label: labels[0] };
+    return { ...properties };
   });
 };
 
