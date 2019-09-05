@@ -12,6 +12,7 @@ export const CREATE_TAG = gql`
 export const GET_TAGS = gql`
   {
     tags {
+      id: name
       name
       description
     }
