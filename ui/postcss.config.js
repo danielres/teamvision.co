@@ -10,6 +10,7 @@ const cssnano = require("cssnano")({ preset: "default" });
 module.exports = {
   plugins: [
     require("tailwindcss")("./src/tailwind.config.es5.js"),
+    require("postcss-nesting"),
     require("autoprefixer"),
     ...(process.env.NODE_ENV === "production" ? [purgecss, cssnano] : [])
   ]
