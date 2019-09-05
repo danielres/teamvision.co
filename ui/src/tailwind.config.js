@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   prefix: "",
   important: false,
   separator: ":",
@@ -48,7 +48,7 @@ module.exports = {
         800: "#9c4221",
         900: "#7b341e"
       },
-      teal: {
+      yellow: {
         100: "#fffff0",
         200: "#fefcbf",
         300: "#faf089",
@@ -70,7 +70,7 @@ module.exports = {
         800: "#276749",
         900: "#22543d"
       },
-      yellow: {
+      teal: {
         100: "#e6fffa",
         200: "#b2f5ea",
         300: "#81e6d9",
