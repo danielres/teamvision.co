@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { useAuth } from "../../providers/auth";
 import Navbar from "./Navbar";
+import Person from "../Person";
 import Persons from "../Persons";
 import Profile from "../Profile";
 import Tags from "../Tags";
@@ -26,6 +27,7 @@ export default function App() {
         <div className="my-4 md:mx-4">
           <Switch>
             <Route path="/" component={Home} exact />
+            <Route path="/persons/:id" component={Person} />
             <Route path="/persons" component={Persons} />
             <Route path="/profile" component={Profile} />
             <Route path="/tags" component={Tags} />
