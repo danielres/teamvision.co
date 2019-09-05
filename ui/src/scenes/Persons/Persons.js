@@ -1,10 +1,12 @@
 import { useQuery } from "@apollo/react-hooks";
-import classnames from "classnames";
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
+
+import TableResponsive from "../../components/TableResponsive";
 import Form from "./Form";
 import { GET_PERSONS } from "./gql";
 
-export default function Persons() {
+function Persons({ history }) {
   const { loading, error, data } = useQuery(GET_PERSONS); // eslint-disable-line no-unused-vars
   const [isFormvisible, setIsFormVisible] = useState(false);
 
@@ -38,29 +40,15 @@ export default function Persons() {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <div>
-            <div className="flex font-semibold">
-              <div className="w-1/2 px-4">Name</div>
-              <div className="w-1/2 px-4">Email</div>
-            </div>
-
-            <ul>
-              {data.persons.map(({ email, name }, i) => (
-                <li
-                  key={email}
-                  className={classnames(
-                    { "bg-gray-200": !(i % 2) },
-                    "flex py-2"
-                  )}
-                >
-                  <div className="w-1/2 px-4">{name}</div>
-                  <div className="w-1/2 px-4">{email}</div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <TableResponsive
+            items={data.persons}
+            onRowClick={id => history.push(`/persons/${id}`)}
+            rows={{ name: "Name", email: "Email" }}
+          />
         )}
       </section>
     </>
   );
 }
+
+export default withRouter(Persons);

@@ -23,6 +23,16 @@ body {
   @apply text-red-700 bg-red-100;
 }
 
+.accessibleHide {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+.hover.hover:hover {
+  @apply bg-blue-200 cursor-pointer;
+}
+
 /* Forms */
 .formInput:focus,
 .formButton:focus {
@@ -36,4 +46,65 @@ body {
 }
 .formButton:hover {
   @apply bg-blue-700;
+}
+
+/* tables */
+
+table.striped tbody tr:nth-child(odd) {
+  @apply bg-gray-200;
+}
+
+th {
+  text-align: left;
+}
+
+/* TableResponsive */
+
+.container-md {
+  & td,
+  & th {
+    @apply px-4 py-2;
+  }
+}
+
+.container-sm {
+  & table,
+  & thead,
+  & tbody,
+  & th,
+  & td,
+  & tr {
+    display: block;
+  }
+  & thead tr {
+    @apply accessibleHide;
+  }
+  & td {
+    @apply relative;
+    padding-left: 50%;
+  }
+  & td:before {
+    @apply font-semibold whitespace-no-wrap absolute ml-4 top-0 left-0 pr-4;
+    content: attr(data-name);
+    width: 45%;
+  }
+}
+
+.container-xs {
+  & table,
+  & tbody,
+  & th,
+  & td,
+  & tr {
+    display: block;
+  }
+  & thead tr {
+    @apply accessibleHide;
+  }
+  & tbody td {
+    @apply hidden;
+  }
+  & tbody td:first-child {
+    @apply block;
+  }
 }
