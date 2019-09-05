@@ -35,6 +35,23 @@ test("Query { tags(search:...) {...} } works", async assert => {
   assert.end();
 });
 
+test("Query { tag(name|id:...) {...} } returns the tag", async assert => {
+  await deleteAllRecords();
+
+  const created = await execQuery(
+    `mutation { createTag(name: "Salty") {id name description} }`
+  );
+
+  const { body: byName } = await execQuery(`{ tag(name: "Salty") { name } }`);
+  assert.deepEqual(byName, { data: { tag: { name: "Salty" } } });
+
+  const { id } = created.body.data.createTag;
+  const { body: byId } = await execQuery(`{ tag(id: "${id}") { id } }`);
+  assert.deepEqual(byId, { data: { tag: { id } } });
+
+  assert.end();
+});
+
 test("Mutation { createTag {...} } works", async assert => {
   await deleteAllRecords();
 

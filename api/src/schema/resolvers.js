@@ -37,6 +37,13 @@ const resolvers = {
       return findNodesByLabel("Tag");
     },
 
+    tag(obj, { id, name }, { isAuthenticated }) {
+      if (!isAuthenticated) return new AuthenticationError("Forbidden");
+      if (name) return findNodeByLabelAndProperty("Tag", "name", name);
+      if (id) return findNodeByLabelAndId("Tag", id);
+      return new Error('Missing argument "name" or "id"');
+    },
+
     userInfo(obj, {}, { isAuthenticated, userInfo }) {
       if (!isAuthenticated) return new AuthenticationError("Forbidden");
       return userInfo;
