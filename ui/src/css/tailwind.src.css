@@ -54,18 +54,18 @@ table.striped tbody tr:nth-child(odd) {
   @apply bg-gray-200;
 }
 
-th {
-  text-align: left;
-}
-
-/* TableResponsive */
-
-.container-md {
+table.spaced {
   & td,
   & th {
     @apply px-4 py-2;
   }
 }
+
+th {
+  text-align: left;
+}
+
+/* TableResponsive */
 
 .container-sm {
   & table,
@@ -98,6 +98,7 @@ th {
   & tr {
     display: block;
   }
+
   & thead tr {
     @apply accessibleHide;
   }

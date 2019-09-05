@@ -7,9 +7,9 @@ export default ({ items, onRowClick, rows }) => {
   return (
     <ContainerQuery
       query={{
-        "container-xs": { maxWidth: 320 },
+        "container-xs spaced": { maxWidth: 320 },
         "container-sm": { minWidth: 320, maxWidth: 640 },
-        "container-md": { minWidth: 640 }
+        "container-md spaced": { minWidth: 640 }
       }}
     >
       {params => (
