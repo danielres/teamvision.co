@@ -1,13 +1,9 @@
-import { useQuery } from "@apollo/react-hooks";
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-
-import TableResponsive from "../../components/TableResponsive";
 import Form from "./Form";
-import { GET_PERSONS } from "./gql";
+import PersonsTable from "./Table";
 
 function Persons({ history }) {
-  const { loading, error, data } = useQuery(GET_PERSONS); // eslint-disable-line no-unused-vars
   const [isFormvisible, setIsFormVisible] = useState(false);
 
   const closeForm = () => setIsFormVisible(false);
@@ -37,15 +33,7 @@ function Persons({ history }) {
       )}
 
       <section className="card">
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <TableResponsive
-            items={data.persons}
-            onRowClick={id => history.push(`/persons/${id}`)}
-            rows={{ name: "Name", email: "Email" }}
-          />
-        )}
+        <PersonsTable />
       </section>
     </>
   );
