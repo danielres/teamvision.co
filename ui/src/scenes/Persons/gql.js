@@ -12,6 +12,7 @@ export const CREATE_PERSON = gql`
 export const GET_PERSONS = gql`
   {
     persons {
+      id
       email
       name
     }
