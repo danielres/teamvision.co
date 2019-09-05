@@ -13,7 +13,7 @@ function TagsTable({ history }) {
   return (
     <TableResponsive
       items={data.tags}
-      onRowClick={id => history.push(`/tags/${id}`)}
+      onRowClick={name => history.push(`/tags/${name}`)}
       rows={{ name: "Name", description: "Description" }}
     />
   );

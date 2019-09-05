@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
 import { useAuth } from "../../providers/auth";
-import Navbar from "./Navbar";
 import Person from "../Person";
 import Persons from "../Persons";
 import Profile from "../Profile";
+import Tag from "../Tag";
 import Tags from "../Tags";
+import Navbar from "./Navbar";
 
 function Home() {
   return <div className="card">Welcome aboard!</div>;
@@ -30,6 +30,7 @@ export default function App() {
             <Route path="/persons/:id" component={Person} />
             <Route path="/persons" component={Persons} />
             <Route path="/profile" component={Profile} />
+            <Route path="/tags/:id" component={Tag} />
             <Route path="/tags" component={Tags} />
             <Route component={NoMatch} />
           </Switch>
