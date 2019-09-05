@@ -1,7 +1,6 @@
+import classnames from "classnames";
 import React from "react";
 import { ContainerQuery } from "react-container-query";
-import classnames from "classnames";
-import { Link } from "react-router-dom";
 
 export default ({ items, onRowClick, rows }) => {
   return (
