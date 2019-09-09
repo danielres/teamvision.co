@@ -4,6 +4,13 @@
 const nanoid = require("nanoid");
 const driver = require("../../neo4jDriver");
 
+const _execQuery = async (query, params = {}) => {
+  const session = driver.session();
+  const { records: rawRecords } = await session.run(query, {});
+  session.close();
+  return rawRecords;
+};
+
 const _genId = () => nanoid(10);
 
 const _getRecords = async (query, params) => {
@@ -42,6 +49,7 @@ const _findNodesByLabelAndProperty = (label, key, value) => {
 };
 
 module.exports = {
+  _execQuery,
   _findNodesByLabelAndProperty,
   _genId,
   _getRecord,
