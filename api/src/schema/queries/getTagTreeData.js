@@ -4,7 +4,7 @@ const { _execQuery } = require("./private");
 const getAllTaggings = async () => {
   const query = `
     MATCH (src:Tag) -[rel:TAGGING]-> (tgt:Tag)
-    RETURN src, rel, tgt`;
+    RETURN src, rel, tgt ORDER BY src.name`;
   const records = await _execQuery(query);
   return records.map(r => {
     const src = r.get("src").properties.name;
@@ -15,7 +15,7 @@ const getAllTaggings = async () => {
 };
 
 const getAllTags = async () => {
-  const query = `MATCH (t:Tag) RETURN t`;
+  const query = `MATCH (t:Tag) RETURN t ORDER BY t.name`;
   const records = await _execQuery(query);
   return records.map(r => {
     const tag = r.get("t").properties.name;
@@ -23,8 +23,8 @@ const getAllTags = async () => {
   });
 };
 
-async function getTagTreeData() {
-  const allTags = (await getAllTags()).sort();
+const getTagTreeData = async () => {
+  const allTags = await getAllTags();
   const taggings = await getAllTaggings();
 
   const sources = Object.values(taggings).map(t => t.src);
@@ -38,6 +38,6 @@ async function getTagTreeData() {
   };
 
   return result;
-}
+};
 
 module.exports = getTagTreeData;

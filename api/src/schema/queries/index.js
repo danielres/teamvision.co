@@ -7,6 +7,7 @@ const {
 const { searchPersons, createPerson } = require("./persons");
 const { searchTags, createTag } = require("./tags");
 const { applyTagging } = require("./taggings");
+const getTagTreeData = require("./getTagTreeData");
 const {
   createCurrentUserPerson,
   updateCurrentUserPersonName
@@ -26,6 +27,8 @@ module.exports = {
   createTag,
   // taggings
   applyTagging,
+  // tagTreeData
+  getTagTreeData,
   // currentUser
   createCurrentUserPerson,
   updateCurrentUserPersonName

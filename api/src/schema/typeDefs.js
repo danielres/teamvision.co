@@ -5,6 +5,7 @@ const typeDefs = /* GraphQL */ `
   }
 
   type Query {
+    tagTreeData: TagTreeData
     person(email: String, id: ID): Person
     persons(search: String): [Person]
     tag(name: String, id: ID): Tag
@@ -43,6 +44,23 @@ const typeDefs = /* GraphQL */ `
     name: String
     created: String
     label: String!
+  }
+
+  type TagTreeData {
+    tags: TagTreeDataTags
+    taggings: [TagTreeDataTagging!]
+  }
+
+  type TagTreeDataTags {
+    all: [String!]
+    orphans: [String!]
+    roots: [String!]
+  }
+
+  type TagTreeDataTagging {
+    id: ID!
+    src: String!
+    tgt: String!
   }
 
   type TaggingRelationship {

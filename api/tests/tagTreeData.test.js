@@ -1,13 +1,10 @@
 const test = require("tape");
+const execQuery = require("./support/execQuery");
+const { deleteAllRecords } = require("../src/schema/queries");
 
-const execQuery = require("../../../tests/support/execQuery");
-const deleteAllRecords = require("./deleteAllRecords");
-const getTagTreeData = require("./getTagTreeData");
+const { createTag, applyTagging } = require("../src/schema/queries");
 
-const { createTag } = require("./tags");
-const { applyTagging } = require("./taggings");
-
-test("getTagTreeData() returns all tags, orphans, roots + taggings,", async assert => {
+test("Query { tagTreeData {...} } returns all tags, orphans, roots + taggings", async assert => {
   await deleteAllRecords();
   await createTag({ name: "root1" });
   await createTag({ name: "parent1" });
@@ -22,9 +19,16 @@ test("getTagTreeData() returns all tags, orphans, roots + taggings,", async asse
     targetValue: "child1"
   });
 
-  const result1 = await getTagTreeData();
+  const result = await execQuery(`
+    {
+      tagTreeData {
+        tags { all orphans roots }
+        taggings { id src tgt }
+      }
+    }
+  `);
 
-  const expected1 = {
+  const expected = {
     tags: {
       all: ["child1", "orphan", "parent1", "root1"],
       orphans: ["orphan", "root1"],
@@ -36,7 +40,7 @@ test("getTagTreeData() returns all tags, orphans, roots + taggings,", async asse
     ]
   };
 
-  assert.deepEqual(result1, expected1);
+  assert.deepEqual(result.body.data.tagTreeData, expected);
 
   assert.end();
 });

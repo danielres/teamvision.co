@@ -7,6 +7,7 @@ const {
   findNodeByLabelAndId,
   findNodeByLabelAndProperty,
   findNodesByLabel,
+  getTagTreeData,
   searchPersons,
   createPerson,
   createCurrentUserPerson,
@@ -42,6 +43,11 @@ const resolvers = {
       if (name) return findNodeByLabelAndProperty("Tag", "name", name);
       if (id) return findNodeByLabelAndId("Tag", id);
       return new Error('Missing argument "name" or "id"');
+    },
+
+    tagTreeData(obj, args, { isAuthenticated }) {
+      if (!isAuthenticated) return new AuthenticationError("Forbidden");
+      return getTagTreeData();
     },
 
     userInfo(obj, {}, { isAuthenticated, userInfo }) {
