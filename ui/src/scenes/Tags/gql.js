@@ -18,3 +18,20 @@ export const GET_TAGS = gql`
     }
   }
 `;
+
+export const GET_TAG_TREE_DATA = gql`
+  {
+    tagTreeData {
+      tags {
+        all
+        orphans
+        roots
+      }
+      taggings {
+        id
+        src
+        tgt
+      }
+    }
+  }
+`;

@@ -1,41 +1,54 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-
 import Form from "./Form";
 import Table from "./Table";
+import Tree from "./Tree";
 
 function Tags({ history }) {
-  const [isFormvisible, setIsFormVisible] = useState(false);
+  const [active, setActive] = useState("default");
 
-  const closeForm = () => setIsFormVisible(false);
-  const openForm = () => setIsFormVisible(true);
-
-  const ButtonDone = () => (
-    <button className="btn" onClick={closeForm}>
+  const ButtonDone = ({ className = "btn" }) => (
+    <button className={className} onClick={() => setActive("default")}>
       Done
     </button>
   );
 
   return (
     <>
-      {isFormvisible ? (
-        <section className="card">
+      {active === "form" && (
+        <div className="card">
           <Form ButtonDone={ButtonDone} />
+        </div>
+      )}
+      {active === "tree" && (
+        <section>
+          <div className="text-right">
+            <ButtonDone className="btn bg-white mb-4 shadow mr-6 md:mr-0" />
+          </div>
+          <Tree />
         </section>
-      ) : (
+      )}
+      {active === "default" && (
         <div className="text-right">
           <button
-            className="btn bg-white mb-4 shadow mr-6 md:mr-0"
-            onClick={openForm}
+            className="btn bg-white mb-4 shadow mr-2"
+            onClick={() => setActive("form")}
           >
             Add tag
           </button>
+          <button
+            className="btn bg-white mb-4 shadow mr-6 md:mr-0"
+            onClick={() => setActive("tree")}
+          >
+            Manage
+          </button>
         </div>
       )}
-
-      <section className="card">
-        <Table />
-      </section>
+      {["default", "form"].includes(active) && (
+        <section className="card">
+          <Table />
+        </section>
+      )}
     </>
   );
 }
