@@ -25,23 +25,16 @@ const getAllTags = async () => {
 
 async function getTagTreeData() {
   const allTags = (await getAllTags()).sort();
-  const taggings = (await getAllTaggings()).reduce(
-    (acc, v) => ({ ...acc, [v.id]: { src: v.src, tgt: v.tgt } }),
-    {}
-  );
-  const compactTaggings = (await getAllTaggings()).reduce(
-    (acc, v) => ({ ...acc, [v.id]: [v.src, v.tgt] }),
-    {}
-  );
+  const taggings = await getAllTaggings();
 
-  const targets = Object.values(compactTaggings).map(a => a[1]);
-  const sources = Object.values(compactTaggings).map(a => a[0]);
+  const sources = Object.values(taggings).map(t => t.src);
+  const targets = Object.values(taggings).map(t => t.tgt);
   const orphans = allTags.filter(t => !targets.includes(t));
   const roots = orphans.filter(o => sources.includes(o));
 
   const result = {
     tags: { all: allTags, orphans, roots },
-    taggings: compactTaggings
+    taggings
   };
 
   return result;

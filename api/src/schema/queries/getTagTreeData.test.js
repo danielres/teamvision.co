@@ -1,4 +1,5 @@
 const test = require("tape");
+
 const execQuery = require("../../../tests/support/execQuery");
 const deleteAllRecords = require("./deleteAllRecords");
 const getTagTreeData = require("./getTagTreeData");
@@ -22,16 +23,17 @@ test("getTagTreeData() returns all tags, orphans, roots + taggings,", async asse
   });
 
   const result1 = await getTagTreeData();
+
   const expected1 = {
     tags: {
       all: ["child1", "orphan", "parent1", "root1"],
       orphans: ["orphan", "root1"],
       roots: ["root1"]
     },
-    taggings: {
-      [root1_parent1.id]: ["root1", "parent1"],
-      [parent1_child1.id]: ["parent1", "child1"]
-    }
+    taggings: [
+      { id: root1_parent1.id, src: "root1", tgt: "parent1" },
+      { id: parent1_child1.id, src: "parent1", tgt: "child1" }
+    ]
   };
 
   assert.deepEqual(result1, expected1);
