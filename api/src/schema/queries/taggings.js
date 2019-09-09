@@ -23,8 +23,8 @@ const _findTagging = async ({ name, targetLabel, targetKey, targetValue }) => {
 const applyTagging = async ({
   name,
   description = "",
-  targetLabel,
-  targetKey,
+  targetLabel = "Tag",
+  targetKey = "name",
   targetValue
 }) => {
   const existing = await _findTagging({
