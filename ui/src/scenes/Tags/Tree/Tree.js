@@ -24,7 +24,7 @@ const onMoveNode = args => {
   });
 };
 
-export default ({ flatTreeData: { tags, taggings } }) => {
+export default ({ ButtonDone, flatTreeData: { tags, taggings } }) => {
   const [treeData, setTreeData] = useState(preProcess({ tags, taggings }));
   const [newTag, setNewTag] = useState("");
 
@@ -54,27 +54,33 @@ export default ({ flatTreeData: { tags, taggings } }) => {
 
   return (
     <div>
-      <form
-        className="flex mb-5 border-solid border-2 border-gray-500"
-        style={{ marginLeft: 44, width: 274 }}
-      >
-        <input
-          type="text"
-          className="w-32 shadow appearance-none w-full px-3 py-2 text-gray-700"
-          value={newTag}
-          onChange={e => setNewTag(e.target.value)}
-        />
-        <button
-          className="btn bg-white"
-          onClick={e => {
-            e.preventDefault();
-            setTreeData([{ title: newTag }, ...treeData]);
-            setNewTag("");
-          }}
-        >
-          +
-        </button>
-      </form>
+      <div className="flex">
+        <div className="w-3/4">
+          <form className="flex mb-5" style={{ marginLeft: 44, width: 274 }}>
+            <input
+              type="text"
+              className="w-32 shadow appearance-none w-full px-3 py-2 text-gray-700"
+              value={newTag}
+              onChange={e => setNewTag(e.target.value)}
+              placeholder="Add new tag"
+            />
+            <button
+              className="btn bg-white"
+              onClick={e => {
+                e.preventDefault();
+                setTreeData([{ title: newTag }, ...treeData]);
+                setNewTag("");
+              }}
+            >
+              +
+            </button>
+          </form>
+        </div>
+
+        <div className="w-1/4 text-right mr-6 md:mr-0">
+          <ButtonDone />
+        </div>
+      </div>
 
       <div>
         <SortableTree

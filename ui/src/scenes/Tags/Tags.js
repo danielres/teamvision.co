@@ -7,7 +7,7 @@ import Tree from "./Tree";
 function Tags({ history }) {
   const [active, setActive] = useState("default");
 
-  const ButtonDone = ({ className = "btn" }) => (
+  const ButtonDone = ({ className = "btn bg-white shadow" }) => (
     <button className={className} onClick={() => setActive("default")}>
       Done
     </button>
@@ -20,14 +20,8 @@ function Tags({ history }) {
           <Form ButtonDone={ButtonDone} />
         </div>
       )}
-      {active === "tree" && (
-        <section>
-          <div className="text-right">
-            <ButtonDone className="btn bg-white mb-4 shadow mr-6 md:mr-0" />
-          </div>
-          <Tree />
-        </section>
-      )}
+      {active === "tree" && <Tree ButtonDone={ButtonDone} />}
+
       {active === "default" && (
         <div className="text-right">
           <button
