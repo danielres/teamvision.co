@@ -6,6 +6,16 @@ const { UniqueConstraintError } = require("../../errors");
 
 const { _genId, _getRelationships } = require("./private");
 
+const _detachFromParent = async ({ tagName }) => {
+  const session = driver.session();
+  const query = `
+    MATCH (:Tag) -[rel:TAGGING]-> (tgt:Tag {name: {tagName} })
+    DELETE rel
+    RETURN tgt
+  `;
+  return session.run(query, { tagName });
+};
+
 const _findTagging = async ({ name, targetLabel, targetKey, targetValue }) => {
   const query = `
     MATCH (n:Tag {name: {name}}) -[tagging:TAGGING]-> (target: ${targetLabel} {${targetKey}: {targetValue} })
@@ -67,6 +77,13 @@ const applyTagging = async ({
   return { ...tagging, tag, target: { label: targetLabel, ...target } };
 };
 
+const setTagParent = async ({ parentName, tagName }) => {
+  await _detachFromParent({ tagName });
+  if (!parentName) return;
+  return applyTagging({ name: parentName, targetValue: tagName });
+};
+
 module.exports = {
-  applyTagging
+  applyTagging,
+  setTagParent
 };
