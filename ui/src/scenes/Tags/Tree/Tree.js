@@ -7,7 +7,7 @@ import SortableTree, {
   toggleExpandedForAll
 } from "react-sortable-tree";
 import "react-sortable-tree/style.css";
-import { SET_TAG_PARENT } from "../gql";
+import { CREATE_TAG, GET_TAG_TREE_DATA, SET_TAG_PARENT } from "../gql";
 
 const preProcess = ({ tags, taggings }) =>
   getTreeFromFlatData({
@@ -23,7 +23,8 @@ const preProcess = ({ tags, taggings }) =>
 export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
   const [treeData, setTreeData] = useState(preProcess({ tags, taggings }));
   const [newTag, setNewTag] = useState("");
-  const [setTagParent, response] = useMutation(SET_TAG_PARENT);
+  const [setTagParent, setTagParentResponse] = useMutation(SET_TAG_PARENT);
+  const [createTag, createTagResponse] = useMutation(CREATE_TAG);
 
   const onMoveNode = args => {
     const tagName = args.node.title;
@@ -59,7 +60,7 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
   const toggleNodeExpansion = expanded =>
     setTreeData(toggleExpandedForAll({ treeData, expanded }));
 
-  if (response.error)
+  if (setTagParentResponse.error)
     return (
       <div className="card">
         <p>An error occured while updating the graph.</p>{" "}
@@ -127,8 +128,12 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
               className="formButton hidden md:block"
               onClick={e => {
                 e.preventDefault();
-                setTreeData([{ title: newTag }, ...treeData]);
-                setNewTag("");
+                createTag({
+                  variables: { name: newTag, description: "" }
+                }).then(() => {
+                  setTreeData([{ title: newTag }, ...treeData]);
+                  setNewTag("");
+                });
               }}
             >
               +
