@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import SortableTree, {
   addNodeUnderParent,
   getTreeFromFlatData,
-  removeNodeAtPath
+  removeNodeAtPath,
+  toggleExpandedForAll
 } from "react-sortable-tree";
 import "react-sortable-tree/style.css";
 import { SET_TAG_PARENT } from "../gql";
@@ -52,7 +53,11 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
       })
     );
   };
+
   const getNodeKey = ({ treeIndex }) => treeIndex;
+
+  const toggleNodeExpansion = expanded =>
+    setTreeData(toggleExpandedForAll({ treeData, expanded }));
 
   if (response.error)
     return (
@@ -70,18 +75,56 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
 
   return (
     <div>
+      <div className=" text-right mr-6 md:mr-0 mb-4">
+        <ButtonDone />
+      </div>
+
       <div className="flex">
-        <div className="w-3/4">
-          <form className="flex mb-5" style={{ marginLeft: 44, width: 274 }}>
+        <div className="w-full md:w-2/3" style={{ marginTop: -10 }}>
+          <SortableTree
+            isVirtualized={false}
+            treeData={treeData}
+            onChange={setTreeData}
+            onMoveNode={onMoveNode}
+            generateNodeProps={({ node, path }) => ({
+              buttons: [
+                <button className="btn" onClick={() => deleteNode({ path })}>
+                  ×
+                </button>,
+                <button className="btn" onClick={() => addChild({ path })}>
+                  +
+                </button>
+              ]
+            })}
+          />
+        </div>
+
+        <div className="w-64 md:w-1/3 card">
+          <div className="md:flex">
+            <button
+              className="btn mb-4 mr-4 w-full text-left md:text-center"
+              onClick={() => toggleNodeExpansion(true)}
+            >
+              Expand all
+            </button>
+            <button
+              className="btn mb-4 w-full text-left md:text-center"
+              onClick={() => toggleNodeExpansion(false)}
+            >
+              Collapse all
+            </button>
+          </div>
+          <form className="flex">
             <input
+              id="newTag"
               type="text"
-              className="w-32 shadow appearance-none w-full px-3 py-2 text-gray-700"
+              className="formInput"
               value={newTag}
               onChange={e => setNewTag(e.target.value)}
-              placeholder="Add new tag"
+              placeholder="New tag"
             />
             <button
-              className="btn bg-white"
+              className="formButton hidden md:block"
               onClick={e => {
                 e.preventDefault();
                 setTreeData([{ title: newTag }, ...treeData]);
@@ -92,29 +135,6 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
             </button>
           </form>
         </div>
-
-        <div className="w-1/4 text-right mr-6 md:mr-0">
-          <ButtonDone />
-        </div>
-      </div>
-
-      <div>
-        <SortableTree
-          isVirtualized={false}
-          treeData={treeData}
-          onChange={setTreeData}
-          onMoveNode={onMoveNode}
-          generateNodeProps={({ node, path }) => ({
-            buttons: [
-              <button className="btn" onClick={() => deleteNode({ path })}>
-                ×
-              </button>,
-              <button className="btn" onClick={() => addChild({ path })}>
-                +
-              </button>
-            ]
-          })}
-        />
       </div>
     </div>
   );
