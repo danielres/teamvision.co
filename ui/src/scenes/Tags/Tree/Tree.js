@@ -1,3 +1,4 @@
+import { useMutation } from "@apollo/react-hooks";
 import React, { useState } from "react";
 import SortableTree, {
   addNodeUnderParent,
@@ -5,6 +6,7 @@ import SortableTree, {
   removeNodeAtPath
 } from "react-sortable-tree";
 import "react-sortable-tree/style.css";
+import { SET_TAG_PARENT } from "../gql";
 
 const preProcess = ({ tags, taggings }) =>
   getTreeFromFlatData({
@@ -17,16 +19,16 @@ const preProcess = ({ tags, taggings }) =>
     rootKey: null
   });
 
-const onMoveNode = args => {
-  console.log({
-    tag: args.node.title,
-    parent: args.nextParentNode ? args.nextParentNode.title : null
-  });
-};
-
-export default ({ ButtonDone, flatTreeData: { tags, taggings } }) => {
+export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
   const [treeData, setTreeData] = useState(preProcess({ tags, taggings }));
   const [newTag, setNewTag] = useState("");
+  const [setTagParent, response] = useMutation(SET_TAG_PARENT);
+
+  const onMoveNode = args => {
+    const tagName = args.node.title;
+    const parentName = args.nextParentNode ? args.nextParentNode.title : null;
+    setTagParent({ variables: { tagName, parentName } });
+  };
 
   const addChild = ({ name = "Child", path }) => {
     setTreeData(
@@ -51,6 +53,20 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings } }) => {
     );
   };
   const getNodeKey = ({ treeIndex }) => treeIndex;
+
+  if (response.error)
+    return (
+      <div className="card">
+        <p>An error occured while updating the graph.</p>{" "}
+        <p>
+          Please{" "}
+          <button className="btn" onClick={() => window.location.reload()}>
+            refresh
+          </button>{" "}
+          and try again.
+        </p>
+      </div>
+    );
 
   return (
     <div>

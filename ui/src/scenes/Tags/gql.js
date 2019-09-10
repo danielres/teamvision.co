@@ -9,6 +9,15 @@ export const CREATE_TAG = gql`
   }
 `;
 
+export const SET_TAG_PARENT = gql`
+  mutation setTagParent($tagName: String!, $parentName: String) {
+    setTagParent(tagName: $tagName, parentName: $parentName) {
+      tagName
+      parentName
+    }
+  }
+`;
+
 export const GET_TAGS = gql`
   {
     tags {
