@@ -4,47 +4,53 @@ import Form from "./Form";
 import Table from "./Table";
 import Tree from "./Tree";
 
-function Tags({ history }) {
-  const [active, setActive] = useState("default");
+const Tags = ({ history }) => {
+  const [active, setActive] = useState("tree");
 
   const ButtonDone = ({ className = "btn bg-white shadow" }) => (
-    <button className={className} onClick={() => setActive("default")}>
+    <button className={className} onClick={() => history.push("/tags")}>
       Done
     </button>
   );
 
+  const tab = history.location.query.tab
+    ? history.location.query.tab
+    : "default";
+
   return (
     <>
-      {active === "form" && (
+      {tab === "form" && (
         <div className="card">
           <Form ButtonDone={ButtonDone} />
         </div>
       )}
-      {active === "tree" && <Tree ButtonDone={ButtonDone} />}
 
-      {active === "default" && (
+      {tab === "tree" && <Tree ButtonDone={ButtonDone} />}
+
+      {tab === "default" && (
         <div className="text-right">
           <button
             className="btn bg-white mb-4 shadow mr-2"
-            onClick={() => setActive("form")}
+            onClick={() => history.push("/tags?tab=form")}
           >
             Add tag
           </button>
           <button
             className="btn bg-white mb-4 shadow mr-6 md:mr-0"
-            onClick={() => setActive("tree")}
+            onClick={() => history.push("/tags?tab=tree")}
           >
             Manage
           </button>
         </div>
       )}
-      {["default", "form"].includes(active) && (
+
+      {["default", "form"].includes(tab) && (
         <section className="card">
           <Table />
         </section>
       )}
     </>
   );
-}
+};
 
 export default withRouter(Tags);
