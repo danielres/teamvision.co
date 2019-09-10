@@ -1,6 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Router, Switch } from "react-router-dom";
 import { useAuth } from "../../providers/auth";
+import history from "../../utils/history";
 import Person from "../Person";
 import Persons from "../Persons";
 import Profile from "../Profile";
@@ -21,7 +22,7 @@ export default function App() {
 
   if (isAuthenticated)
     return (
-      <Router>
+      <Router history={history}>
         <Navbar />
 
         <div className="my-4 md:mx-4">
