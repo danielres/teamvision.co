@@ -12,11 +12,15 @@ body {
 }
 
 .card {
-  @apply bg-white shadow-md px-6 py-6 mb-4;
+  @apply bg-white shadow-md rounded px-6 py-6 mb-4;
 }
 
 .btn {
   @apply px-3 py-2 border rounded leading-tight;
+}
+
+.btn:hover {
+  @apply bg-blue-500 text-white border-white;
 }
 
 .alert {
