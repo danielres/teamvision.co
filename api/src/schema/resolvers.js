@@ -14,6 +14,7 @@ const {
   searchTags,
   createTag,
   applyTagging,
+  setTagParent,
   updateCurrentUserPersonName
 } = require("./queries");
 
@@ -64,7 +65,10 @@ const resolvers = {
     createPerson: (obj, args, vars) => createPerson(args),
     createTag: (obj, args, vars) => createTag(args),
     applyTagging: (obj, args, vars) => applyTagging(args),
-
+    setTagParent: async (obj, { parentName, tagName }, vars) => {
+      await setTagParent({ parentName, tagName });
+      return { tagName, parentName };
+    },
     createCurrentUserPerson: combineResolvers(
       // TODO: isAuthenticated,
       (obj, args, { user }) => {

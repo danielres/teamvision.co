@@ -34,6 +34,7 @@ const typeDefs = /* GraphQL */ `
       targetKey: String!
       targetValue: String!
     ): TaggingRelationship!
+    setTagParent(tagName: String!, parentName: String): SetTagParentResponse
     createCurrentUserPerson: Person
     updateCurrentUserPersonName(name: String!): Person
   }
@@ -44,6 +45,11 @@ const typeDefs = /* GraphQL */ `
     name: String
     created: String
     label: String!
+  }
+
+  type SetTagParentResponse {
+    tagName: String!
+    parentName: String
   }
 
   type TagTreeData {
