@@ -16,7 +16,7 @@ body {
 }
 
 .btn {
-  @apply px-3 py-2 border rounded leading-tight;
+  @apply px-3 py-2 border rounded leading-tight inline-block;
 }
 
 .btn:hover {
