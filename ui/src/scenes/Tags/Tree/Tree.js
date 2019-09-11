@@ -17,6 +17,12 @@ const RenderNode = ({ node }) => (
   </li>
 );
 
+const c = {
+  filter: "px-2 py-1 border rounded leading-tight inline-block text-sm",
+  filter_active: "bg-teal-500 text-white border-white",
+  filter_inactive: "text-gray-800 hover:bg-gray-200"
+};
+
 export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
   const treeData = getTreeFromFlatData({ tags, taggings });
 
@@ -48,9 +54,13 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
                   <li className="inline-block" key={title}>
                     <button
                       onClick={() => toggleFilter(title)}
-                      className={classnames("btn mr-2", {
-                        "bg-blue-500 text-white": filters.includes(title)
-                      })}
+                      className={classnames(
+                        "mr-1",
+                        c.filter,
+                        filters.includes(title)
+                          ? c.filter_active
+                          : c.filter_inactive
+                      )}
                     >
                       {title}
                     </button>
@@ -68,9 +78,11 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
           <ul className="inline-block w-1/4">
             <li className="inline-block">
               <button
-                className={classnames("btn ml-4", {
-                  "bg-blue-500 text-white": enableOrphans
-                })}
+                className={classnames(
+                  "ml-4",
+                  c.filter,
+                  enableOrphans ? c.filter_active : c.filter_inactive
+                )}
                 onClick={toggleOrphans}
               >
                 Orphans
