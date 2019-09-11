@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/react-hooks";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import SortableTree, {
   addNodeUnderParent,
   getTreeFromFlatData,
@@ -7,8 +8,8 @@ import SortableTree, {
   toggleExpandedForAll
 } from "react-sortable-tree";
 import "react-sortable-tree/style.css";
-import { SET_TAG_PARENT } from "../gql";
 import Form from "../Form";
+import { SET_TAG_PARENT } from "../gql";
 
 const preProcess = ({ tags, taggings }) =>
   getTreeFromFlatData({
@@ -93,7 +94,10 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
                 </button>,
                 <button className="btn" onClick={() => addChild({ path })}>
                   +
-                </button>
+                </button>,
+                <Link className="btn" to={`/tags/${node.title}`}>
+                  ›
+                </Link>
               ]
             })}
           />
