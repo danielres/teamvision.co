@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import React from "react";
 import { GET_TAG_TREE_DATA } from "../gql";
-import Tree from "./Tree";
+import Manager from "./Manager";
 
 export default ({ ButtonDone }) => {
   // eslint-disable-next-line no-unused-vars
@@ -9,5 +9,5 @@ export default ({ ButtonDone }) => {
 
   if (loading) return <p>Loading...</p>;
 
-  return <Tree ButtonDone={ButtonDone} flatTreeData={data.tagTreeData} />;
+  return <Manager ButtonDone={ButtonDone} flatTreeData={data.tagTreeData} />;
 };

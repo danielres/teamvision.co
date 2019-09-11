@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import Form from "./Form";
 import Table from "./Table";
-import Tree from "./Tree";
+import Manager from "./Manager";
 
 const Tags = ({ history }) => {
   const [active, setActive] = useState("tree");
@@ -25,7 +25,7 @@ const Tags = ({ history }) => {
         </div>
       )}
 
-      {tab === "tree" && <Tree ButtonDone={ButtonDone} />}
+      {tab === "tree" && <Manager ButtonDone={ButtonDone} />}
 
       {tab === "default" && (
         <div className="text-right">
