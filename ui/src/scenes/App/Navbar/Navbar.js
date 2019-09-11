@@ -24,8 +24,8 @@ export default () => {
     <nav className="flex items-baseline justify-between flex-wrap bg-teal-500 p-6 shadow-md">
       <div className="flex flex-shrink-0 text-white mr-6">
         {/* TODO: insert svg logo here */}
-        <Link to="/" className="font-semibold text-xl">
-          uptal
+        <Link to="/" className="font-semibold text-lg">
+          Teamvision
         </Link>
       </div>
 
