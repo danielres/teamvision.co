@@ -7,7 +7,8 @@ import SortableTree, {
   toggleExpandedForAll
 } from "react-sortable-tree";
 import "react-sortable-tree/style.css";
-import { CREATE_TAG, GET_TAG_TREE_DATA, SET_TAG_PARENT } from "../gql";
+import { SET_TAG_PARENT } from "../gql";
+import Form from "../Form";
 
 const preProcess = ({ tags, taggings }) =>
   getTreeFromFlatData({
@@ -22,9 +23,7 @@ const preProcess = ({ tags, taggings }) =>
 
 export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
   const [treeData, setTreeData] = useState(preProcess({ tags, taggings }));
-  const [newTag, setNewTag] = useState("");
   const [setTagParent, setTagParentResponse] = useMutation(SET_TAG_PARENT);
-  const [createTag, createTagResponse] = useMutation(CREATE_TAG);
 
   const onMoveNode = args => {
     const tagName = args.node.title;
@@ -115,30 +114,14 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
               Collapse all
             </button>
           </div>
-          <form className="flex">
-            <input
-              id="newTag"
-              type="text"
-              className="formInput"
-              value={newTag}
-              onChange={e => setNewTag(e.target.value)}
-              placeholder="New tag"
+
+          <div className="my-4">
+            <Form
+              onSuccess={({ name: title }) =>
+                setTreeData([{ title }, ...treeData])
+              }
             />
-            <button
-              className="formButton hidden md:block"
-              onClick={e => {
-                e.preventDefault();
-                createTag({
-                  variables: { name: newTag, description: "" }
-                }).then(() => {
-                  setTreeData([{ title: newTag }, ...treeData]);
-                  setNewTag("");
-                });
-              }}
-            >
-              +
-            </button>
-          </form>
+          </div>
         </div>
       </div>
     </div>

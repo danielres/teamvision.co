@@ -5,7 +5,7 @@ import get from "lodash/get";
 
 import { CREATE_TAG, GET_TAGS } from "./gql";
 
-export default function CreateTag({ ButtonDone }) {
+export default function CreateTag({ ButtonDone, onSuccess }) {
   const initialValues = { description: "", name: "" };
   const [values, setValues] = useState(initialValues);
   const resetValues = () => setValues(initialValues);
@@ -22,7 +22,10 @@ export default function CreateTag({ ButtonDone }) {
 
   const submit = e => {
     e.preventDefault();
-    createTag({ variables: values }).then(resetValues);
+    createTag({ variables: values }).then(() => {
+      if (onSuccess) onSuccess(values);
+      resetValues();
+    });
   };
 
   const errors = get(response, "error.graphQLErrors", []);
@@ -60,7 +63,7 @@ export default function CreateTag({ ButtonDone }) {
             Add tag
           </button>
 
-          <ButtonDone />
+          {ButtonDone && <ButtonDone />}
         </div>
       </form>
     </div>
