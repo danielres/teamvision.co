@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import Form from "./Form";
-import Table from "./Table";
 import Manager from "./Manager";
+import Tree from "./Tree";
 
 const Tags = ({ history }) => {
   const [active, setActive] = useState("tree");
@@ -46,7 +46,7 @@ const Tags = ({ history }) => {
 
       {["default", "form"].includes(tab) && (
         <section className="card">
-          <Table />
+          <Tree />
         </section>
       )}
     </>

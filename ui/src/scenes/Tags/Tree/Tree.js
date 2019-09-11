@@ -1,0 +1,118 @@
+import classnames from "classnames";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "react-sortable-tree/style.css";
+import getTreeFromFlatData from "../getTreeFromFlatData";
+
+const RenderNode = ({ node }) => (
+  <li>
+    <Link to={`/tags/${node.title}`}>{node.title}</Link>
+    {node.children && (
+      <ul className="pl-4">
+        {node.children.map(n => (
+          <RenderNode key={n.title} node={n} />
+        ))}
+      </ul>
+    )}
+  </li>
+);
+
+export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
+  const treeData = getTreeFromFlatData({ tags, taggings });
+
+  const allFilters = treeData.filter(n => n.children).map(({ title }) => title);
+  const [filters, setFilters] = useState(allFilters);
+  const addFilter = filter => setFilters([...filters, filter]);
+  const removeFilter = filter => setFilters(filters.filter(f => f !== filter));
+  const toggleFilter = filter =>
+    filters.includes(filter) ? removeFilter(filter) : addFilter(filter);
+  const enableAllFilters = () => setFilters(allFilters);
+  const disableAllFilters = () => setFilters([]);
+  const toggleAllFilters = () =>
+    filters.length < allFilters.length
+      ? enableAllFilters()
+      : disableAllFilters();
+
+  const [enableOrphans, setEnableOrphans] = useState(true);
+  const toggleOrphans = () => setEnableOrphans(!enableOrphans);
+
+  return (
+    <div>
+      <nav className="mb-4">
+        <div className="flex">
+          <div className=" w-3/4">
+            <ul className="inline-block">
+              {treeData
+                .filter(n => n.children)
+                .map(({ title }) => (
+                  <li className="inline-block" key={title}>
+                    <button
+                      onClick={() => toggleFilter(title)}
+                      className={classnames("btn mr-2", {
+                        "bg-blue-500 text-white": filters.includes(title)
+                      })}
+                    >
+                      {title}
+                    </button>
+                  </li>
+                ))}
+
+              <li className="inline-block">
+                <button className="ml-2" onClick={toggleAllFilters}>
+                  {filters.length < allFilters.length ? "All" : "None"}
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <ul className="inline-block w-1/4">
+            <li className="inline-block">
+              <button
+                className={classnames("btn ml-4", {
+                  "bg-blue-500 text-white": enableOrphans
+                })}
+                onClick={toggleOrphans}
+              >
+                Orphans
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div className="flex">
+        <div className={enableOrphans ? "w-3/4" : "w-full"}>
+          {treeData
+            .filter(n => n.children)
+            .filter(({ title }) => filters.includes(title))
+            .map(rootNode => (
+              <div key={rootNode.id} className="mb-4 border-b pb-4">
+                <h2 className="font-semibold">
+                  <Link to={`/tags/${rootNode.title}`}>{rootNode.title}</Link>
+                </h2>
+                {rootNode.children && (
+                  <ul className="pl-4">
+                    {rootNode.children.map(n => (
+                      <RenderNode key={n.title} node={n} />
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+        </div>
+
+        {enableOrphans && (
+          <div className="w-1/4 border-l pl-4">
+            {treeData
+              .filter(n => !n.children)
+              .map(orphan => (
+                <div key={orphan.title}>
+                  <Link to={`/tags/${orphan.title}`}>{orphan.title}</Link>
+                </div>
+              ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
