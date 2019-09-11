@@ -2,28 +2,18 @@ import { useMutation } from "@apollo/react-hooks";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SortableTree, {
-  // addNodeUnderParent,
-  getTreeFromFlatData,
   removeNodeAtPath,
   toggleExpandedForAll
 } from "react-sortable-tree";
 import "react-sortable-tree/style.css";
 import Form from "../Form";
+import getTreeFromFlatData from "../getTreeFromFlatData";
 import { SET_TAG_PARENT } from "../gql";
 
-const preProcess = ({ tags, taggings }) =>
-  getTreeFromFlatData({
-    flatData: tags.all.map(name => ({ title: name })),
-    getKey: node => node.title,
-    getParentKey: node => {
-      const tagging = taggings.find(t => t.tgt === node.title);
-      return tagging ? tagging.src : null;
-    },
-    rootKey: null
-  });
-
 export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
-  const [treeData, setTreeData] = useState(preProcess({ tags, taggings }));
+  const [treeData, setTreeData] = useState(
+    getTreeFromFlatData({ tags, taggings })
+  );
   const [setTagParent, setTagParentResponse] = useMutation(SET_TAG_PARENT);
 
   const onMoveNode = args => {
