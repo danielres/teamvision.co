@@ -1,7 +1,7 @@
 const yup = require("yup");
 
 const { UniqueConstraintError } = require("../../errors");
-
+const { upperFirst } = require("../../helpers/strings");
 const {
   _findNodesByLabelAndProperty,
   _genId,
@@ -22,7 +22,7 @@ const TagSchema = yup.object().shape({
 });
 
 const createTag = async ({ description = "", name }) => {
-  const params = { description, name, tagId: _genId() };
+  const params = { description, name: upperFirst(name), tagId: _genId() };
 
   await TagSchema.validate(params, { abortEarly: false });
   const existing = await _findNodesByLabelAndProperty("Tag", "name", name);

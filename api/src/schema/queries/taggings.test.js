@@ -22,13 +22,13 @@ test("setTagParent() creates, replaces or deletes the Tagging relationship", asy
 
   assert.deepEqual(tagTreeData, {
     tags: {
-      all: ["child", "parent", "root"],
-      orphans: ["root"],
-      roots: ["root"]
+      all: ["Child", "Parent", "Root"],
+      orphans: ["Root"],
+      roots: ["Root"]
     },
     taggings: [
-      { id: p_c.id, src: "parent", tgt: "child" },
-      { id: r_p.id, src: "root", tgt: "parent" }
+      { id: p_c.id, src: "Parent", tgt: "Child" },
+      { id: r_p.id, src: "Root", tgt: "Parent" }
     ]
   });
 
@@ -39,11 +39,11 @@ test("setTagParent() creates, replaces or deletes the Tagging relationship", asy
 
   assert.deepEqual(tagTreeData2, {
     tags: {
-      all: ["child", "parent", "root"],
-      orphans: ["parent", "root"],
-      roots: ["parent"]
+      all: ["Child", "Parent", "Root"],
+      orphans: ["Parent", "Root"],
+      roots: ["Parent"]
     },
-    taggings: [{ id: p_c.id, src: "parent", tgt: "child" }]
+    taggings: [{ id: p_c.id, src: "Parent", tgt: "Child" }]
   });
 
   // 3) Replaces the Tagging relationship
@@ -53,11 +53,11 @@ test("setTagParent() creates, replaces or deletes the Tagging relationship", asy
 
   assert.deepEqual(tagTreeData3, {
     tags: {
-      all: ["child", "parent", "root"],
-      orphans: ["parent", "root"],
-      roots: ["root"]
+      all: ["Child", "Parent", "Root"],
+      orphans: ["Parent", "Root"],
+      roots: ["Root"]
     },
-    taggings: [{ id: r_c.id, src: "root", tgt: "child" }]
+    taggings: [{ id: r_c.id, src: "Root", tgt: "Child" }]
   });
 
   assert.end();

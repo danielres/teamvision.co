@@ -9,7 +9,7 @@ const { _genId, _getRelationships } = require("./private");
 const _detachFromParent = async ({ tagName }) => {
   const session = driver.session();
   const query = `
-    MATCH (:Tag) -[rel:TAGGING]-> (tgt:Tag {name: {tagName} })
+    MATCH (:Tag) -[rel:TAGGING]-> (tgt:Tag) WHERE LOWER(tgt.name) = LOWER( {tagName} )
     DELETE rel
     RETURN tgt
   `;
@@ -52,17 +52,17 @@ const applyTagging = async ({
   const session = driver.session();
 
   const params = {
-    name,
+    name: name.toLowerCase(),
     description,
     targetLabel,
     targetKey,
-    targetValue,
+    targetValue: targetValue.toLowerCase(),
     taggingId: _genId()
   };
 
   const query = `
-    MATCH (tag:Tag {name: {name} })
-    MATCH (target: ${targetLabel} {${targetKey}: {targetValue}})
+    MATCH (tag:Tag) WHERE LOWER(tag.name) = LOWER( {name} )
+    MATCH (target: ${targetLabel}) WHERE LOWER(target.${targetKey}) = LOWER( {targetValue} )
     CREATE (tag)-[tagging:TAGGING {id: {taggingId}, description: {description}}]->(target)
     RETURN tagging, tag, target
   `;

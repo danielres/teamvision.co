@@ -26,13 +26,13 @@ test("getTagTreeData() returns all tags, orphans, roots + taggings,", async asse
 
   const expected1 = {
     tags: {
-      all: ["child1", "orphan", "parent1", "root1"],
-      orphans: ["orphan", "root1"],
-      roots: ["root1"]
+      all: ["Child1", "Orphan", "Parent1", "Root1"],
+      orphans: ["Orphan", "Root1"],
+      roots: ["Root1"]
     },
     taggings: [
-      { id: parent1_child1.id, src: "parent1", tgt: "child1" },
-      { id: root1_parent1.id, src: "root1", tgt: "parent1" }
+      { id: parent1_child1.id, src: "Parent1", tgt: "Child1" },
+      { id: root1_parent1.id, src: "Root1", tgt: "Parent1" }
     ]
   };
 

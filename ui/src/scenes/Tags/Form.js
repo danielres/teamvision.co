@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/react-hooks";
 import flatten from "lodash/flatten";
 import get from "lodash/get";
 import TextareaAutosize from "react-textarea-autosize";
-
+import { upperFirst } from "./../../utils/strings";
 import { CREATE_TAG, GET_TAGS } from "./gql";
 
 export default function CreateTag({ ButtonDone, onSuccess }) {
@@ -49,14 +49,18 @@ export default function CreateTag({ ButtonDone, onSuccess }) {
           className="formInput mb-4"
           placeholder="Name"
           value={values.name}
-          onChange={e => setValues({ ...values, name: e.target.value })}
+          onChange={e =>
+            setValues({ ...values, name: upperFirst(e.target.value) })
+          }
         />
 
         <TextareaAutosize
           className="formInput mb-2"
           placeholder="Description"
           value={values.description}
-          onChange={e => setValues({ ...values, description: e.target.value })}
+          onChange={e =>
+            setValues({ ...values, description: upperFirst(e.target.value) })
+          }
         />
 
         <div className="justify-between flex">
