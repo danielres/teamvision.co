@@ -87,7 +87,7 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
             .filter(n => n.children)
             .filter(({ title }) => filters.includes(title))
             .map(rootNode => (
-              <div key={rootNode.id} className="mb-4 border-b pb-4">
+              <div key={rootNode.title} className="mb-4 border-b pb-4">
                 <h2 className="font-semibold">
                   <Link to={`/tags/${rootNode.title}`}>{rootNode.title}</Link>
                 </h2>
