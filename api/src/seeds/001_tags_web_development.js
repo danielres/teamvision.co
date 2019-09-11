@@ -31,17 +31,38 @@ const addTagChild = ({ src, tgt }) => {
 };
 
 const commands = [
-  // purgeDb(),
+  purgeDb(),
+  createTag({ name: "Devops" }),
+  addTagChild({ src: "Devops", tgt: "AWS" }),
+  addTagChild({ src: "Devops", tgt: "Kubernetes" }),
+  createTag({ name: "Datastorage" }),
+  addTagChild({ src: "Datastorage", tgt: "SQL" }),
+  addTagChild({ src: "SQL", tgt: "Postgresql" }),
+  addTagChild({ src: "SQL", tgt: "Mysql" }),
+  addTagChild({ src: "Datastorage", tgt: "NoSQL" }),
+  addTagChild({ src: "NoSQL", tgt: "MongoDB" }),
+  addTagChild({ src: "Datastorage", tgt: "Graph databases" }),
+  addTagChild({ src: "Graph databases", tgt: "Neo4J" }),
   createTag({ name: "Web development" }),
+  addTagChild({ src: "Web development", tgt: "Architecture" }),
+  addTagChild({ src: "Architecture", tgt: "REST" }),
+  addTagChild({ src: "Architecture", tgt: "Graphql" }),
   addTagChild({ src: "Web development", tgt: "Frontend" }),
-  addTagChild({ src: "Web development", tgt: "Backend" }),
   addTagChild({ src: "Frontend", tgt: "Frameworks" }),
   addTagChild({ src: "Frameworks", tgt: "React" }),
   addTagChild({ src: "Frontend", tgt: "State management" }),
   addTagChild({ src: "State management", tgt: "Redux" }),
   addTagChild({ src: "Redux", tgt: "Redux-saga" }),
   addTagChild({ src: "Redux", tgt: "Redux-thunk" }),
-  addTagChild({ src: "State management", tgt: "Mobx" })
+  addTagChild({ src: "State management", tgt: "Mobx" }),
+  addTagChild({ src: "Web development", tgt: "Backend" }),
+  addTagChild({ src: "Backend", tgt: "NodeJS" }),
+  addTagChild({ src: "NodeJS", tgt: "ExpressJS" }),
+  addTagChild({ src: "Backend", tgt: "Ruby" }),
+  addTagChild({ src: "Ruby", tgt: "Rails" }),
+  addTagChild({ src: "Web development", tgt: "Content management (CMS)" }),
+  addTagChild({ src: "Content management (CMS)", tgt: "Wordpress" }),
+  addTagChild({ src: "Content management (CMS)", tgt: "Drupal" })
 ];
 
 const runSeed = async () => {
