@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/react-hooks";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SortableTree, {
-  addNodeUnderParent,
+  // addNodeUnderParent,
   getTreeFromFlatData,
   removeNodeAtPath,
   toggleExpandedForAll
@@ -32,18 +32,18 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
     setTagParent({ variables: { tagName, parentName } });
   };
 
-  const addChild = ({ name = "Child", path }) => {
-    setTreeData(
-      addNodeUnderParent({
-        addAsFirstChild: true,
-        expandParent: true,
-        getNodeKey,
-        newNode: { title: name },
-        parentKey: path[path.length - 1],
-        treeData
-      }).treeData
-    );
-  };
+  // const addChild = ({ name = "Child", path }) => {
+  //   setTreeData(
+  //     addNodeUnderParent({
+  //       addAsFirstChild: true,
+  //       expandParent: true,
+  //       getNodeKey,
+  //       newNode: { title: name },
+  //       parentKey: path[path.length - 1],
+  //       treeData
+  //     }).treeData
+  //   );
+  // };
 
   const deleteNode = ({ path }) => {
     setTreeData(
@@ -92,9 +92,9 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
                 <button className="btn" onClick={() => deleteNode({ path })}>
                   ×
                 </button>,
-                <button className="btn" onClick={() => addChild({ path })}>
-                  +
-                </button>,
+                // <button className="btn" onClick={() => addChild({ path })}>
+                //   +
+                // </button>,
                 <Link className="btn" to={`/tags/${node.title}`}>
                   ›
                 </Link>
