@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import flatten from "lodash/flatten";
 import get from "lodash/get";
+import TextareaAutosize from "react-textarea-autosize";
 
 import { CREATE_TAG, GET_TAGS } from "./gql";
 
@@ -51,8 +52,8 @@ export default function CreateTag({ ButtonDone, onSuccess }) {
           onChange={e => setValues({ ...values, name: e.target.value })}
         />
 
-        <input
-          className="formInput mb-4"
+        <TextareaAutosize
+          className="formInput mb-2"
           placeholder="Description"
           value={values.description}
           onChange={e => setValues({ ...values, description: e.target.value })}
