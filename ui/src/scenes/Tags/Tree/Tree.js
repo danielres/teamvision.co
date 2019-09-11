@@ -29,15 +29,10 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
   const allFilters = treeData.filter(n => n.children).map(({ title }) => title);
   const [filters, setFilters] = useState(allFilters);
   const addFilter = filter => setFilters([...filters, filter]);
-  const removeFilter = filter => setFilters(filters.filter(f => f !== filter));
+  const removeFilter = filter =>
+    filters.length > 1 && setFilters(filters.filter(f => f !== filter));
   const toggleFilter = filter =>
     filters.includes(filter) ? removeFilter(filter) : addFilter(filter);
-  const enableAllFilters = () => setFilters(allFilters);
-  const disableAllFilters = () => setFilters([]);
-  const toggleAllFilters = () =>
-    filters.length < allFilters.length
-      ? enableAllFilters()
-      : disableAllFilters();
 
   const [enableOrphans, setEnableOrphans] = useState(true);
   const toggleOrphans = () => setEnableOrphans(!enableOrphans);
@@ -66,12 +61,6 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
                     </button>
                   </li>
                 ))}
-
-              <li className="inline-block">
-                <button className="ml-2" onClick={toggleAllFilters}>
-                  {filters.length < allFilters.length ? "All" : "None"}
-                </button>
-              </li>
             </ul>
           </div>
 
