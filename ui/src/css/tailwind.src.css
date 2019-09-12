@@ -67,6 +67,7 @@ table.spaced {
 
 th {
   text-align: left;
+  vertical-align: baseline;
 }
 
 /* TableResponsive */
