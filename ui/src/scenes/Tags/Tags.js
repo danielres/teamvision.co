@@ -5,7 +5,7 @@ import Manager from "./Manager";
 import Tree from "./Tree";
 
 const Tags = ({ history }) => {
-  const [active, setActive] = useState("tree");
+  const [active, setActive] = useState("default");
 
   const ButtonDone = ({ className = "btn bg-white shadow" }) => (
     <button className={className} onClick={() => history.push("/tags")}>
@@ -25,7 +25,7 @@ const Tags = ({ history }) => {
         </div>
       )}
 
-      {tab === "tree" && <Manager ButtonDone={ButtonDone} />}
+      {tab === "manage" && <Manager ButtonDone={ButtonDone} />}
 
       {tab === "default" && (
         <div className="text-right">
@@ -37,7 +37,7 @@ const Tags = ({ history }) => {
           </button>
           <button
             className="btn bg-white mb-4 shadow mr-6 md:mr-0"
-            onClick={() => history.push("/tags?tab=tree")}
+            onClick={() => history.push("/tags?tab=manage")}
           >
             Manage
           </button>
