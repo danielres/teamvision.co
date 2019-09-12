@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
 import React from "react";
 import { withRouter } from "react-router";
-import TagsTable from "./Tags/Table";
+import Branch from "./Tags/Branch";
 
 const Tag = ({ match, location, history }) => {
   const { id } = match.params;
@@ -24,7 +24,7 @@ const Tag = ({ match, location, history }) => {
   return (
     <div className="flex">
       <section className="w-64 card mr-4 hidden sm:block">
-        <TagsTable />
+        <Branch node={data.tag.name} />
       </section>
 
       <section className="w-full card ">
