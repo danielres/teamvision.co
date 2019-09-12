@@ -7,8 +7,8 @@ import getTreeFromFlatData from "../getTreeFromFlatData";
 const RenderNode = ({ current, node }) => (
   <li>
     <Link
-      className={classnames({
-        "bg-yellow-200 p-1": node.title === current
+      className={classnames("px-2 py-1", {
+        "bg-yellow-200": node.title === current
       })}
       to={`/tags/${node.title}`}
     >
@@ -47,8 +47,8 @@ export default ({ flatTreeData: { tags, taggings }, node: current }) => {
           <div key={rootNode.title}>
             <h2 className="font-semibold">
               <Link
-                className={classnames({
-                  "bg-yellow-200 p-1": rootNode.title === current
+                className={classnames("px-2 py-1", {
+                  "bg-yellow-200": rootNode.title === current
                 })}
                 to={`/tags/${rootNode.title}`}
               >

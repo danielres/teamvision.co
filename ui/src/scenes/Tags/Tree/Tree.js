@@ -6,7 +6,12 @@ import getTreeFromFlatData from "../getTreeFromFlatData";
 
 const RenderNode = ({ node }) => (
   <li>
-    <Link to={`/tags/${node.title}`}>{node.title}</Link>
+    <Link
+      className="inline-block hover:bg-yellow-200 px-2 py-1 leading-tight "
+      to={`/tags/${node.title}`}
+    >
+      {node.title}
+    </Link>
     {node.children && (
       <ul className="pl-4">
         {node.children.map(n => (
@@ -90,17 +95,24 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
             .filter(n => n.children)
             .filter(({ title }) => filters.includes(title))
             .map(rootNode => (
-              <div key={rootNode.title} className="mb-4 border-b pb-4">
-                <h2 className="font-semibold">
-                  <Link to={`/tags/${rootNode.title}`}>{rootNode.title}</Link>
-                </h2>
-                {rootNode.children && (
-                  <ul className="pl-4">
-                    {rootNode.children.map(n => (
-                      <RenderNode key={n.title} node={n} />
-                    ))}
-                  </ul>
-                )}
+              <div key={rootNode.title} className=" inline-block w-full p-2">
+                <div className="border border-transparent hover:border-gray-400 rounded p-2">
+                  <h2 className="font-semibold">
+                    <Link
+                      className="block px-2 py-1 hover:bg-yellow-200"
+                      to={`/tags/${rootNode.title}`}
+                    >
+                      {rootNode.title}
+                    </Link>
+                  </h2>
+                  {rootNode.children && (
+                    <ul className="pl-4">
+                      {rootNode.children.map(n => (
+                        <RenderNode key={n.title} node={n} />
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
             ))}
         </div>
@@ -111,7 +123,12 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
               .filter(n => !n.children)
               .map(orphan => (
                 <div key={orphan.title}>
-                  <Link to={`/tags/${orphan.title}`}>{orphan.title}</Link>
+                  <Link
+                    className="inline-block hover:bg-yellow-200 px-2 py-1 leading-tight "
+                    to={`/tags/${orphan.title}`}
+                  >
+                    {orphan.title}
+                  </Link>
                 </div>
               ))}
           </div>
