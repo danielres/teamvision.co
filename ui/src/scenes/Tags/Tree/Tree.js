@@ -82,7 +82,10 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
       </nav>
 
       <div className="flex">
-        <div className={enableOrphans ? "w-3/4" : "w-full"}>
+        <div
+          className={enableOrphans ? "w-3/4" : "w-full"}
+          style={{ columns: "4 200px", columnGap: "0" }}
+        >
           {treeData
             .filter(n => n.children)
             .filter(({ title }) => filters.includes(title))
