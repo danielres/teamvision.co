@@ -23,7 +23,10 @@ const Tag = ({ match, location, history }) => {
 
   return (
     <div className="flex">
-      <section className="w-64 card mr-4 hidden sm:block">
+      <section
+        className="card mr-4 hidden sm:block"
+        style={{ whiteSpace: "nowrap" }}
+      >
         <Branch node={data.tag.name} />
       </section>
 
