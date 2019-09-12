@@ -26,9 +26,10 @@ const RenderNode = ({ current, node }) => (
 
 export default ({ flatTreeData: { tags, taggings }, node: current }) => {
   const treeData = getTreeFromFlatData({ tags, taggings });
-  const isOrphan = tags.orphans.includes(current);
+  const noTree =
+    tags.orphans.includes(current) && !tags.roots.includes(current);
 
-  if (isOrphan)
+  if (noTree)
     return (
       <div className="text-gray-600">
         <p className="mb-4">No tree to display</p>
