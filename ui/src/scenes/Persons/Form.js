@@ -5,8 +5,11 @@ import get from "lodash/get";
 
 import { CREATE_PERSON, GET_PERSONS } from "./gql";
 
-export default function CreatePerson({ ButtonDone }) {
-  const initialValues = { email: "", name: "" };
+export default function CreatePerson({
+  ButtonDone,
+  initialValues: { email, name } = {}
+}) {
+  const initialValues = { email, name };
   const [values, setValues] = useState(initialValues);
   const resetValues = () => setValues(initialValues);
 
