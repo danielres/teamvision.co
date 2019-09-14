@@ -13,7 +13,7 @@ function Persons({ history }) {
 
   const {
     loading: userInfo_loading,
-    error: userInfo_error,
+    error: userInfo_error, // eslint-disable-line no-unused-vars
     data: { userInfo }
   } = useQuery(
     gql`
@@ -34,7 +34,7 @@ function Persons({ history }) {
 
   const {
     loading: persons_loading,
-    error: persons_error,
+    error: persons_error, // eslint-disable-line no-unused-vars
     data: { persons }
   } = useQuery(GET_PERSONS); // eslint-disable-line no-unused-vars
 
@@ -54,9 +54,6 @@ function Persons({ history }) {
       Done
     </button>
   );
-
-  {
-  }
 
   return (
     <>
