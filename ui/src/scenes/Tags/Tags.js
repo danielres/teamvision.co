@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import Form from "./Form";
 import Manager from "./Manager";
 import Tree from "./Tree";
 
 const Tags = ({ history }) => {
-  const [active, setActive] = useState("default");
-
   const ButtonDone = ({ className = "btn bg-white shadow" }) => (
     <button className={className} onClick={() => history.push("/tags")}>
       Done
