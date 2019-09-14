@@ -15,6 +15,11 @@
     "test:api:once": "yarn test:api:base --once | faucet",
     "test:api:base": "NODE_ENV=test tape-watch tests/**/*.test.js"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn test:queries:once && yarn test:api:once"
+    }
+  },
   "dependencies": {
     "apollo-server": "^2.9.0",
     "cookie-parser": "^1.4.4",
@@ -30,6 +35,7 @@
   "devDependencies": {
     "faker": "^4.1.0",
     "faucet": "^0.0.1",
+    "husky": "^3.0.5",
     "nodemon": "^1.19.1",
     "tape": "^4.11.0",
     "tape-watch": "^2.3.0"
