@@ -8,7 +8,7 @@ import SortableTree, {
 import "react-sortable-tree/style.css";
 import Form from "../Form";
 import getTreeFromFlatData from "../getTreeFromFlatData";
-import { SET_TAG_PARENT } from "../gql";
+import { SET_TAG_PARENT } from "../../../gql/tags";
 
 export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
   const [treeData, setTreeData] = useState(

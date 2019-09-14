@@ -1,10 +1,10 @@
-import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import flatten from "lodash/flatten";
 import get from "lodash/get";
+import React, { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import { CREATE_TAG, GET_TAGS } from "../../gql/tags";
 import { upperFirst } from "./../../utils/strings";
-import { CREATE_TAG, GET_TAGS } from "./gql";
 
 export default function CreateTag({ ButtonDone, onSuccess }) {
   const initialValues = { description: "", name: "" };

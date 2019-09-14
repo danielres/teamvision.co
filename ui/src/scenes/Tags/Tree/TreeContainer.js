@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/react-hooks";
 import React from "react";
-import { GET_TAG_TREE_DATA } from "../gql";
+import { GET_TAG_TREE_DATA } from "../../../gql/tags";
 import Tree from "./Tree";
 
 export default ({ ButtonDone }) => {

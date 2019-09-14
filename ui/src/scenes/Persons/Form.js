@@ -1,9 +1,8 @@
-import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import flatten from "lodash/flatten";
 import get from "lodash/get";
-
-import { CREATE_PERSON, GET_PERSONS } from "./gql";
+import React, { useState } from "react";
+import { CREATE_PERSON, GET_PERSONS } from "../../gql/persons";
 
 export default function CreatePerson({
   ButtonDone,

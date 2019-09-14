@@ -1,11 +1,10 @@
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
+import { GET_PERSONS } from "../../gql/persons";
 import Form from "./Form";
 import PersonsTable from "./Table";
-import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
-import { useQuery } from "@apollo/react-hooks";
-
-import { GET_PERSONS } from "./gql";
 
 function Persons({ history }) {
   const [isFormvisible, setIsFormVisible] = useState(false);
