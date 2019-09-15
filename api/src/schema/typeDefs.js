@@ -34,6 +34,12 @@ const typeDefs = /* GraphQL */ `
       targetKey: String!
       targetValue: String!
     ): TaggingRelationship!
+    setTagOn(
+      tagName: String!
+      on: String!
+      targetType: String!
+      targetId: ID!
+    ): TaggingRelationship!
     setTagParent(tagName: String!, parentName: String): SetTagParentResponse
     createCurrentUserPerson: Person
     updateCurrentUserPersonName(name: String!): Person

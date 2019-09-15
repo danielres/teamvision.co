@@ -4,9 +4,10 @@ const execQuery = require("../../../tests/support/execQuery");
 const deleteAllRecords = require("./deleteAllRecords");
 const { setTagParent } = require("./taggings");
 
-const { createTag } = require("./tags");
-const { applyTagging } = require("./taggings");
 const getTagTreeData = require("./getTagTreeData");
+const { applyTagging, setTagOn } = require("./taggings");
+const { createPerson } = require("./persons");
+const { createTag, searchTags } = require("./tags");
 
 test("setTagParent() creates, replaces or deletes the Tagging relationship", async assert => {
   await deleteAllRecords();
@@ -58,6 +59,56 @@ test("setTagParent() creates, replaces or deletes the Tagging relationship", asy
       roots: ["Root"]
     },
     taggings: [{ id: r_c.id, src: "Root", tgt: "Child" }]
+  });
+
+  assert.end();
+});
+
+test("setTagOn() creates a Tagging relationship with an existing, or a new tag", async assert => {
+  await deleteAllRecords();
+  const existing = await createTag({ name: "existingTag" });
+  const person = await createPerson({ email: "tom@example.com", name: "Tom" });
+
+  const taggingWithExistingTag = await setTagOn({
+    tagName: "existingTag",
+    on: "skills",
+    targetType: "Person",
+    targetId: person.id
+  });
+
+  assert.deepEqual(taggingWithExistingTag, {
+    description: "",
+    id: taggingWithExistingTag.id,
+    on: "skills",
+    tag: { name: "ExistingTag", description: "", id: existing.id },
+    target: {
+      label: "Person",
+      name: "Tom",
+      email: "tom@example.com",
+      id: person.id
+    }
+  });
+
+  const taggingWithNewTag = await setTagOn({
+    tagName: "newTag",
+    on: "motivations",
+    targetType: "Person",
+    targetId: person.id
+  });
+
+  const newTag = (await searchTags("newTag"))[0];
+
+  assert.deepEqual(taggingWithNewTag, {
+    description: "",
+    id: taggingWithNewTag.id,
+    on: "motivations",
+    tag: { name: "NewTag", description: "", id: newTag.id },
+    target: {
+      label: "Person",
+      name: "Tom",
+      email: "tom@example.com",
+      id: person.id
+    }
   });
 
   assert.end();
