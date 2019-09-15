@@ -4,6 +4,7 @@ import classnames from "classnames";
 import React from "react";
 import { withRouter } from "react-router";
 import Avatar from "../components/Avatar";
+import Autosuggest from "../components/forms/TagAutoSuggest";
 
 const skills = [
   {
@@ -51,7 +52,7 @@ const TagsTable = ({ tags, colorClass = "" }) => (
   </div>
 );
 const Person = ({ match, location, history }) => {
-  const { id } = match.params;
+  const { id: personId } = match.params;
   const { loading, error, data } = useQuery(
     gql/* GraphQL */ `
       query($id: ID) {
@@ -61,7 +62,7 @@ const Person = ({ match, location, history }) => {
         }
       }
     `,
-    { variables: { id } }
+    { variables: { id: personId } }
   );
 
   if (loading) return <p className="card">Loading...</p>;
@@ -95,11 +96,19 @@ const Person = ({ match, location, history }) => {
       <div className="card">
         <h3 className="mb-4 text-lg">Motivations</h3>
         <TagsTable tags={motivations} colorClass="text-pink-600" />
+
+        <div className="w-32 py-2">
+          <Autosuggest on="motivations" type="Person" id={personId} />
+        </div>
       </div>
 
       <div className="card">
         <h3 className="mb-4 text-lg">Skills</h3>
         <TagsTable tags={skills} colorClass="text-blue-600" />
+
+        <div className="w-32 py-2">
+          <Autosuggest on="skills" type="Person" id={personId} />
+        </div>
       </div>
     </div>
   );

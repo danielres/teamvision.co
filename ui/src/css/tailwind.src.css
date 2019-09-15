@@ -27,6 +27,10 @@ body {
   @apply text-red-700 bg-red-100;
 }
 
+.highlighted {
+  @apply bg-yellow-200;
+}
+
 .accessibleHide {
   position: absolute;
   top: -9999px;
@@ -113,4 +117,66 @@ th {
   & tbody td:first-child {
     @apply block;
   }
+}
+
+/* React autosuggest */
+
+.react-autosuggest__container {
+  position: relative;
+}
+
+.react-autosuggest__input {
+  @apply h-8 w-48;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.react-autosuggest__input--focused {
+  @apply bg-gray-200 rounded px-3;
+  outline: none;
+}
+
+.react-autosuggest__input--open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+}
+
+.react-autosuggest__suggestions-container--open {
+  @apply border rounded-b bg-white shadow-lg block w-48 top-0 mt-8;
+  position: absolute;
+  font-family: Helvetica, sans-serif;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestion {
+  @apply px-3 py-1;
+  cursor: pointer;
+}
+
+.react-autosuggest__suggestion .new:before {
+  @apply text-white;
+  @apply font-semibold inline-block h-5 w-5 text-center leading-tight rounded-full mr-2;
+  content: "+";
+}
+
+.skills .react-autosuggest__suggestion .new:before {
+  @apply bg-blue-500;
+}
+.skills .highlighted {
+  @apply bg-blue-200;
+}
+.motivations .react-autosuggest__suggestion .new:before {
+  @apply bg-pink-500;
+}
+.motivations .highlighted {
+  @apply bg-pink-200;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  @apply bg-gray-200;
 }

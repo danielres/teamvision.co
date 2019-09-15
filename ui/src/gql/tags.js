@@ -9,6 +9,24 @@ export const CREATE_TAG = gql`
   }
 `;
 
+export const SET_TAG_ON = gql`
+  mutation setTagOn(
+    $tagName: String!
+    $on: String!
+    $targetType: String!
+    $targetId: ID!
+  ) {
+    setTagOn(
+      tagName: $tagName
+      on: $on
+      targetType: $targetType
+      targetId: $targetId
+    ) {
+      id
+    }
+  }
+`;
+
 export const SET_TAG_PARENT = gql`
   mutation setTagParent($tagName: String!, $parentName: String) {
     setTagParent(tagName: $tagName, parentName: $parentName) {
