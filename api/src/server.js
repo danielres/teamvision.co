@@ -2,6 +2,7 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 const http = require("http");
 const { ApolloServer } = require("apollo-server-express");
+const path = require("path");
 
 const authMiddleware = require("./authMiddleware");
 const env = require("./env");
@@ -10,7 +11,8 @@ const neo4jDriver = require("./neo4jDriver");
 
 const app = express()
   .use(cookieParser())
-  .use(authMiddleware);
+  .use(authMiddleware)
+  .use(express.static(path.join(__dirname, "../frontend")));
 
 app.get("/authenticate", (req, res) => {
   // Route provided for using authMiddleware alone
@@ -38,6 +40,10 @@ const graphQlServer = new ApolloServer({
 });
 
 graphQlServer.applyMiddleware({ app });
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/../frontend/index.html"));
+});
 
 if (require.main === module) {
   httpServer.listen({ port: env.PORT }, () => {
