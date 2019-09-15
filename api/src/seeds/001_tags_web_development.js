@@ -75,16 +75,17 @@ const commands = [
 
 const runSeed = async () => {
   const session = driver.session();
+  const flattenedCommands = [].concat(...commands);
 
   console.log("\n");
-  commands.flat().forEach(async ({ query, params }) => {
+  flattenedCommands.forEach(async ({ query, params }) => {
     console.log({ query, params });
     console.log("\n");
     await session.run(query, params);
   });
 
   await session.close();
-  console.log(`${commands.flat().length} commands executed`);
+  console.log(`${flattenedCommands.length} commands executed`);
 };
 
 runSeed();
