@@ -38,13 +38,15 @@ const TagsTable = ({ tags, colorClass = "" }) => (
     {tags.map(t => (
       <div key={t.name} className="table-row">
         <div className="table-cell w-32">{t.name}</div>
-        <div className={classnames("table-cell w-16", colorClass)}>
+        <div
+          className={classnames("table-cell w-16 md:text-right", colorClass)}
+        >
           {Array.from({ length: t.level })
             .map(() => "▮")
             .join("")
             .padEnd(5, "▯")}
         </div>
-        <div className="table-cell text-sm md:pl-12">
+        <div className="table-cell text-sm pl-4 md:pl-12">
           <div className="truncate w-64 text-gray-600">{t.description}</div>
         </div>
       </div>
