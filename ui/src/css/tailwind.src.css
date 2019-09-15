@@ -23,6 +23,10 @@ body {
   @apply bg-blue-500 text-white border-white;
 }
 
+.btn-transparent {
+  @apply btn;
+}
+
 .alert {
   @apply text-red-700 bg-red-100;
 }
