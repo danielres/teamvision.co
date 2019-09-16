@@ -5,16 +5,8 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import Autosuggest from "../components/forms/TagAutoSuggest";
+import Level from "../components/taggings/Level";
 import { GET_PERSON_WITH_TAGGINGS } from "../gql/persons";
-
-const Level = ({ level }) => {
-  return level
-    ? Array.from({ length: level })
-        .map(() => "▮")
-        .join("")
-        .padEnd(5, "▯")
-    : "—";
-};
 
 const TaggingsTable = ({ personId, taggings, colorClass = "" }) => (
   <div className="table w-full">
@@ -29,7 +21,7 @@ const TaggingsTable = ({ personId, taggings, colorClass = "" }) => (
             t.level ? colorClass : "text-gray-500"
           )}
         >
-          <Level level={t.level} />
+          <Level tagging={t} />
         </div>
         <div className="table-cell text-sm pl-4 md:pl-12">
           <div className="truncate w-64 text-gray-600">{t.description}</div>
