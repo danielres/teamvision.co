@@ -51,6 +51,7 @@ const typeDefs = /* GraphQL */ `
     name: String
     created: String
     label: String!
+    taggings: [TaggingRelationship]!
   }
 
   type SetTagParentResponse {
@@ -78,6 +79,7 @@ const typeDefs = /* GraphQL */ `
   type TaggingRelationship {
     id: ID!
     description: String
+    on: String
     tag: Tag!
     target: TaggingRelationshipTarget!
   }

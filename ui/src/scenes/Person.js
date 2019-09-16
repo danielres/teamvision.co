@@ -1,50 +1,35 @@
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
 import classnames from "classnames";
 import React from "react";
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import Autosuggest from "../components/forms/TagAutoSuggest";
+import { GET_PERSON_WITH_TAGGINGS } from "../gql/persons";
 
-const skills = [
-  {
-    name: "React",
-    level: 5,
-    description:
-      "I have worked intensively with React during the last few years and gained extensive experience of React and its ecosystem."
-  },
-  {
-    name: "Neo4j",
-    level: 2,
-    description: ""
-  }
-];
+const Level = ({ level }) => {
+  return level
+    ? Array.from({ length: level })
+        .map(() => "▮")
+        .join("")
+        .padEnd(5, "▯")
+    : "—";
+};
 
-const motivations = [
-  {
-    name: "React",
-    level: 4,
-    description: ""
-  },
-  {
-    name: "Neo4j",
-    level: 5,
-    description: "I'd love to gain experience in Graph databases."
-  }
-];
-
-const TagsTable = ({ tags, colorClass = "" }) => (
+const TaggingsTable = ({ personId, taggings, colorClass = "" }) => (
   <div className="table w-full">
-    {tags.map(t => (
-      <div key={t.name} className="table-row">
-        <div className="table-cell w-32">{t.name}</div>
+    {taggings.map(t => (
+      <div key={t.tag.name} className="table-row">
+        <div className="table-cell w-32">
+          <Link to={`/persons/${personId}/${t.tag.name}`}>{t.tag.name}</Link>
+        </div>
         <div
-          className={classnames("table-cell w-16 md:text-right", colorClass)}
+          className={classnames(
+            "table-cell w-16 md:text-right",
+            t.level ? colorClass : "text-gray-500"
+          )}
         >
-          {Array.from({ length: t.level })
-            .map(() => "▮")
-            .join("")
-            .padEnd(5, "▯")}
+          <Level level={t.level} />
         </div>
         <div className="table-cell text-sm pl-4 md:pl-12">
           <div className="truncate w-64 text-gray-600">{t.description}</div>
@@ -53,22 +38,18 @@ const TagsTable = ({ tags, colorClass = "" }) => (
     ))}
   </div>
 );
+
 const Person = ({ match, location, history }) => {
   const { id: personId } = match.params;
-  const { loading, error, data } = useQuery(
-    gql/* GraphQL */ `
-      query($id: ID) {
-        person(id: $id) {
-          email
-          name
-        }
-      }
-    `,
-    { variables: { id: personId } }
-  );
+  const { loading, error, data } = useQuery(GET_PERSON_WITH_TAGGINGS, {
+    variables: { id: personId }
+  });
 
   if (loading) return <p className="card">Loading...</p>;
   if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>;
+
+  const motivations = data.person.taggings.filter(t => t.on === "motivations");
+  const skills = data.person.taggings.filter(t => t.on === "skills");
 
   return (
     <div>
@@ -94,19 +75,25 @@ const Person = ({ match, location, history }) => {
           </table>
         </div>
       </section>
-
       <div className="card">
         <h3 className="mb-4 text-lg">Motivations</h3>
-        <TagsTable tags={motivations} colorClass="text-pink-600" />
+        <TaggingsTable
+          colorClass="text-pink-600"
+          personId={personId}
+          taggings={motivations}
+        />
 
         <div className="w-32 py-2">
           <Autosuggest on="motivations" type="Person" id={personId} />
         </div>
       </div>
-
       <div className="card">
         <h3 className="mb-4 text-lg">Skills</h3>
-        <TagsTable tags={skills} colorClass="text-blue-600" />
+        <TaggingsTable
+          colorClass="text-blue-600"
+          personId={personId}
+          taggings={skills}
+        />
 
         <div className="w-32 py-2">
           <Autosuggest on="skills" type="Person" id={personId} />

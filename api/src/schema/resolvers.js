@@ -19,6 +19,8 @@ const {
   updateCurrentUserPersonName
 } = require("./queries");
 
+const driver = require("../neo4jDriver");
+
 const resolvers = {
   Query: {
     persons(obj, { search }, { isAuthenticated }) {
@@ -55,6 +57,25 @@ const resolvers = {
     userInfo(obj, {}, { isAuthenticated, userInfo }) {
       if (!isAuthenticated) return new AuthenticationError("Forbidden");
       return userInfo;
+    }
+  },
+
+  Person: {
+    taggings: async (person, args, vars) => {
+      const query = `
+        MATCH (tag:Tag) -[tagging:TAGGING]-> (target: Person {id: {id} })
+        RETURN tagging,tag
+      `;
+      const params = { id: person.id };
+      const session = driver.session();
+      const { records } = await session.run(query, params);
+      session.close();
+
+      const taggings = records.map(r => ({
+        ...r.get(0).properties,
+        tag: r.get(1).properties
+      }));
+      return taggings;
     }
   },
 

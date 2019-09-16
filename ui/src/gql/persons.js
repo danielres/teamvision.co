@@ -19,3 +19,19 @@ export const GET_PERSONS = gql`
     }
   }
 `;
+
+export const GET_PERSON_WITH_TAGGINGS = gql`
+  query($id: ID) {
+    person(id: $id) {
+      email
+      name
+      taggings {
+        on
+        description
+        tag {
+          name
+        }
+      }
+    }
+  }
+`;
