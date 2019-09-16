@@ -4,6 +4,7 @@ import { useAuth } from "../../providers/auth";
 import history from "../../utils/history";
 import Person from "../Person";
 import Persons from "../Persons";
+import PersonTag from "../PersonTag";
 import Profile from "../Profile";
 import Tag from "../Tag";
 import Tags from "../Tags";
@@ -28,6 +29,7 @@ export default function App() {
         <div className="my-4 md:mx-4">
           <Switch>
             <Route path="/" component={Home} exact />
+            <Route path="/persons/:id/:tag" component={PersonTag} />
             <Route path="/persons/:id" component={Person} />
             <Route path="/persons" component={Persons} />
             <Route path="/profile" component={Profile} />

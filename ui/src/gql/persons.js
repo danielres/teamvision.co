@@ -27,6 +27,7 @@ export const GET_PERSON_WITH_TAGGINGS = gql`
       name
       taggings {
         on
+        level
         description
         tag {
           name
