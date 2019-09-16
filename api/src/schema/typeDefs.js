@@ -80,6 +80,7 @@ const typeDefs = /* GraphQL */ `
     id: ID!
     description: String
     on: String
+    level: Int
     tag: Tag!
     target: TaggingRelationshipTarget!
   }
