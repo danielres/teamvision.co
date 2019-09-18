@@ -66,6 +66,7 @@ const resolvers = {
       const query = `
         MATCH (tag:Tag) -[tagging:TAGGING]-> (target: Person {id: {id} })
         RETURN tagging,tag
+        ORDER BY tagging.level DESC
       `;
       const params = { id: person.id };
       const session = driver.session();
