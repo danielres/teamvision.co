@@ -1,30 +1,70 @@
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import classnames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import Level from "../components/taggings/Level";
 import { GET_PERSON_WITH_TAGGINGS } from "../gql/persons";
-import { SET_TAG_ON } from "../gql/tags";
+import { SET_TAG_ON, UPDATE_TAGGING } from "../gql/tags";
 
-const Tagging = ({ tagging, title, colorClass }) => (
-  <>
-    <div className="flex mb-4">
-      <h3 className="text-lg text-gray-700">{title}</h3>
-      <div className={classnames("inline-block ml-4")}>
-        <Level tagging={tagging} colorClass={colorClass} />
+const Tagging = ({ tagging, title, colorClass, refetch }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [updateTagging, updateTaggingResponse] = useMutation(UPDATE_TAGGING);
+
+  const startEditing = () => setIsEditing(true);
+  const endEditing = () => setIsEditing(false);
+
+  const [desc, setDesc] = useState(tagging.description);
+  const onSubmit = e => {
+    e.preventDefault();
+    updateTagging({ variables: { id: tagging.id, description: desc } })
+      .then(refetch)
+      .then(endEditing);
+  };
+  return (
+    <>
+      <div className="flex mb-4">
+        <h3 className="text-lg text-gray-700">{title}</h3>
+        <div className={classnames("inline-block ml-4")}>
+          <Level tagging={tagging} colorClass={colorClass} />
+        </div>
       </div>
-    </div>
 
-    <div>
-      {tagging && tagging.description ? (
-        tagging.description
-      ) : (
-        <span className="text-gray-500">+ Add a description</span>
+      {isEditing && (
+        <form onSubmit={onSubmit}>
+          <div>
+            <textarea
+              className="border rounded bg-gray-200 p-4 w-full"
+              value={desc}
+              onChange={e => setDesc(e.target.value)}
+            ></textarea>
+          </div>
+          <div>
+            <button className="btn shadow">Save</button>
+          </div>
+        </form>
       )}
-    </div>
-  </>
-);
+
+      {!isEditing && (
+        <div onClick={startEditing} className="text-gray-700">
+          {tagging.description ? (
+            tagging.description.split("\n").map(line => <div>{line}</div>)
+          ) : (
+            <span className="text-gray-500">
+              +{" "}
+              {tagging.on === "skills"
+                ? "Add skill description (past experiences, projects,...)"
+                : tagging.on === "motivations"
+                ? "Add motivation description"
+                : "Add description"}
+            </span>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
 
 const PersonTag = ({ match, location, history }) => {
   const { id: personId, tag: tagName } = match.params;
@@ -66,9 +106,10 @@ const PersonTag = ({ match, location, history }) => {
       <section className="card">
         {motivation && (
           <Tagging
-            title="Motivation level:"
+            title="Motivation"
             tagging={motivation}
             colorClass="text-pink-500"
+            refetch={refetch}
           />
         )}
 
@@ -78,9 +119,10 @@ const PersonTag = ({ match, location, history }) => {
 
         {skill && (
           <Tagging
-            title="Skill level:"
+            title="Skill"
             tagging={skill}
             colorClass="text-blue-500"
+            refetch={refetch}
           />
         )}
       </section>
