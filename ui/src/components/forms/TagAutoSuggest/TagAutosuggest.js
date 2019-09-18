@@ -57,14 +57,12 @@ class TagAutoSuggest extends React.Component {
     const { value, suggestions } = this.state;
     const { on } = this.props;
 
-    // Autosuggest will pass through all these props to the input.
     const inputProps = {
       onChange: this.onChange,
       placeholder: `+ Add ${on}`,
       value
     };
 
-    // Finally, render it!
     return (
       <div className={on}>
         <Autosuggest
@@ -74,15 +72,17 @@ class TagAutoSuggest extends React.Component {
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
           onSuggestionSelected={e => {
-            this.props.setTagOn({
-              variables: {
-                tagName: e.target.innerText,
-                on: this.props.on,
-                targetType: this.props.type,
-                targetId: this.props.id
-              }
-            });
-            this.setState({ value: "" });
+            this.props
+              .setTagOn({
+                variables: {
+                  tagName: e.target.innerText,
+                  on: this.props.on,
+                  targetType: this.props.type,
+                  targetId: this.props.id
+                }
+              })
+              .then(this.props.onSuccess)
+              .then(() => this.setState({ value: "" }));
           }}
           renderSuggestion={renderSuggestion}
         />
@@ -95,6 +95,7 @@ TagAutoSuggest.propTypes = {
   getSuggestions: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   on: PropTypes.string.isRequired,
+  onSuccess: PropTypes.func.isRequired,
   setTagOn: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired
 };

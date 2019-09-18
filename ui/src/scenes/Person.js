@@ -33,7 +33,7 @@ const TaggingsTable = ({ personId, taggings, colorClass = "" }) => (
 
 const Person = ({ match, location, history }) => {
   const { id: personId } = match.params;
-  const { loading, error, data } = useQuery(GET_PERSON_WITH_TAGGINGS, {
+  const { loading, error, data, refetch } = useQuery(GET_PERSON_WITH_TAGGINGS, {
     variables: { id: personId }
   });
 
@@ -76,7 +76,12 @@ const Person = ({ match, location, history }) => {
         />
 
         <div className="w-32 py-2">
-          <Autosuggest on="motivations" type="Person" id={personId} />
+          <Autosuggest
+            onSuccess={refetch}
+            on="motivations"
+            type="Person"
+            id={personId}
+          />
         </div>
       </div>
       <div className="card">
@@ -88,7 +93,12 @@ const Person = ({ match, location, history }) => {
         />
 
         <div className="w-32 py-2">
-          <Autosuggest on="skills" type="Person" id={personId} />
+          <Autosuggest
+            onSuccess={refetch}
+            on="skills"
+            type="Person"
+            id={personId}
+          />
         </div>
       </div>
     </div>

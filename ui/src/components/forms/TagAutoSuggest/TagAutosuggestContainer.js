@@ -5,7 +5,7 @@ import { GET_TAG_TREE_DATA, SET_TAG_ON } from "../../../gql/tags";
 import { upperFirst } from "../../../utils/strings";
 import TagAutosuggest from "./TagAutosuggest";
 
-const TagAutosuggestContainer = ({ on, type, id }) => {
+const TagAutosuggestContainer = ({ id, type, on, onSuccess }) => {
   // eslint-disable-next-line no-unused-vars
   const { loading, error, data } = useQuery(GET_TAG_TREE_DATA);
   // eslint-disable-next-line no-unused-vars
@@ -47,6 +47,7 @@ const TagAutosuggestContainer = ({ on, type, id }) => {
       setTagOn={setTagOn}
       id={id}
       on={on}
+      onSuccess={onSuccess}
       type={type}
     />
   );
@@ -55,6 +56,7 @@ const TagAutosuggestContainer = ({ on, type, id }) => {
 TagAutosuggestContainer.propTypes = {
   id: PropTypes.string.isRequired,
   on: PropTypes.string.isRequired,
+  onSuccess: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired
 };
 
