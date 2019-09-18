@@ -6,9 +6,9 @@ import { CREATE_PERSON, GET_PERSONS } from "../../gql/persons";
 
 export default function CreatePerson({
   ButtonDone,
-  initialValues: { email, name } = {}
+  initialValues: { email, name, picture } = {}
 }) {
-  const initialValues = { email, name };
+  const initialValues = { email, name, picture };
   const [values, setValues] = useState(initialValues);
   const resetValues = () => setValues(initialValues);
 
@@ -55,6 +55,13 @@ export default function CreatePerson({
           placeholder="Name"
           value={values.name}
           onChange={e => setValues({ ...values, name: e.target.value })}
+        />
+
+        <input
+          className="formInput mb-4"
+          placeholder="Profile picture url"
+          value={values.picture}
+          onChange={e => setValues({ ...values, picture: e.target.value })}
         />
 
         <div className="justify-between flex">

@@ -25,7 +25,7 @@ const typeDefs = /* GraphQL */ `
   }
 
   type Mutation {
-    createPerson(email: String!, name: String!): Person
+    createPerson(email: String!, name: String!, picture: String): Person
     createTag(name: String!, description: String): Tag
     applyTagging(
       name: String!
@@ -56,6 +56,7 @@ const typeDefs = /* GraphQL */ `
     id: ID!
     email: String!
     name: String
+    picture: String
     created: String
     label: String!
     taggings: [TaggingRelationship]!

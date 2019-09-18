@@ -2,11 +2,11 @@ import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-
 
 // Person fields must be the same in CREATE_PERSON and GET_PERSONS
 // for the Apollo cache to be updated
-const personFields = `id email name`;
+const personFields = `id email name picture`;
 
 export const CREATE_PERSON = gql`
-  mutation createPerson($email: String!, $name: String!) {
-    createPerson(email: $email, name: $name) {
+  mutation createPerson($email: String!, $name: String!, $picture: String) {
+    createPerson(email: $email, name: $name, picture: $picture) {
       ${personFields}
     }
   }
@@ -25,6 +25,7 @@ export const GET_PERSON_WITH_TAGGINGS = gql`
     person(id: $id) {
       email
       name
+      picture
       taggings {
         id
         on

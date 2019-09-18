@@ -21,11 +21,20 @@ const PersonSchema = yup.object().shape({
   name: yup
     .string()
     .required()
-    .min(3)
+    .min(3),
+  picture: yup
+    .string()
+    .url()
+    .nullable()
 });
 
-const createPerson = async ({ email, name }) => {
-  const params = { email, name, personId: _genId() };
+const createPerson = async ({ email, name, picture }) => {
+  const params = {
+    email,
+    name,
+    picture: picture && picture.length ? picture : null,
+    personId: _genId()
+  };
 
   await PersonSchema.validate(params, { abortEarly: false });
   const existing = await _findNodesByLabelAndProperty("Person", "email", email);
@@ -33,9 +42,13 @@ const createPerson = async ({ email, name }) => {
     throw new UniqueConstraintError("This email is not available.");
 
   const query = `
-    CREATE (p:Person {email: {email}, name: {name}, id: {personId} })
+    CREATE (p:Person)
+    SET p.id = {personId}
+    SET p.email = {email}
+    SET p.name = {name}
+    SET p.picture = {picture}
     RETURN p
-  `;
+    `;
   return _getRecord(query, params);
 };
 
