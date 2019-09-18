@@ -14,6 +14,7 @@ const {
   searchTags,
   createTag,
   applyTagging,
+  updateTagging,
   setTagOn,
   setTagParent,
   updateCurrentUserPersonName
@@ -92,6 +93,7 @@ const resolvers = {
       await setTagParent({ parentName, tagName });
       return { tagName, parentName };
     },
+    updateTagging: (obj, args, vars) => updateTagging(args),
     createCurrentUserPerson: combineResolvers(
       // TODO: isAuthenticated,
       (obj, args, { user }) => {

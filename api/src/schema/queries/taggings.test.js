@@ -5,7 +5,7 @@ const deleteAllRecords = require("./deleteAllRecords");
 const { setTagParent } = require("./taggings");
 
 const getTagTreeData = require("./getTagTreeData");
-const { applyTagging, setTagOn } = require("./taggings");
+const { applyTagging, setTagOn, updateTagging } = require("./taggings");
 const { createPerson } = require("./persons");
 const { createTag, searchTags } = require("./tags");
 
@@ -110,6 +110,38 @@ test("setTagOn() creates a Tagging relationship with an existing, or a new tag",
       id: person.id
     }
   });
+
+  assert.end();
+});
+
+test("updateTagging() updates an existing tagging level and/or description", async assert => {
+  await deleteAllRecords();
+  const tag = await createTag({ name: "Some tag" });
+  const person = await createPerson({ email: "tom@example.com", name: "Tom" });
+
+  const taggingV1 = await setTagOn({
+    tagName: "Some tag",
+    on: "skills",
+    targetType: "Person",
+    targetId: person.id
+  });
+
+  const { id } = taggingV1;
+
+  const v2 = await updateTagging({ id, level: 40 });
+  assert.deepEqual(v2, { id, description: "", level: 40, on: "skills" });
+
+  const v3 = await updateTagging({ id, description: "Desc" });
+  assert.deepEqual(v3, { id, description: "Desc", level: 40, on: "skills" });
+
+  const v4 = await updateTagging({ id, level: null });
+  assert.deepEqual(v4, { id, description: "Desc", on: "skills" });
+
+  const v5 = await updateTagging({ id, level: 80, description: "Desc2" });
+  assert.deepEqual(v5, { id, description: "Desc2", level: 80, on: "skills" });
+
+  const v6 = await updateTagging({ id });
+  assert.deepEqual(v6, { id, description: "Desc2", level: 80, on: "skills" });
 
   assert.end();
 });

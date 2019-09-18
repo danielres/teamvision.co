@@ -116,8 +116,67 @@ const setTagParent = async ({ parentName, tagName }) => {
   });
 };
 
+const updateTagging = async ({ id, level, description }) => {
+  const removeTaggingLevel = async ({ id }) => {
+    const query = `
+      MATCH () -[tagging:TAGGING]-> ()
+      WHERE tagging.id = {id}
+      REMOVE tagging.level
+      RETURN tagging
+    `;
+    const session = driver.session();
+    await session.run(query, { id });
+    session.close();
+  };
+
+  const setTaggingLevel = async ({ id, level }) => {
+    const query = `
+      MATCH () -[tagging:TAGGING]-> ()
+      WHERE tagging.id = {id}
+      SET tagging.level = {level}
+      RETURN tagging
+    `;
+    const session = driver.session();
+    const { records } = await session.run(query, { id, level });
+    session.close();
+    return records[0].get(0).properties;
+  };
+
+  const setTaggingDescription = async ({ id, description }) => {
+    const query = `
+      MATCH () -[tagging:TAGGING]-> ()
+      WHERE tagging.id = {id}
+      SET tagging.description = {description}
+      RETURN tagging
+    `;
+    const session = driver.session();
+    const { records } = await session.run(query, { id, description });
+    session.close();
+    return records[0].get(0).properties;
+  };
+
+  const findTaggingById = async ({ id }) => {
+    const query = `
+      MATCH () -[tagging:TAGGING]-> ()
+      WHERE tagging.id = {id}
+      RETURN tagging
+    `;
+    const session = driver.session();
+    const { records } = await session.run(query, { id });
+    session.close();
+    return records[0].get(0).properties;
+  };
+
+  if (level === null) await removeTaggingLevel({ id });
+  if (level) await setTaggingLevel({ id, level });
+  if (description) await setTaggingDescription({ id, description });
+
+  return findTaggingById({ id });
+};
+
 module.exports = {
   applyTagging,
   setTagOn,
-  setTagParent
+  setTagParent,
+  updateTagging
 };

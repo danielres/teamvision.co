@@ -34,6 +34,13 @@ const typeDefs = /* GraphQL */ `
       targetKey: String!
       targetValue: String!
     ): TaggingRelationship!
+
+    updateTagging(
+      id: ID!
+      description: String
+      level: Int
+    ): TaggingRelationship!
+
     setTagOn(
       tagName: String!
       on: String!
