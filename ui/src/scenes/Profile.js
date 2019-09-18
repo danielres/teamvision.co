@@ -30,11 +30,14 @@ export default function() {
       <Avatar src={data.userInfo.picture} />
 
       <div className="bg-gray-100 my-4 p-4">
-        {Object.entries(data.userInfo).map(([k, v]) => (
-          <div>
-            {k}: {`${v}`}
-          </div>
-        ))}
+        {Object.entries(data.userInfo)
+
+          .filter(([k, v]) => !k.startsWith("__"))
+          .map(([k, v]) => (
+            <div>
+              {k}: {`${v}`}
+            </div>
+          ))}
       </div>
     </section>
   );
