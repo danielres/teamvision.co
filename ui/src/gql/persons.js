@@ -26,6 +26,7 @@ export const GET_PERSON_WITH_TAGGINGS = gql`
       email
       name
       taggings {
+        id
         on
         level
         description

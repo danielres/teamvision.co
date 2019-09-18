@@ -62,3 +62,12 @@ export const GET_TAG_TREE_DATA = gql`
     }
   }
 `;
+
+export const UPDATE_TAGGING = gql`
+  mutation updateTagging($id: ID!, $level: Int, $description: String) {
+    updateTagging(id: $id, level: $level, description: $description) {
+      id
+      level
+    }
+  }
+`;

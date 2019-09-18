@@ -1,22 +1,18 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import classnames from "classnames";
 import React from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import Level from "../components/taggings/Level";
 import { GET_PERSON_WITH_TAGGINGS } from "../gql/persons";
+import { SET_TAG_ON } from "../gql/tags";
 
 const Tagging = ({ tagging, title, colorClass }) => (
   <>
     <div className="flex mb-4">
       <h3 className="text-lg text-gray-700">{title}</h3>
-      <div
-        className={classnames(
-          "inline-block ml-4",
-          tagging && tagging.level ? colorClass : "text-gray-600"
-        )}
-      >
-        <Level tagging={tagging} />
+      <div className={classnames("inline-block ml-4")}>
+        <Level tagging={tagging} colorClass={colorClass} />
       </div>
     </div>
 
@@ -32,9 +28,12 @@ const Tagging = ({ tagging, title, colorClass }) => (
 
 const PersonTag = ({ match, location, history }) => {
   const { id: personId, tag: tagName } = match.params;
-  const { loading, error, data } = useQuery(GET_PERSON_WITH_TAGGINGS, {
+  const { loading, error, data, refetch } = useQuery(GET_PERSON_WITH_TAGGINGS, {
     variables: { id: personId }
   });
+
+  // eslint-disable-next-line no-unused-vars
+  const [setTagOn, setTagOnResponse] = useMutation(SET_TAG_ON);
 
   if (loading) return <p className="card">Loading...</p>;
   if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>;
@@ -43,6 +42,16 @@ const PersonTag = ({ match, location, history }) => {
   const skills = data.person.taggings.filter(t => t.on === "skills");
   const motivation = motivations.filter(t => t.tag.name === tagName)[0];
   const skill = skills.filter(t => t.tag.name === tagName)[0];
+
+  const addOn = on =>
+    setTagOn({
+      variables: {
+        on,
+        tagName,
+        targetId: personId,
+        targetType: "Person"
+      }
+    }).then(refetch);
 
   return (
     <div>
@@ -55,18 +64,47 @@ const PersonTag = ({ match, location, history }) => {
       </section>
 
       <section className="card">
-        <div className="mb-8 pb-8 border-gray-300 border-b">
+        {motivation && (
           <Tagging
-            title="Motivation"
+            title="Motivation level:"
             tagging={motivation}
             colorClass="text-pink-500"
           />
-        </div>
+        )}
 
-        <div className="">
-          <Tagging title="Skill" tagging={skill} colorClass="text-blue-500" />
-        </div>
+        {skill && motivation && (
+          <div className="my-8 border-gray-300 border-b" />
+        )}
+
+        {skill && (
+          <Tagging
+            title="Skill level:"
+            tagging={skill}
+            colorClass="text-blue-500"
+          />
+        )}
       </section>
+
+      <div className="text-right mb-4 mr-6 md:mr-0">
+        {!skill && (
+          <button
+            onClick={() => addOn("skills")}
+            className="btn-transparent rounded bg-white shadow"
+          >
+            + Add <b className="text-blue-500">{tagName}</b> to{" "}
+            {data.person.name} skills
+          </button>
+        )}
+        {!motivation && (
+          <button
+            onClick={() => addOn("motivations")}
+            className="btn-transparent rounded bg-white shadow"
+          >
+            + Add <b className="text-pink-500">{tagName}</b> to{" "}
+            {data.person.name} motivations
+          </button>
+        )}
+      </div>
     </div>
   );
 };
