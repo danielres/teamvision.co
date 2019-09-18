@@ -8,11 +8,14 @@ const authMiddleware = require("./authMiddleware");
 const env = require("./env");
 const schema = require("./schema");
 const neo4jDriver = require("./neo4jDriver");
+const morgan = require("morgan");
 
 const app = express()
   .use(cookieParser())
   .use(authMiddleware)
-  .use(express.static(path.join(__dirname, "../frontend")));
+  .use(express.static(path.join(__dirname, "../frontend")))
+  .use(morgan("dev"))
+  .use((req, res, next) => console.log("\n-----\n") || next());
 
 app.get("/authenticate", (req, res) => {
   // Route provided for using authMiddleware alone
