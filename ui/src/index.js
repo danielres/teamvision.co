@@ -2,6 +2,7 @@ import ApolloClient from "apollo-boost";
 import React from "react";
 import ReactDOM from "react-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
+import * as Sentry from "@sentry/browser";
 
 import "./css/tailwind.css";
 
@@ -10,6 +11,8 @@ import Auth0Provider from "./providers/Auth0Provider";
 import AuthProvider from "./providers/auth";
 
 import App from "./scenes/App";
+
+Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DSN });
 
 const client = new ApolloClient();
 
