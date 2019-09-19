@@ -1,6 +1,14 @@
 import classnames from "classnames";
 import React from "react";
 import { ContainerQuery } from "react-container-query";
+import { formatRelative } from "date-fns";
+
+const renderItem = ({ item, k }) => {
+  const now = new Date();
+  if (["createdAt", "updatedAt"].includes(k))
+    return formatRelative(new Date(item[k]), now);
+  return item[k];
+};
 
 export default ({ items, onRowClick, rows }) => {
   return (
@@ -35,7 +43,7 @@ export default ({ items, onRowClick, rows }) => {
               >
                 {Object.entries(rows).map(([k, v]) => (
                   <td data-name={v} key={`${k}`} role="cell">
-                    {item[k]}
+                    {renderItem({ item, k })}
                   </td>
                 ))}
               </tr>
