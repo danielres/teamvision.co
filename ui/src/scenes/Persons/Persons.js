@@ -13,13 +13,13 @@ function Persons({ history }) {
   const {
     loading: userInfo_loading,
     error: userInfo_error, // eslint-disable-line no-unused-vars
-    data: { userInfo }
+    data: { userInfo } = {}
   } = useQuery(GET_CURRENT_USER_INFO);
 
   const {
     loading: persons_loading,
     error: persons_error, // eslint-disable-line no-unused-vars
-    data: { persons }
+    data: { persons } = {}
   } = useQuery(GET_PERSONS); // eslint-disable-line no-unused-vars
 
   if (persons_loading || userInfo_loading) return <p>Loading...</p>;
