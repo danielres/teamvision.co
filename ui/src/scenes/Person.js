@@ -7,6 +7,7 @@ import Avatar from "../components/Avatar";
 import Autosuggest from "../components/forms/TagAutoSuggest";
 import Level from "../components/taggings/Level";
 import { GET_PERSON_WITH_TAGGINGS } from "../gql/persons";
+import { formatRelative } from "date-fns";
 
 const TaggingsTable = ({ personId, taggings, colorClass = "" }) => (
   <div className="table w-full">
@@ -42,6 +43,7 @@ const Person = ({ match, location, history }) => {
 
   const motivations = data.person.taggings.filter(t => t.on === "motivations");
   const skills = data.person.taggings.filter(t => t.on === "skills");
+  const now = new Date();
 
   return (
     <div>
@@ -52,27 +54,28 @@ const Person = ({ match, location, history }) => {
           </div>
         </div>
 
-        <div className="w-full ml-4 md:ml-8">
-          <table className="spaced">
-            <tbody>
-              <tr>
-                <th className="">Name</th>
-                <td className="">{data.person.name}</td>
-              </tr>
-              <tr>
-                <th className="">Headline</th>
-                <td className="">{data.person.headline}</td>
-              </tr>
-              <tr>
-                <th className="">Current position</th>
-                <td className="">{data.person.currentPosition}</td>
-              </tr>
-              <tr>
-                <th className="">Email</th>
-                <td className="">{data.person.email}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="w-full ml-8 md:pl-4">
+          <div className="mb-4">
+            <h2 className="text-lg md:text-xl">{data.person.name}</h2>
+            <div className="text-gray-700">{data.person.headline}</div>
+          </div>
+
+          <div className="items-baseline text-sm md:text-base">
+            <div className="flex">
+              <div className="w-32 text-gray-700">Current position</div>
+              <div className="text-black">{data.person.currentPosition}</div>
+            </div>
+            <div className="flex">
+              <div className="w-32 text-gray-700">Email</div>
+              <div className="text-black">{data.person.email}</div>
+            </div>
+            <div className="flex">
+              <div className="w-32 text-gray-700">Added</div>
+              <div className="text-black">
+                {formatRelative(new Date(data.person.createdAt), now)}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       <div className="card">

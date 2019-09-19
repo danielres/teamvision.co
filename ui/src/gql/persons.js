@@ -40,6 +40,7 @@ export const GET_PERSON_WITH_TAGGINGS = gql`
       currentPosition
       name
       picture
+      createdAt
       taggings {
         id
         on
