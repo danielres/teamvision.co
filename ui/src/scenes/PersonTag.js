@@ -95,11 +95,15 @@ const PersonTag = ({ match, location, history }) => {
 
   return (
     <div>
-      <section className="card">
-        <h2 className="text-xl">
-          <Link to={`/persons/${personId}`}>{data.person.name}</Link>
+      <section className="card ">
+        <h2 className="text-xl ">
+          <Link className="border-b" to={`/persons/${personId}`}>
+            {data.person.name}
+          </Link>
           <div className="inline-block text-gray-600 w-8 text-center">:</div>
-          <Link to={`/tags/${tagName}`}>{tagName}</Link>
+          <Link className="border-b" to={`/tags/${tagName}`}>
+            {tagName}
+          </Link>
         </h2>
       </section>
 
