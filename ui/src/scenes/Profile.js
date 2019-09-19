@@ -4,24 +4,10 @@ import { useQuery } from "@apollo/react-hooks";
 import truncate from "lodash/truncate";
 import Avatar from "../components/Avatar";
 import { upperFirst } from "../utils/strings";
+import { GET_CURRENT_USER_INFO } from "../gql/user";
 
 export default function() {
-  const { loading, error, data } = useQuery(
-    gql`
-      {
-        userInfo {
-          email
-          email_verified
-          picture
-          given_name
-          family_name
-          name
-          locale
-          updated_at
-        }
-      }
-    `
-  );
+  const { loading, error, data } = useQuery(GET_CURRENT_USER_INFO);
 
   if (loading) return <p className="card">Loading profile...</p>;
   if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>;

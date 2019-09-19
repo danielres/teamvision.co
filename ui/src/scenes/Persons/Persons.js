@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { GET_PERSONS } from "../../gql/persons";
+import { GET_CURRENT_USER_INFO } from "../../gql/user";
 import Form from "./Form";
 import PersonsTable from "./Table";
 
@@ -14,22 +14,7 @@ function Persons({ history }) {
     loading: userInfo_loading,
     error: userInfo_error, // eslint-disable-line no-unused-vars
     data: { userInfo }
-  } = useQuery(
-    gql`
-      {
-        userInfo {
-          email
-          email_verified
-          picture
-          given_name
-          family_name
-          name
-          locale
-          updated_at
-        }
-      }
-    `
-  );
+  } = useQuery(GET_CURRENT_USER_INFO);
 
   const {
     loading: persons_loading,
