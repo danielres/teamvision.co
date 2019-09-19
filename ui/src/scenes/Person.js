@@ -60,6 +60,14 @@ const Person = ({ match, location, history }) => {
                 <td className="">{data.person.name}</td>
               </tr>
               <tr>
+                <th className="">Headline</th>
+                <td className="">{data.person.headline}</td>
+              </tr>
+              <tr>
+                <th className="">Current position</th>
+                <td className="">{data.person.currentPosition}</td>
+              </tr>
+              <tr>
                 <th className="">Email</th>
                 <td className="">{data.person.email}</td>
               </tr>

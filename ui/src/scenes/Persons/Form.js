@@ -6,7 +6,7 @@ import { CREATE_PERSON, GET_PERSONS } from "../../gql/persons";
 
 export default function CreatePerson({
   ButtonDone,
-  initialValues: { email, name, picture } = {}
+  initialValues: { email, name, picture, headline, currentPosition } = {}
 }) {
   const initialValues = { email, name, picture };
   const [values, setValues] = useState(initialValues);
@@ -45,6 +45,13 @@ export default function CreatePerson({
       <form onSubmit={submit}>
         <input
           className="formInput mb-4"
+          placeholder="Name"
+          value={values.name}
+          onChange={e => setValues({ ...values, name: e.target.value })}
+        />
+
+        <input
+          className="formInput mb-4"
           placeholder="Email"
           value={values.email}
           onChange={e => setValues({ ...values, email: e.target.value })}
@@ -52,9 +59,18 @@ export default function CreatePerson({
 
         <input
           className="formInput mb-4"
-          placeholder="Name"
-          value={values.name}
-          onChange={e => setValues({ ...values, name: e.target.value })}
+          placeholder="Headline"
+          value={values.headline}
+          onChange={e => setValues({ ...values, headline: e.target.value })}
+        />
+
+        <input
+          className="formInput mb-4"
+          placeholder="Current position"
+          value={values.currentPosition}
+          onChange={e =>
+            setValues({ ...values, currentPosition: e.target.value })
+          }
         />
 
         <input

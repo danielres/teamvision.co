@@ -22,18 +22,34 @@ const PersonSchema = yup.object().shape({
     .string()
     .required()
     .min(3),
+  headline: yup
+    .string()
+    .min(3)
+    .nullable(),
+  currentPosition: yup
+    .string()
+    .min(3)
+    .nullable(),
   picture: yup
     .string()
     .url()
     .nullable()
 });
 
-const createPerson = async ({ email, name, picture }) => {
+const createPerson = async ({
+  email,
+  name,
+  picture,
+  headline,
+  currentPosition
+}) => {
   const params = {
     createdAt: new Date().toISOString(),
     email,
     name,
     picture: picture && picture.length ? picture : null,
+    headline,
+    currentPosition,
     personId: _genId()
   };
 
@@ -48,6 +64,8 @@ const createPerson = async ({ email, name, picture }) => {
     SET p.email = {email}
     SET p.name = {name}
     SET p.picture = {picture}
+    SET p.headline = {headline}
+    SET p.currentPosition = {currentPosition}
     SET p.createdAt = {createdAt}
     RETURN p
     `;

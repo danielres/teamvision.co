@@ -13,7 +13,12 @@ function PersonsTable({ history }) {
     <TableResponsive
       items={data.persons}
       onRowClick={id => history.push(`/persons/${id}`)}
-      rows={{ name: "Name", createdAt: "Added" }}
+      rows={{
+        name: "Name",
+        headline: "Headline",
+        currentPosition: "Current Position",
+        createdAt: "Added"
+      }}
     />
   );
 }

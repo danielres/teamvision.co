@@ -25,7 +25,13 @@ const typeDefs = /* GraphQL */ `
   }
 
   type Mutation {
-    createPerson(email: String!, name: String!, picture: String): Person
+    createPerson(
+      email: String!
+      name: String!
+      picture: String
+      headline: String
+      currentPosition: String
+    ): Person
     createTag(name: String!, description: String): Tag
     applyTagging(
       name: String!
@@ -56,6 +62,8 @@ const typeDefs = /* GraphQL */ `
     id: ID!
     email: String!
     name: String
+    headline: String
+    currentPosition: String
     picture: String
     createdAt: String
     label: String!
