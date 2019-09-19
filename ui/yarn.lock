@@ -2,18 +2,18 @@
 # yarn lockfile v1
 
 
-"@apollo/react-common@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@apollo/react-common/-/react-common-3.0.1.tgz#9c8f1433ddaddf80e471259126a76f1738dd4273"
+"@apollo/react-common@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@apollo/react-common/-/react-common-3.1.1.tgz#540619d8276d750ce4f381c9cf8f51a6f657f75d"
   dependencies:
     ts-invariant "^0.4.4"
     tslib "^1.10.0"
 
-"@apollo/react-hooks@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@apollo/react-hooks/-/react-hooks-3.0.1.tgz#83869beddcbb06cba05d50ccf05097191d245a9c"
+"@apollo/react-hooks@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@apollo/react-hooks/-/react-hooks-3.1.1.tgz#8e5a0f281a9778aaf17496ad38a178d23375077c"
   dependencies:
-    "@apollo/react-common" "^3.0.1"
+    "@apollo/react-common" "^3.1.1"
     "@wry/equality" "^0.1.9"
     ts-invariant "^0.4.4"
     tslib "^1.10.0"
@@ -4066,9 +4066,9 @@ graphql-tag@^2.4.2:
   version "2.10.1"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.10.1.tgz#10aa41f1cd8fae5373eaf11f1f67260a3cad5e02"
 
-graphql@^14.5.3:
-  version "14.5.3"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.5.3.tgz#e025851cc413e153220f4edbbb25d49f55104fa0"
+graphql@^14.5.6:
+  version "14.5.6"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.5.6.tgz#3fa12173b50e6ccdef953c31c82f37c50ef58bec"
   dependencies:
     iterall "^1.2.2"
 
