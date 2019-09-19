@@ -63,6 +63,27 @@ export const GET_TAG_TREE_DATA = gql`
   }
 `;
 
+export const GET_TAG_WITH_TAGGINGS = gql`
+  query($name: String!) {
+    tag(name: $name) {
+      description
+      name
+      taggings {
+        id
+        description
+        on
+        level
+        person: target {
+          ... on Person {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const UPDATE_TAGGING = gql`
   mutation updateTagging($id: ID!, $level: Int, $description: String) {
     updateTagging(id: $id, level: $level, description: $description) {

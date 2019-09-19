@@ -3,23 +3,45 @@ import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-
 import React from "react";
 import { withRouter } from "react-router";
 import Branch from "./Tags/Branch";
+import classnames from "classnames";
+import { Link } from "react-router-dom";
+import Level from "../components/taggings/Level";
+import { GET_TAG_WITH_TAGGINGS } from "../gql/tags";
+
+const TaggingsTable = ({ tagName, taggings, colorClass = "" }) => (
+  <div className="table w-full">
+    {taggings.map(t => (
+      <div className="table-row">
+        <div className="table-cell w-32">
+          <Link to={`/persons/${t.person.id}/${tagName}`}>{t.person.name}</Link>
+        </div>
+        <div
+          className={classnames(
+            "table-cell w-16 md:text-right",
+            t.level ? colorClass : "text-gray-500"
+          )}
+        >
+          <Level tagging={t} />
+        </div>
+        <div className="table-cell text-sm pl-4 md:pl-12">
+          <div className="truncate w-64 text-gray-600">{t.description}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 const Tag = ({ match, location, history }) => {
   const { id } = match.params;
-  const { loading, error, data } = useQuery(
-    gql/* GraphQL */ `
-      query($name: String!) {
-        tag(name: $name) {
-          description
-          name
-        }
-      }
-    `,
-    { variables: { name: id } }
-  );
+  const { loading, error, data } = useQuery(GET_TAG_WITH_TAGGINGS, {
+    variables: { name: id }
+  });
 
   if (loading) return <p className="card">Loading...</p>;
   if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>;
+
+  const motivations = data.tag.taggings.filter(t => t.on === "motivations");
+  const skills = data.tag.taggings.filter(t => t.on === "skills");
 
   return (
     <div>
@@ -30,6 +52,7 @@ const Tag = ({ match, location, history }) => {
         >
           <b>+</b> Motivations
         </button>
+
         <button
           title="Add to my skills"
           className="bg-white hover:text-white hover:bg-blue-500 btn-transparent"
@@ -46,20 +69,45 @@ const Tag = ({ match, location, history }) => {
           <Branch node={data.tag.name} />
         </section>
 
-        <section className="w-full card ">
-          <table className="spaced w-full">
-            <tbody>
-              <tr className="mb-6">
-                <th className="">Name</th>
-                <td className="">{data.tag.name}</td>
-              </tr>
-              <tr className="mb-6">
-                <th className="">Description</th>
-                <td className="">{data.tag.description}</td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
+        <div className="w-full">
+          <section className="card ">
+            <table className="spaced w-full">
+              <tbody>
+                <tr className="mb-6">
+                  <th className="">Name</th>
+                  <td className="">{data.tag.name}</td>
+                </tr>
+                <tr className="mb-6">
+                  <th className="">Description</th>
+                  <td className="">{data.tag.description}</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          {motivations.length > 0 && (
+            <section className="card">
+              <h2 className="text-lg mb-4">Motivations</h2>
+              <TaggingsTable
+                tagName={data.tag.name}
+                taggings={motivations}
+                colorClass="text-pink-500"
+              />
+            </section>
+          )}
+
+          {skills.length > 0 && (
+            <section className="card">
+              <h2 className="text-lg mb-4">Skills</h2>
+
+              <TaggingsTable
+                tagName={data.tag.name}
+                taggings={skills}
+                colorClass="text-blue-500"
+              />
+            </section>
+          )}
+        </div>
       </div>
     </div>
   );
