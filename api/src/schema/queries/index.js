@@ -4,7 +4,7 @@ const {
   findNodeByLabelAndProperty,
   findNodesByLabel
 } = require("./nodes");
-const { searchPersons, createPerson } = require("./persons");
+const { searchPersons, createPerson, updatePerson } = require("./persons");
 const { searchTags, createTag } = require("./tags");
 const {
   applyTagging,
@@ -28,6 +28,7 @@ module.exports = {
   // persons
   searchPersons,
   createPerson,
+  updatePerson,
   // tags
   searchTags,
   createTag,

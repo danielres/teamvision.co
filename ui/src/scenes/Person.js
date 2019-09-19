@@ -1,12 +1,12 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import classnames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import Autosuggest from "../components/forms/TagAutoSuggest";
 import Level from "../components/taggings/Level";
-import { GET_PERSON_WITH_TAGGINGS } from "../gql/persons";
+import { GET_PERSON_WITH_TAGGINGS, UPDATE_PERSON } from "../gql/persons";
 import { formatRelative } from "date-fns";
 
 const TaggingsTable = ({ personId, taggings, colorClass = "" }) => (
@@ -32,6 +32,46 @@ const TaggingsTable = ({ personId, taggings, colorClass = "" }) => (
   </div>
 );
 
+const EditableField = ({ object, field }) => {
+  const [updatePerson, response] = useMutation(UPDATE_PERSON);
+  const [isEditing, setIsEditing] = useState(false);
+  const [value, setValue] = useState(object[field]);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    updatePerson({ variables: { id: object.id, [field]: value } }).then(() =>
+      setIsEditing(false)
+    );
+  };
+
+  if (isEditing)
+    return (
+      <form className="flex" onSubmit={onSubmit}>
+        <input
+          type="text"
+          className="bg-gray-200 rounded mr-2 px-2 py-1"
+          value={value}
+          onChange={e => setValue(e.target.value)}
+          onBlur={() => setIsEditing(false)}
+        />
+        {/* <button className="btn-transparent hover:bg-blue-500 hover:text-white mr-2">
+          V
+        </button>
+        <button className="btn-transparent hover:bg-blue-500 hover:text-white">
+          X
+        </button> */}
+      </form>
+    );
+  return (
+    <div
+      className="hover:bg-yellow-200 inline-block py-1"
+      onClick={() => setIsEditing(true)}
+    >
+      {object[field]}
+    </div>
+  );
+};
+
 const Person = ({ match, location, history }) => {
   const { id: personId } = match.params;
   const { loading, error, data, refetch } = useQuery(GET_PERSON_WITH_TAGGINGS, {
@@ -55,23 +95,29 @@ const Person = ({ match, location, history }) => {
         </div>
 
         <div className="w-full ml-8 md:pl-4">
-          <div className="mb-4">
-            <h2 className="text-lg md:text-xl">{data.person.name}</h2>
-            <div className="text-gray-700">{data.person.headline}</div>
+          <div className="mb-4 leading-tight">
+            <h2 className="text-lg md:text-xl">
+              <EditableField object={data.person} field="name" />
+            </h2>
+            <div className="text-gray-700">
+              <EditableField object={data.person} field="headline" />
+            </div>
           </div>
 
-          <div className="items-baseline text-sm md:text-base">
-            <div className="flex">
+          <div className="text-sm md:text-base">
+            <div className="flex items-baseline">
               <div className="w-32 text-gray-700">Current position</div>
-              <div className="text-black">{data.person.currentPosition}</div>
-            </div>
-            <div className="flex">
-              <div className="w-32 text-gray-700">Email</div>
-              <div className="text-black">{data.person.email}</div>
-            </div>
-            <div className="flex">
-              <div className="w-32 text-gray-700">Added</div>
               <div className="text-black">
+                <EditableField object={data.person} field="currentPosition" />
+              </div>
+            </div>
+            <div className="flex items-baseline">
+              <div className="w-32 text-gray-700">Email</div>
+              <EditableField object={data.person} field="email" />
+            </div>
+            <div className="flex items-baseline">
+              <div className="w-32 text-gray-700">Added</div>
+              <div className="text-black py-1">
                 {formatRelative(new Date(data.person.createdAt), now)}
               </div>
             </div>

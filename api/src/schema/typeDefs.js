@@ -32,6 +32,14 @@ const typeDefs = /* GraphQL */ `
       headline: String
       currentPosition: String
     ): Person
+    updatePerson(
+      id: ID!
+      email: String
+      name: String
+      picture: String
+      headline: String
+      currentPosition: String
+    ): Person
     createTag(name: String!, description: String): Tag
     applyTagging(
       name: String!

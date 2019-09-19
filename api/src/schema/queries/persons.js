@@ -72,6 +72,20 @@ const createPerson = async ({
   return _getRecord(query, params);
 };
 
+const updatePerson = async ({ id, ...rest }) => {
+  const operations = Object.entries(rest)
+    .map(([k, v]) => `SET p.${k} = {${k}}`)
+    .join("\n");
+
+  const query = `
+    MATCH (p:Person {id: {id}})
+    ${operations}
+    RETURN p
+    `;
+
+  return _getRecord(query, { id, ...rest });
+};
+
 const searchPersons = term => {
   const query = `
     MATCH (p:Person)
@@ -88,5 +102,6 @@ const searchPersons = term => {
 
 module.exports = {
   searchPersons,
-  createPerson
+  createPerson,
+  updatePerson
 };

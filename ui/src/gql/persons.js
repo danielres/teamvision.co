@@ -24,6 +24,28 @@ export const CREATE_PERSON = gql`
   }
 `;
 
+export const UPDATE_PERSON = gql`
+  mutation updatePerson(
+    $id: ID!,
+    $email: String,
+    $name: String,
+    $picture: String,
+    $headline: String,
+    $currentPosition: String
+  ) {
+    updatePerson(
+      id: $id,
+      email: $email,
+      name: $name,
+      picture: $picture,
+      headline: $headline
+      currentPosition: $currentPosition
+      ) {
+      ${personFields}
+    }
+  }
+`;
+
 export const GET_PERSONS = gql`
   {
     persons {
@@ -35,6 +57,7 @@ export const GET_PERSONS = gql`
 export const GET_PERSON_WITH_TAGGINGS = gql`
   query($id: ID) {
     person(id: $id) {
+      id
       email
       headline
       currentPosition

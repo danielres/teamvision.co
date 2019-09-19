@@ -10,6 +10,7 @@ const {
   getTagTreeData,
   searchPersons,
   createPerson,
+  updatePerson,
   createCurrentUserPerson,
   searchTags,
   createTag,
@@ -92,6 +93,7 @@ const resolvers = {
 
   Mutation: {
     createPerson: (obj, args, vars) => createPerson(args),
+    updatePerson: (obj, args, vars) => updatePerson(args),
     createTag: (obj, args, vars) => createTag(args),
     applyTagging: (obj, args, vars) => applyTagging(args),
     setTagOn: (obj, args, vars) => setTagOn(args),
