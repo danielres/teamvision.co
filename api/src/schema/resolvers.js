@@ -13,6 +13,7 @@ const {
   createCurrentUserPerson,
   searchTags,
   createTag,
+  getTaggingsByTagName,
   applyTagging,
   updateTagging,
   setTagOn,
@@ -79,6 +80,10 @@ const resolvers = {
       }));
       return taggings;
     }
+  },
+
+  Tag: {
+    taggings: (tag, args, vars) => getTaggingsByTagName({ tagName: tag.name })
   },
 
   TaggingRelationshipTarget: {

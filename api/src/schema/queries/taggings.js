@@ -92,6 +92,25 @@ const applyTagging = async ({
   return { ...tagging, tag, target: { label: targetLabel, ...target } };
 };
 
+const getTaggingsByTagName = async ({ tagName }) => {
+  const query = `
+    MATCH (tag:Tag {name: {tagName}}) -[tagging:TAGGING]-> (target: Person)
+    RETURN tagging, target
+    ORDER BY tagging.level DESC
+  `;
+  const params = { tagName };
+  const session = driver.session();
+  const { records } = await session.run(query, params);
+  session.close();
+
+  const taggings = records.map(r => ({
+    ...r.get(0).properties,
+    target: { ...r.get(1).properties, label: "Person" }
+  }));
+
+  return taggings;
+};
+
 const setTagOn = async ({ tagName, on, targetType, targetId }) => {
   const existingTag = (await searchTags(tagName))[0];
   if (!existingTag) await createTag({ name: tagName });
@@ -176,6 +195,7 @@ const updateTagging = async ({ id, level, description }) => {
 
 module.exports = {
   applyTagging,
+  getTaggingsByTagName,
   setTagOn,
   setTagParent,
   updateTagging

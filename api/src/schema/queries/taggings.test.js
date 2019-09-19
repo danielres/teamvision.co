@@ -5,7 +5,12 @@ const deleteAllRecords = require("./deleteAllRecords");
 const { setTagParent } = require("./taggings");
 
 const getTagTreeData = require("./getTagTreeData");
-const { applyTagging, setTagOn, updateTagging } = require("./taggings");
+const {
+  applyTagging,
+  getTaggingsByTagName,
+  setTagOn,
+  updateTagging
+} = require("./taggings");
 const { createPerson } = require("./persons");
 const { createTag, searchTags } = require("./tags");
 
@@ -111,6 +116,55 @@ test("setTagOn() creates a Tagging relationship with an existing, or a new tag",
     }
   });
 
+  assert.end();
+});
+
+test("getTaggingsByTagName({tagName}) returns all taggings for a given tag", async assert => {
+  await deleteAllRecords();
+  const tag = await createTag({ name: "Frontend" });
+  const person = await createPerson({ email: "tom@example.com", name: "Tom" });
+
+  const tagging1 = await setTagOn({
+    tagName: "Frontend",
+    on: "skills",
+    targetType: "Person",
+    targetId: person.id
+  });
+
+  const tagging2 = await setTagOn({
+    tagName: "Frontend",
+    on: "motivations",
+    targetType: "Person",
+    targetId: person.id
+  });
+
+  const expected = [
+    {
+      description: "",
+      id: tagging2.id,
+      on: "motivations",
+      target: {
+        name: "Tom",
+        email: "tom@example.com",
+        id: person.id,
+        label: "Person"
+      }
+    },
+    {
+      description: "",
+      id: tagging1.id,
+      on: "skills",
+      target: {
+        name: "Tom",
+        email: "tom@example.com",
+        id: person.id,
+        label: "Person"
+      }
+    }
+  ];
+
+  const actual = await getTaggingsByTagName({ tagName: "Frontend" });
+  assert.deepEqual(actual, expected);
   assert.end();
 });
 

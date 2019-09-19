@@ -8,6 +8,7 @@ const { searchPersons, createPerson } = require("./persons");
 const { searchTags, createTag } = require("./tags");
 const {
   applyTagging,
+  getTaggingsByTagName,
   setTagOn,
   setTagParent,
   updateTagging
@@ -32,6 +33,7 @@ module.exports = {
   createTag,
   // taggings
   applyTagging,
+  getTaggingsByTagName,
   setTagOn,
   setTagParent,
   updateTagging,

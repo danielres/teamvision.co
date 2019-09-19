@@ -101,6 +101,7 @@ const typeDefs = /* GraphQL */ `
     description: String
     created: String
     label: String!
+    taggings: [TaggingRelationship]!
   }
 `;
 
