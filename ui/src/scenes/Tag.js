@@ -71,18 +71,8 @@ const Tag = ({ match, location, history }) => {
 
         <div className="w-full">
           <section className="card ">
-            <table className="spaced w-full">
-              <tbody>
-                <tr className="mb-6">
-                  <th className="">Name</th>
-                  <td className="">{data.tag.name}</td>
-                </tr>
-                <tr className="mb-6">
-                  <th className="">Description</th>
-                  <td className="">{data.tag.description}</td>
-                </tr>
-              </tbody>
-            </table>
+            <h2 className="text-lg mb-4">{data.tag.name}</h2>
+            <div className="text-gray-700">{data.tag.description}</div>
           </section>
 
           {motivations.length > 0 && (
