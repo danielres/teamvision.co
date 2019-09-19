@@ -78,7 +78,7 @@ const Person = ({ match, location, history }) => {
     variables: { id: personId }
   });
 
-  if (!data.person && loading) return <p className="card">Loading...</p>;
+  if (loading) return <p className="card">Loading...</p>;
   if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>;
 
   const motivations = data.person.taggings.filter(t => t.on === "motivations");
