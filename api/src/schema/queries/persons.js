@@ -30,6 +30,7 @@ const PersonSchema = yup.object().shape({
 
 const createPerson = async ({ email, name, picture }) => {
   const params = {
+    createdAt: new Date().toISOString(),
     email,
     name,
     picture: picture && picture.length ? picture : null,
@@ -47,6 +48,7 @@ const createPerson = async ({ email, name, picture }) => {
     SET p.email = {email}
     SET p.name = {name}
     SET p.picture = {picture}
+    SET p.createdAt = {createdAt}
     RETURN p
     `;
   return _getRecord(query, params);

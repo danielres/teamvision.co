@@ -89,6 +89,7 @@ test("setTagOn() creates a Tagging relationship with an existing, or a new tag",
     target: {
       label: "Person",
       name: "Tom",
+      createdAt: person.createdAt,
       email: "tom@example.com",
       id: person.id
     }
@@ -111,6 +112,7 @@ test("setTagOn() creates a Tagging relationship with an existing, or a new tag",
     target: {
       label: "Person",
       name: "Tom",
+      createdAt: person.createdAt,
       email: "tom@example.com",
       id: person.id
     }
@@ -145,6 +147,7 @@ test("getTaggingsByTagName({tagName}) returns all taggings for a given tag", asy
       on: "motivations",
       target: {
         name: "Tom",
+        createdAt: person.createdAt,
         email: "tom@example.com",
         id: person.id,
         label: "Person"
@@ -156,6 +159,7 @@ test("getTaggingsByTagName({tagName}) returns all taggings for a given tag", asy
       on: "skills",
       target: {
         name: "Tom",
+        createdAt: person.createdAt,
         email: "tom@example.com",
         id: person.id,
         label: "Person"

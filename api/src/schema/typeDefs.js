@@ -57,7 +57,7 @@ const typeDefs = /* GraphQL */ `
     email: String!
     name: String
     picture: String
-    created: String
+    createdAt: String
     label: String!
     taggings: [TaggingRelationship]!
   }
