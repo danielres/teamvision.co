@@ -48,8 +48,8 @@ const createPerson = async ({
     email,
     name,
     picture: picture && picture.length ? picture : null,
-    headline,
-    currentPosition,
+    headline: headline || null,
+    currentPosition: currentPosition || null,
     personId: _genId()
   };
 
