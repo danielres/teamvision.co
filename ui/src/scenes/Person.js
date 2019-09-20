@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import classnames from "classnames";
 import React, { useState } from "react";
 import { withRouter } from "react-router";
@@ -7,7 +7,7 @@ import Avatar from "../components/Avatar";
 import Autosuggest from "../components/forms/TagAutoSuggest";
 import Level from "../components/taggings/Level";
 import { GET_PERSON_WITH_TAGGINGS, UPDATE_PERSON } from "../gql/persons";
-import { formatRelative } from "date-fns";
+import { formatDate } from "../utils/dates";
 
 const TaggingsTable = ({ personId, taggings, colorClass = "" }) => (
   <div className="table w-full">
@@ -84,7 +84,6 @@ const Person = ({ match, location, history }) => {
 
   const motivations = data.person.taggings.filter(t => t.on === "motivations");
   const skills = data.person.taggings.filter(t => t.on === "skills");
-  const now = new Date();
 
   return (
     <div>
@@ -119,7 +118,7 @@ const Person = ({ match, location, history }) => {
             <div className="flex items-baseline">
               <div className="w-32 text-gray-700">Added</div>
               <div className="text-black py-1">
-                {formatRelative(new Date(data.person.createdAt), now)}
+                {formatDate(data.person.createdAt)}
               </div>
             </div>
           </div>

@@ -1,12 +1,11 @@
 import classnames from "classnames";
 import React from "react";
 import { ContainerQuery } from "react-container-query";
-import { formatRelative } from "date-fns";
+import { formatDate } from "../utils/dates";
 
 const renderItem = ({ item, k }) => {
   const now = new Date();
-  if (["createdAt", "updatedAt"].includes(k))
-    return formatRelative(new Date(item[k]), now);
+  if (["createdAt", "updatedAt"].includes(k)) return formatDate(item[k]);
   return item[k] || <span className="text-gray-500">—</span>;
 };
 
