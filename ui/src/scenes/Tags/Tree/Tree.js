@@ -47,7 +47,7 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
     <div>
       <nav className="mb-4">
         <div className="flex">
-          <div className=" w-3/4">
+          <div className="w-3/4">
             <ul className="inline-block">
               {treeData
                 .filter(n => n.children)
@@ -71,7 +71,7 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
           </div>
 
           {orphans.length > 0 && (
-            <ul className="inline-block w-1/4">
+            <ul className="md:w-1/4 text-right">
               <li className="inline-block">
                 <button
                   className={classnames(
