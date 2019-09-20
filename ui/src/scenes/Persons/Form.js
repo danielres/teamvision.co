@@ -6,7 +6,13 @@ import { CREATE_PERSON, GET_PERSONS } from "../../gql/persons";
 
 export default function CreatePerson({
   ButtonDone,
-  initialValues: { email, name, picture, headline, currentPosition } = {}
+  initialValues: {
+    email = "",
+    name = "",
+    picture = "",
+    headline = "",
+    currentPosition = ""
+  } = {}
 }) {
   const initialValues = { email, name, picture };
   const [values, setValues] = useState(initialValues);
