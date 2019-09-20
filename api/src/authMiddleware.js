@@ -12,7 +12,11 @@ module.exports = async (req, res, next) => {
     const decoded = await verifyToken(token);
 
     const expires = new Date(decoded.exp * 1000);
-    res.cookie("teamvis_jwt", token, { expires, httpOnly: true });
+    res.cookie("teamvis_jwt", token, {
+      expires,
+      httpOnly: true,
+      ...(env.NODE_ENV === "production" && { secure: true })
+    });
     res.cookie("teamvis_authenticated", true, { expires });
 
     req.isAuthenticated = true;
