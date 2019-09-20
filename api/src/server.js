@@ -23,8 +23,8 @@ app.get("/authenticate", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  res.cookie("uptal_jwt", "", { expires: new Date(0) });
-  res.cookie("uptal_authenticated", "", { expires: new Date(0) });
+  res.cookie("teamvis_jwt", "", { expires: new Date(0) });
+  res.cookie("teamvis_authenticated", "", { expires: new Date(0) });
   res.end();
 });
 

@@ -14,7 +14,7 @@ const logout = () => fetch("/logout").then(reload);
 
 export default function({ children, ...initOptions }) {
   const auth0 = useAuth0();
-  const isAuthenticated = Cookies.get("uptal_authenticated");
+  const isAuthenticated = Cookies.get("teamvis_authenticated");
 
   const login = () =>
     auth0

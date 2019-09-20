@@ -4,7 +4,7 @@ const { AuthenticationError } = require("apollo-server-express");
 const env = require("./env");
 
 module.exports = async (req, res, next) => {
-  const token = req.headers.authorization || req.cookies.uptal_jwt;
+  const token = req.headers.authorization || req.cookies.teamvis_jwt;
 
   if (!token) return next();
 
@@ -12,8 +12,8 @@ module.exports = async (req, res, next) => {
     const decoded = await verifyToken(token);
 
     const expires = new Date(decoded.exp * 1000);
-    res.cookie("uptal_jwt", token, { expires, httpOnly: true });
-    res.cookie("uptal_authenticated", true, { expires });
+    res.cookie("teamvis_jwt", token, { expires, httpOnly: true });
+    res.cookie("teamvis_authenticated", true, { expires });
 
     req.isAuthenticated = true;
 
