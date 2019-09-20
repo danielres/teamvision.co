@@ -64,10 +64,11 @@ const EditableField = ({ object, field }) => {
     );
   return (
     <div
-      className="hover:bg-yellow-200 inline-block py-1"
+      className="hover:bg-yellow-200 inline-block py-1 cursor-pointer"
       onClick={() => setIsEditing(true)}
+      style={{ minWidth: "7rem" }}
     >
-      {object[field]}
+      {object[field] || <div className="text-gray-500 w-1/2 block">—</div>}
     </div>
   );
 };
