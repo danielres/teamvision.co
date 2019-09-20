@@ -1,10 +1,17 @@
-import React from "react";
-import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
 import { useQuery } from "@apollo/react-hooks";
 import truncate from "lodash/truncate";
+import React from "react";
 import Avatar from "../components/Avatar";
-import { upperFirst } from "../utils/strings";
 import { GET_CURRENT_USER_INFO } from "../gql/user";
+import { formatDate } from "../utils/dates";
+import { upperFirst } from "../utils/strings";
+
+const format = ({ key, value }) => {
+  if (["createdAt", "updatedAt", "created_at", "updated_at"].includes(key))
+    return formatDate(value);
+
+  return truncate(value, { length: 60, separator: "&hellip;" });
+};
 
 export default function() {
   const { loading, error, data } = useQuery(GET_CURRENT_USER_INFO);
@@ -14,28 +21,25 @@ export default function() {
 
   return (
     <section className="card">
-      <div className="flex">
-        <div className="w-64 mr-6 pr-6">
-          <Avatar src={data.userInfo.picture} />
+      <div className="md:flex">
+        <div className="text-center">
+          <div className="w-24 h-24 md:w-48 md:h-48 inline-block mb-2 md:mt-6">
+            <Avatar size="full" src={data.userInfo.picture} />
+          </div>
         </div>
 
-        <div className="mb-4 w-full">
+        <div className="mb-4 w-full md:ml-4">
           <h2 className="text-lg ">Authentication data (Private)</h2>
           <div className="bg-gray-100 p-4 border rounded text-gray-700 ">
             {Object.entries(data.userInfo)
               .filter(([k, v]) => !k.startsWith("__"))
-              .map(([k, v]) => (
-                <div className="flex mb-1" key={k}>
-                  <div className="w-64">{upperFirst(k.replace("_", " "))}</div>
-                  <div>
-                    {String(v).startsWith("http") ? (
-                      <a href={v} title={v} target="__blank">
-                        {truncate(v, { length: 60, separator: "&hellip;" })}
-                      </a>
-                    ) : (
-                      truncate(v, { length: 60, separator: "&hellip;" })
-                    )}
+              .filter(([k, v]) => !String(v).startsWith("http"))
+              .map(([key, value]) => (
+                <div className="flex mb-1" key={key}>
+                  <div className="w-1/2">
+                    {upperFirst(key.replace("_", " "))}
                   </div>
+                  <div>{format({ key, value })}</div>
                 </div>
               ))}
           </div>
