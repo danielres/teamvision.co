@@ -98,8 +98,11 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
             .filter(n => n.children)
             .filter(({ title }) => filters.includes(title))
             .map(rootNode => (
-              <div key={rootNode.title} className=" inline-block w-full p-2">
-                <div className="border border-transparent hover:border-gray-400 rounded p-2">
+              <div key={rootNode.title} className="inline-block w-full py-2">
+                <div
+                  className="border border-transparent hover:border-gray-400 rounded p-2"
+                  style={{ position: "relative", top: -2 }}
+                >
                   <h2 className="font-semibold">
                     <Link
                       className="block px-2 py-1 hover:bg-yellow-200"
@@ -121,7 +124,7 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
         </div>
 
         {enableOrphans && (
-          <div className="w-1/4 border-l pl-4">
+          <div className="w-1/4 border-l pl-4 pt-4">
             {orphans.map(orphan => (
               <div key={orphan.title}>
                 <Link
