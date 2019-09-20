@@ -89,7 +89,24 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
         </div>
       </nav>
 
-      <div className="flex">
+      <div className="md:flex md:flex-row-reverse">
+        {enableOrphans && (
+          <div className="md:w-1/4 md:border-l md:pl-4 pt-4">
+            <div className="font-semibold md:hidden">Orphans</div>
+            {orphans.map(orphan => (
+              <div key={orphan.title}>
+                <Link
+                  className="inline-block hover:bg-yellow-200 px-2 py-1 leading-tight "
+                  to={`/tags/${orphan.title}`}
+                >
+                  {orphan.title}
+                </Link>
+              </div>
+            ))}
+            <hr className="my-4 md:hidden" />
+          </div>
+        )}
+
         <div
           className={enableOrphans ? "w-3/4" : "w-full"}
           style={{ columns: "4 200px", columnGap: "0" }}
@@ -122,21 +139,6 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
               </div>
             ))}
         </div>
-
-        {enableOrphans && (
-          <div className="w-1/4 border-l pl-4 pt-4">
-            {orphans.map(orphan => (
-              <div key={orphan.title}>
-                <Link
-                  className="inline-block hover:bg-yellow-200 px-2 py-1 leading-tight "
-                  to={`/tags/${orphan.title}`}
-                >
-                  {orphan.title}
-                </Link>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
