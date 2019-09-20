@@ -5,12 +5,14 @@ const { ApolloServer } = require("apollo-server-express");
 const path = require("path");
 
 const authMiddleware = require("./authMiddleware");
+const sslRedirect = require("./sslRedirectMiddleware");
 const env = require("./env");
 const schema = require("./schema");
 const neo4jDriver = require("./neo4jDriver");
 const morgan = require("morgan");
 
 const app = express()
+  .use(sslRedirect())
   .use(cookieParser())
   .use(authMiddleware)
   .use(express.static(path.join(__dirname, "../frontend")))
