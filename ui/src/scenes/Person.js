@@ -87,14 +87,14 @@ const Person = ({ match, location, history }) => {
 
   return (
     <div>
-      <section className="w-full card flex">
-        <div>
-          <div className="w-24 h-24 md:w-48 md:h-48">
+      <section className="w-full card md:flex">
+        <div className="text-center">
+          <div className="w-24 h-24 md:w-48 md:h-48 inline-block">
             <Avatar size="full" src={data.person.picture} />
           </div>
         </div>
 
-        <div className="w-full ml-8 md:pl-4">
+        <div className="w-full md:ml-8 md:pl-4">
           <div className="mb-4 leading-tight">
             <h2 className="text-lg md:text-xl">
               <EditableField object={data.person} field="name" />
