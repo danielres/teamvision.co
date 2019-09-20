@@ -39,7 +39,8 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
   const toggleFilter = filter =>
     filters.includes(filter) ? removeFilter(filter) : addFilter(filter);
 
-  const [enableOrphans, setEnableOrphans] = useState(true);
+  const orphans = treeData.filter(n => !n.children);
+  const [enableOrphans, setEnableOrphans] = useState(orphans.length > 0);
   const toggleOrphans = () => setEnableOrphans(!enableOrphans);
 
   return (
@@ -69,20 +70,22 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
             </ul>
           </div>
 
-          <ul className="inline-block w-1/4">
-            <li className="inline-block">
-              <button
-                className={classnames(
-                  "ml-4",
-                  c.filter,
-                  enableOrphans ? c.filter_active : c.filter_inactive
-                )}
-                onClick={toggleOrphans}
-              >
-                Orphans
-              </button>
-            </li>
-          </ul>
+          {orphans.length > 0 && (
+            <ul className="inline-block w-1/4">
+              <li className="inline-block">
+                <button
+                  className={classnames(
+                    "ml-4",
+                    c.filter,
+                    enableOrphans ? c.filter_active : c.filter_inactive
+                  )}
+                  onClick={toggleOrphans}
+                >
+                  Orphans
+                </button>
+              </li>
+            </ul>
+          )}
         </div>
       </nav>
 
@@ -119,18 +122,16 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
 
         {enableOrphans && (
           <div className="w-1/4 border-l pl-4">
-            {treeData
-              .filter(n => !n.children)
-              .map(orphan => (
-                <div key={orphan.title}>
-                  <Link
-                    className="inline-block hover:bg-yellow-200 px-2 py-1 leading-tight "
-                    to={`/tags/${orphan.title}`}
-                  >
-                    {orphan.title}
-                  </Link>
-                </div>
-              ))}
+            {orphans.map(orphan => (
+              <div key={orphan.title}>
+                <Link
+                  className="inline-block hover:bg-yellow-200 px-2 py-1 leading-tight "
+                  to={`/tags/${orphan.title}`}
+                >
+                  {orphan.title}
+                </Link>
+              </div>
+            ))}
           </div>
         )}
       </div>
