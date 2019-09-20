@@ -20,7 +20,10 @@ export default ({ items, onRowClick, rows }) => {
       }}
     >
       {params => (
-        <table className={classnames(params, "striped w-full")} role="table">
+        <table
+          className={classnames(params, "striped w-full text-sm md:text-base")}
+          role="table"
+        >
           <thead>
             <tr role="row">
               {Object.values(rows).map((text, i) => (
