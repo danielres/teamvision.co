@@ -17,12 +17,13 @@ const Hr = () => <div className="border-b border-teal-400 my-4" />;
 export default () => {
   const { logout } = useAuth();
   const [isBurgerNavOpen, setIsBurgerNavOpen] = useState(false);
+  const close = () => setIsBurgerNavOpen(false);
 
   const onBurgerClick = () => setIsBurgerNavOpen(!isBurgerNavOpen);
 
   return (
     <nav className="flex items-baseline justify-between flex-wrap bg-teal-500 p-6 shadow-md">
-      <div className="flex flex-shrink-0 text-white mr-6">
+      <div className="flex flex-shrink-0 text-teal-200 mr-6">
         {/* TODO: insert svg logo here */}
         <Link to="/" className="font-semibold text-lg">
           Teamvision
@@ -45,6 +46,7 @@ export default () => {
             to="/persons"
             className={classnames(c.link, "mt-4")}
             activeClassName={c.link_active}
+            onClick={close}
           >
             Persons
           </NavLink>
@@ -53,6 +55,7 @@ export default () => {
             to="/tags"
             className={classnames(c.link, "mt-4")}
             activeClassName={c.link_active}
+            onClick={close}
           >
             Tags
           </NavLink>
@@ -65,6 +68,7 @@ export default () => {
             to="/profile"
             className={c.link}
             activeClassName={c.link_active}
+            onClick={close}
           >
             Profile
           </NavLink>
