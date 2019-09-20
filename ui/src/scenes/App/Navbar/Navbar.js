@@ -23,7 +23,7 @@ export default () => {
   const onBurgerClick = () => setIsBurgerNavOpen(!isBurgerNavOpen);
 
   return (
-    <nav className="flex items-baseline justify-between flex-wrap bg-teal-500 px-6 py-2 shadow-md">
+    <nav className="flex items-baseline justify-between flex-wrap bg-teal-500 px-4 py-2 shadow-md">
       <div className="flex flex-shrink-0 text-teal-200 mr-6">
         {/* TODO: insert svg logo here */}
         <Link to="/" className={classnames(c.link, "text-lg")}>

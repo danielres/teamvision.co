@@ -12,7 +12,7 @@ body {
 }
 
 .card {
-  @apply bg-white shadow-md rounded px-6 py-6 mb-4;
+  @apply bg-white shadow-md rounded px-4 py-4 mb-4;
 }
 
 .btn {

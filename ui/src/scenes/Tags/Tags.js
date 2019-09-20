@@ -34,7 +34,7 @@ const Tags = ({ history }) => {
             Add tag
           </button>
           <button
-            className="btn bg-white mb-4 shadow mr-6 md:mr-0"
+            className="btn bg-white mb-4 shadow mr-4 md:mr-0"
             onClick={() => history.push("/tags?tab=manage")}
           >
             Manage
