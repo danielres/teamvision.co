@@ -7,7 +7,7 @@ const renderItem = ({ item, k }) => {
   const now = new Date();
   if (["createdAt", "updatedAt"].includes(k))
     return formatRelative(new Date(item[k]), now);
-  return item[k];
+  return item[k] || <span className="text-gray-500">—</span>;
 };
 
 export default ({ items, onRowClick, rows }) => {
@@ -23,8 +23,8 @@ export default ({ items, onRowClick, rows }) => {
         <table className={classnames(params, "striped w-full")} role="table">
           <thead>
             <tr role="row">
-              {Object.values(rows).map(text => (
-                <th key={text} role="columnheader">
+              {Object.values(rows).map((text, i) => (
+                <th key={text + i} role="columnheader">
                   {text}
                 </th>
               ))}
