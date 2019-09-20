@@ -6,7 +6,7 @@ import SortableTree, {
   toggleExpandedForAll
 } from "react-sortable-tree";
 import "react-sortable-tree/style.css";
-import Form from "../Form";
+import Form from "./Form";
 import getTreeFromFlatData from "../getTreeFromFlatData";
 import { SET_TAG_PARENT } from "../../../gql/tags";
 

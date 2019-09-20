@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import Form from "./Form";
 import Manager from "./Manager";
 import Tree from "./Tree";
 
@@ -17,22 +16,10 @@ const Tags = ({ history }) => {
 
   return (
     <>
-      {tab === "form" && (
-        <div className="card">
-          <Form ButtonDone={ButtonDone} />
-        </div>
-      )}
-
       {tab === "manage" && <Manager ButtonDone={ButtonDone} />}
 
       {tab === "default" && (
         <div className="text-right">
-          <button
-            className="btn bg-white mb-4 shadow mr-2"
-            onClick={() => history.push("/tags?tab=form")}
-          >
-            Add tag
-          </button>
           <button
             className="btn bg-white mb-4 shadow mr-4 md:mr-0"
             onClick={() => history.push("/tags?tab=manage")}
