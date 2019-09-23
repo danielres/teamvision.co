@@ -53,6 +53,24 @@ class TagAutoSuggest extends React.Component {
     this.setState({ suggestions: [] });
   };
 
+  onSuggestionSelected = e => {
+    const tagName = e.target.value
+      ? e.target.value // set when using ENTER
+      : e.target.innerText; // set when clicking on the suggestion
+
+    this.props
+      .setTagOn({
+        variables: {
+          tagName,
+          on: this.props.on,
+          targetType: this.props.type,
+          targetId: this.props.id
+        }
+      })
+      .then(this.props.onSuccess)
+      .then(() => this.setState({ value: "" }));
+  };
+
   render() {
     const { value, suggestions } = this.state;
     const { on } = this.props;
@@ -71,19 +89,7 @@ class TagAutoSuggest extends React.Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          onSuggestionSelected={e => {
-            this.props
-              .setTagOn({
-                variables: {
-                  tagName: e.target.innerText,
-                  on: this.props.on,
-                  targetType: this.props.type,
-                  targetId: this.props.id
-                }
-              })
-              .then(this.props.onSuccess)
-              .then(() => this.setState({ value: "" }));
-          }}
+          onSuggestionSelected={this.onSuggestionSelected}
           renderSuggestion={renderSuggestion}
         />
       </div>
