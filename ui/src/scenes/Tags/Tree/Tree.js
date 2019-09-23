@@ -7,7 +7,7 @@ import getTreeFromFlatData from "../getTreeFromFlatData";
 const RenderNode = ({ node }) => (
   <li>
     <Link
-      className="inline-block hover:bg-yellow-200 px-2 py-1 leading-tight "
+      className="inline-block hover:bg-teal-100 px-2 py-1 leading-tight "
       to={`/tags/${node.title}`}
     >
       {node.title}
@@ -96,7 +96,7 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
             {orphans.map(orphan => (
               <div key={orphan.title}>
                 <Link
-                  className="inline-block hover:bg-yellow-200 px-2 py-1 leading-tight "
+                  className="inline-block hover:bg-teal-100 px-2 py-1 leading-tight "
                   to={`/tags/${orphan.title}`}
                 >
                   {orphan.title}
@@ -122,7 +122,7 @@ export default ({ ButtonDone, flatTreeData: { tags, taggings }, history }) => {
                 >
                   <h2 className="font-semibold">
                     <Link
-                      className="block px-2 py-1 hover:bg-yellow-200"
+                      className="block px-2 py-1 hover:bg-teal-100"
                       to={`/tags/${rootNode.title}`}
                     >
                       {rootNode.title}

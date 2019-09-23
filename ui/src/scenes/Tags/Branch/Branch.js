@@ -8,7 +8,7 @@ const RenderNode = ({ current, node }) => (
   <li>
     <Link
       className={classnames("px-2 py-1", {
-        "bg-yellow-200": node.title === current
+        "bg-teal-100": node.title === current
       })}
       to={`/tags/${node.title}`}
     >
@@ -48,7 +48,7 @@ export default ({ flatTreeData: { tags, taggings }, node: current }) => {
             <h2 className="font-semibold">
               <Link
                 className={classnames("px-2 py-1", {
-                  "bg-yellow-200": rootNode.title === current
+                  "bg-teal-100": rootNode.title === current
                 })}
                 to={`/tags/${rootNode.title}`}
               >
