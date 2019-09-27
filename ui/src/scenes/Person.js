@@ -33,6 +33,7 @@ const TaggingsTable = ({ personId, taggings, colorClass = "" }) => (
 );
 
 const EditableField = ({ object, field }) => {
+  // eslint-disable-next-line no-unused-vars
   const [updatePerson, response] = useMutation(UPDATE_PERSON);
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(object[field]);

@@ -4,7 +4,6 @@ import { ContainerQuery } from "react-container-query";
 import { formatDate } from "../utils/dates";
 
 const renderItem = ({ item, k }) => {
-  const now = new Date();
   if (["createdAt", "updatedAt"].includes(k)) return formatDate(item[k]);
   return item[k] || <span className="text-gray-500">—</span>;
 };

@@ -1,12 +1,11 @@
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost"; // or you can use `import gql from 'graphql-tag';` instead
+import classnames from "classnames";
 import React from "react";
 import { withRouter } from "react-router";
-import Branch from "./Tags/Branch";
-import classnames from "classnames";
 import { Link } from "react-router-dom";
 import Level from "../components/taggings/Level";
 import { GET_TAG_WITH_TAGGINGS } from "../gql/tags";
+import Branch from "./Tags/Branch";
 
 const TaggingsTable = ({ tagName, taggings, colorClass = "" }) => (
   <div className="table w-full">
