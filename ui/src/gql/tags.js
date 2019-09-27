@@ -53,6 +53,18 @@ export const GET_TAG_TREE_DATA = gql`
         all
         orphans
         roots
+        metrics {
+          motivations {
+            tag
+            level
+            count
+          }
+          skills {
+            tag
+            level
+            count
+          }
+        }
       }
       taggings {
         id

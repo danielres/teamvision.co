@@ -187,7 +187,7 @@ const updateTagging = async ({ id, level, description }) => {
   };
 
   if (level === null) await removeTaggingLevel({ id });
-  if (level) await setTaggingLevel({ id, level });
+  if (Number.isInteger(level)) await setTaggingLevel({ id, level });
   if (description) await setTaggingDescription({ id, description });
 
   return findTaggingById({ id });

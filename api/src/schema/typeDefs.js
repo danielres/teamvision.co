@@ -92,6 +92,18 @@ const typeDefs = /* GraphQL */ `
     all: [String!]
     orphans: [String!]
     roots: [String!]
+    metrics: Metrics
+  }
+
+  type Metrics {
+    skills: [Metric]
+    motivations: [Metric]
+  }
+
+  type Metric {
+    tag: String!
+    level: Int
+    count: Int
   }
 
   type TagTreeDataTagging {
