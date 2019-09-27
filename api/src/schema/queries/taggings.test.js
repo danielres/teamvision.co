@@ -30,7 +30,8 @@ test("setTagParent() creates, replaces or deletes the Tagging relationship", asy
     tags: {
       all: ["Child", "Parent", "Root"],
       orphans: ["Root"],
-      roots: ["Root"]
+      roots: ["Root"],
+      metrics: { skills: [], motivations: [] }
     },
     taggings: [
       { id: p_c.id, src: "Parent", tgt: "Child" },
@@ -47,7 +48,8 @@ test("setTagParent() creates, replaces or deletes the Tagging relationship", asy
     tags: {
       all: ["Child", "Parent", "Root"],
       orphans: ["Parent", "Root"],
-      roots: ["Parent"]
+      roots: ["Parent"],
+      metrics: { skills: [], motivations: [] }
     },
     taggings: [{ id: p_c.id, src: "Parent", tgt: "Child" }]
   });
@@ -61,7 +63,8 @@ test("setTagParent() creates, replaces or deletes the Tagging relationship", asy
     tags: {
       all: ["Child", "Parent", "Root"],
       orphans: ["Parent", "Root"],
-      roots: ["Root"]
+      roots: ["Root"],
+      metrics: { skills: [], motivations: [] }
     },
     taggings: [{ id: r_c.id, src: "Root", tgt: "Child" }]
   });

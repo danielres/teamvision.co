@@ -4,13 +4,80 @@ import { Link } from "react-router-dom";
 import "react-sortable-tree/style.css";
 import getTreeFromFlatData from "../getTreeFromFlatData";
 
+const sum = arr => arr.reduce((a, b) => a + b, 0);
+const max = arr => Math.max(...arr);
+
+const Graph = ({ items, type }) => {
+  const personsCount = sum(items.map(i => i.count));
+  const maxPersonsPerItem = max(items.map(i => i.count));
+  const levels = [20, 40, 60, 80, 100];
+
+  return (
+    <div
+      className="flex items-baseline"
+      style={{ position: "relative", top: -3 }}
+      title={`${personsCount} ${
+        personsCount === 1 ? "person has" : "persons have"
+      }  this ${type}`}
+    >
+      <div className="mr-1 inline-block font-semibold">{personsCount}</div>
+
+      <div className="flex inline-block text-white">
+        <div
+          className="whitespace-no-wrap"
+          style={{
+            paddingTop: 6,
+            paddingBottom: 0,
+            position: "relative",
+            height: "1rem"
+          }}
+        >
+          {levels.map(l => {
+            const item = items.find(i => i.level === l);
+            const count = item ? item.count : 0;
+            return (
+              <div
+                className={classnames("inline-block overflow-hidden", {
+                  "bg-pink-500": type === "motivation",
+                  "bg-blue-500": type === "skill",
+                  "bg-gray-500": type !== "skill" && type !== "motivation"
+                })}
+                style={{
+                  marginRight: 2,
+                  height: `${(count / maxPersonsPerItem) * 100}%`,
+                  minHeight: 1,
+                  width: 3
+                }}
+              >
+                _
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const RenderNode = ({ node }) => (
   <li>
     <Link
-      className="inline-block hover:bg-teal-100 px-2 py-1 leading-tight "
+      className=" flex items-center inline-block hover:bg-teal-100 px-2 py-1 leading-tight "
       to={`/tags/${node.title}`}
     >
-      {node.title}
+      <span className="inline-block mr-1">{node.title}</span>
+
+      {node.motivations.length > 0 && (
+        <span className="rounded text-pink-500 text-xs inline-block px-1">
+          <Graph items={node.motivations} type="motivation" />
+        </span>
+      )}
+
+      {node.skills.length > 0 && (
+        <span className="rounded text-blue-500 text-xs inline-block px-1 ml-1">
+          <Graph items={node.skills} type="skill" />
+        </span>
+      )}
     </Link>
     {node.children && (
       <ul className="pl-4">
