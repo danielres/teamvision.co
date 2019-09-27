@@ -8,6 +8,7 @@
     "docker:up": "docker-compose up",
     "docker:reset": "docker-compose down && docker-compose rm -f",
     "docker:stop:all": "docker stop $(docker ps -aq)",
+    "seed": "node src/seeds/001_tags_web_development.js",
     "test:queries": "yarn test:queries:base | faucet",
     "test:queries:once": "yarn test:queries:base --once | faucet",
     "test:queries:base": "NODE_ENV=test tape-watch src/schema/queries/**/*.test.js",

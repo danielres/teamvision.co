@@ -1,20 +1,15 @@
 const { _genId } = require("../schema/queries/private");
 const driver = require("../neo4jDriver");
-const faker = require("faker");
+const descriptions = require("./data/tagDescriptions");
+
+const getDescription = tag => descriptions[String(tag).toLowerCase()] || "";
+
 const purgeDb = () => ({ query: `MATCH (n) DETACH DELETE n` });
 
-const rand = () =>
-  faker.random.number({
-    min: 1,
-    max: 5
-  });
-
-const paragraphs = () => faker.lorem.paragraphs(rand());
-
-const createTag = ({ description = paragraphs(), name }) => ({
+const createTag = ({ name }) => ({
   query:
     "CREATE (tag:Tag {description: {description}, name: {name}, id: {tagId} }) RETURN tag",
-  params: { description, name, tagId: _genId() }
+  params: { description: getDescription(name), name, tagId: _genId() }
 });
 
 const setTagChild = ({ src, tgt }) => ({
