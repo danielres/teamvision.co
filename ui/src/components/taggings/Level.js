@@ -1,7 +1,7 @@
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import classnames from "classnames";
 import React, { useRef, useState } from "react";
-import { UPDATE_TAGGING } from "../../gql/tags";
+import { GET_TAG_TREE_DATA, UPDATE_TAGGING } from "../../gql/tags";
 import useOnOutsideClick from "../../utils/useOnOutsideClick";
 
 const LEVELS = [0, 20, 40, 60, 80, 100];
@@ -27,12 +27,13 @@ const Level = ({ colorClass, tagging }) => {
   useOnOutsideClick(ref, close);
 
   const [updateTagging, response] = useMutation(UPDATE_TAGGING);
+  const { refetch } = useQuery(GET_TAG_TREE_DATA);
 
   const setLevel = level => {
     close();
     updateTagging({
       variables: { id: tagging.id, level }
-    });
+    }).then(refetch);
   };
 
   if (isOpen)
