@@ -35,7 +35,7 @@
     "neo4j-driver": "^1.7.5",
     "tape": "^4.11.0",
     "tape-watch": "^2.3.0",
-    "yup": "^0.27.0"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "faucet": "^0.0.1",
