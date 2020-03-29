@@ -31,7 +31,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^1.6.0",
     "morgan": "^1.9.1",
-    "nanoid": "^2.0.4",
+    "nanoid": "^3.0.2",
     "neo4j-driver": "^1.7.5",
     "tape": "^4.11.0",
     "tape-watch": "^2.3.0",
