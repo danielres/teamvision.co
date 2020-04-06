@@ -1,6 +1,7 @@
 import { wrapError } from "db-errors";
 import Knex from "knex";
 import Tenant from "./factories/Tenant";
+import Topic from "./factories/Topic";
 import knexfile from "./knexfile";
 
 let cached;
@@ -33,5 +34,6 @@ const purge = async () => {
 export default {
   close,
   purge,
-  Tenant: Tenant(getKnex())
+  Tenant: Tenant(getKnex()),
+  Topic: Topic(getKnex())
 };
