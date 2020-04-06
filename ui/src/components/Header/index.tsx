@@ -14,7 +14,8 @@ const css = {
       outer: `text-right`,
       item: `inline-block ml-4`
     }
-  }
+  },
+  spacer: `px-4 inline-block`
 };
 
 export default () => {
@@ -24,6 +25,12 @@ export default () => {
         <div className={css.cols.left.outer}>
           <Link className={css.buttons.text} to="/">
             Home
+          </Link>
+
+          <div className={css.spacer} />
+
+          <Link className={css.buttons.text} to="/topics">
+            Topics
           </Link>
         </div>
 
