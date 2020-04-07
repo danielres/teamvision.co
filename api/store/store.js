@@ -2,6 +2,7 @@ import { wrapError } from 'db-errors';
 import Knex from 'knex';
 import Tenant from './factories/Tenant';
 import Topic from './factories/Topic';
+import User from './factories/User';
 import knexfile from './knexfile';
 
 let cached;
@@ -32,4 +33,5 @@ export default {
   purge,
   Tenant: Tenant(getKnex()),
   Topic: Topic(getKnex()),
+  User: User(getKnex()),
 };
