@@ -1,6 +1,14 @@
 const isTest = process.env.NODE_ENV == 'test';
 
 export default {
+  auth: {
+    cookie: {
+      key1: process.env.AUTH_COOKIE_KEY1,
+      key2: process.env.AUTH_COOKIE_KEY2,
+      secure: process.env.AUTH_COOKIE_UNSECURE !== 'true',
+    },
+  },
+
   pg: {
     password: process.env.PG_PASSWORD,
     user: process.env.PG_USER,
