@@ -1,11 +1,11 @@
-import { NotNullViolationError, UniqueViolationError } from "db-errors";
-import { sortBy } from "lodash/fp";
-import store from "./store";
-import { samples } from "./test/support";
+import { NotNullViolationError, UniqueViolationError } from 'db-errors';
+import { sortBy } from 'lodash/fp';
+import store from './store';
+import { samples } from './test/support';
 
 const {
   tenants: { tenant1, tenant2 },
-  topics: { cooking, topic1_1, topic1_2, topic2_1, topic2_2 }
+  topics: { cooking, topic1_1, topic1_2, topic2_1, topic2_2 },
 } = samples;
 
 afterAll(store.close);
@@ -29,10 +29,7 @@ describe(`Topic(tenantId)`, () => {
 
       const actual = await Topic2.all();
 
-      expect(sortBy("name", actual).map(t => t.name)).toEqual([
-        "topic2-1",
-        "topic2-2"
-      ]);
+      expect(sortBy('name', actual).map(t => t.name)).toEqual(['topic2-1', 'topic2-2']);
 
       expect(actual.map(t => t.tenantId)).toEqual([tenantId2, tenantId2]);
 
@@ -46,9 +43,9 @@ describe(`Topic(tenantId)`, () => {
       const Topic = store.Topic(tenantId);
 
       const actual = await Topic.insert(cooking);
-      expect(actual).toHaveProperty("id");
-      expect(actual).toHaveProperty("createdAt");
-      expect(actual).toHaveProperty("updatedAt");
+      expect(actual).toHaveProperty('id');
+      expect(actual).toHaveProperty('createdAt');
+      expect(actual).toHaveProperty('updatedAt');
 
       expect(actual.name).toEqual(cooking.name);
       expect(actual.tenantId).toEqual(tenantId);
@@ -61,7 +58,7 @@ describe(`Topic(tenantId)`, () => {
         const Topic = store.Topic(tenantId);
 
         return Topic.insert({}).catch(e => {
-          expect(e.column).toEqual("name");
+          expect(e.column).toEqual('name');
           expect(e instanceof NotNullViolationError).toEqual(true);
         });
       });
@@ -77,8 +74,8 @@ describe(`Topic(tenantId)`, () => {
         await Topic2.insert(cooking);
 
         return Topic1.insert(cooking).catch(e => {
-          expect(e.columns).toEqual(["name", "tenantId"]);
-          expect(e.constraint).toEqual("topic_name_tenantid_unique");
+          expect(e.columns).toEqual(['name', 'tenantId']);
+          expect(e.constraint).toEqual('topic_name_tenantid_unique');
           expect(e instanceof UniqueViolationError).toEqual(true);
         });
       });

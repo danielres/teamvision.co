@@ -1,13 +1,13 @@
 export default knex => {
   const queries = {};
 
-  queries.all = () => knex("Tenant");
+  queries.all = () => knex('Tenant');
 
   queries.insert = async args =>
     (
-      await knex("Tenant")
+      await knex('Tenant')
         .insert(args)
-        .returning("*")
+        .returning('*')
     )[0];
 
   return queries;
