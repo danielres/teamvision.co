@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Route, Switch } from "react-router-dom";
-import Topics from "./components/Topics";
 import "regenerator-runtime/runtime";
 import Header from "./components/Header";
+import Topics from "./components/Topics";
 import "./global.css";
 import Providers from "./services/Providers";
 
