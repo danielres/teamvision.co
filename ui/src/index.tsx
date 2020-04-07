@@ -1,11 +1,11 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { Route, Switch } from "react-router-dom";
-import "regenerator-runtime/runtime";
-import Header from "./components/Header";
-import Topics from "./components/Topics";
-import "./global.css";
-import Providers from "./services/Providers";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Route, Switch } from 'react-router-dom';
+import 'regenerator-runtime/runtime';
+import Header from './components/Header';
+import Topics from './components/Topics';
+import './global.css';
+import Providers from './services/Providers';
 
 if (module.hot) module.hot.accept();
 
@@ -29,7 +29,7 @@ ReactDOM.render(
       </div>
     </div>
   </Providers>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );
 
 function Home() {

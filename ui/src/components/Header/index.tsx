@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-import buttons from "../../css/buttons";
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import buttons from '../../css/buttons';
 
 const css = {
   buttons,
@@ -8,14 +8,14 @@ const css = {
   cols: {
     outer: `flex justify-between`,
     left: {
-      outer: ``
+      outer: ``,
     },
     right: {
       outer: `text-right`,
-      item: `inline-block ml-4`
-    }
+      item: `inline-block ml-4`,
+    },
   },
-  spacer: `px-4 inline-block`
+  spacer: `px-4 inline-block`,
 };
 
 export default () => {
