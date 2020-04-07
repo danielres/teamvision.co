@@ -7,8 +7,9 @@ exports.up = async knex => {
         .primary()
         .defaultTo(knex.raw('uuid_generate_v4()'));
       t.uuid('tenantId');
-      t.string('name', 255).notNullable();
       t.string('email', 255).notNullable();
+      t.string('name', 255).notNullable();
+      t.string('password', 255).notNullable();
       t.timestamp('createdAt').defaultTo(knex.fn.now());
       t.timestamp('updatedAt');
       t.unique(['name', 'tenantId']);
