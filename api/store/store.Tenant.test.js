@@ -1,5 +1,10 @@
 import { NotNullViolationError, UniqueViolationError } from "db-errors";
 import store from "./store";
+import { samples } from "./test/support";
+
+const {
+  tenants: { tenant1, tenant2 }
+} = samples;
 
 afterAll(store.close);
 beforeEach(store.purge);
@@ -9,8 +14,8 @@ const { Tenant } = store;
 describe(`Tenant`, () => {
   describe(`all()`, () => {
     it("returns all", async done => {
-      await Tenant.insert({ name: "tenant1" });
-      await Tenant.insert({ name: "tenant2" });
+      await Tenant.insert(tenant1);
+      await Tenant.insert(tenant2);
       const actual = await Tenant.all();
       expect(actual.map(t => t.name).sort()).toEqual(["tenant1", "tenant2"]);
       done();
@@ -19,7 +24,7 @@ describe(`Tenant`, () => {
 
   describe(`insert()`, () => {
     it(`inserts a tenant`, async done => {
-      const actual = await Tenant.insert({ name: "tenant1" });
+      const actual = await Tenant.insert(tenant1);
 
       expect(actual).toHaveProperty("id");
       expect(actual).toHaveProperty("createdAt");
