@@ -9,6 +9,10 @@ export default {
     },
   },
 
+  bcrypt: {
+    saltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS) || 11,
+  },
+
   pg: {
     password: process.env.PG_PASSWORD,
     user: process.env.PG_USER,
