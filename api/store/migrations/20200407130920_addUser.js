@@ -3,14 +3,8 @@ const { onUpdateTrigger } = require('./helpers');
 exports.up = async knex => {
   return knex.schema
     .createTable('User', t => {
-      t.uuid('id')
-        .primary()
-        .defaultTo(knex.raw('uuid_generate_v4()'));
-      t.uuid('tenantId')
-        .notNullable()
-        .references('id')
-        .inTable('Tenant')
-        .onDelete('cascade');
+      t.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+      t.uuid('tenantId').notNullable().references('id').inTable('Tenant').onDelete('cascade');
       t.string('email', 255).notNullable();
       t.string('name', 255).notNullable();
       t.string('password', 255).notNullable();
