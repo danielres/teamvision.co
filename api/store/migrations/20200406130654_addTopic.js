@@ -6,8 +6,12 @@ exports.up = async knex => {
       t.uuid('id')
         .primary()
         .defaultTo(knex.raw('uuid_generate_v4()'));
+      t.uuid('tenantId')
+        .notNullable()
+        .references('id')
+        .inTable('Tenant')
+        .onDelete('cascade');
       t.string('name', 255).notNullable();
-      t.uuid('tenantId');
       t.timestamp('createdAt').defaultTo(knex.fn.now());
       t.timestamp('updatedAt');
       t.unique(['name', 'tenantId']);

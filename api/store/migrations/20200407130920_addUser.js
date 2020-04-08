@@ -6,7 +6,11 @@ exports.up = async knex => {
       t.uuid('id')
         .primary()
         .defaultTo(knex.raw('uuid_generate_v4()'));
-      t.uuid('tenantId');
+      t.uuid('tenantId')
+        .notNullable()
+        .references('id')
+        .inTable('Tenant')
+        .onDelete('cascade');
       t.string('email', 255).notNullable();
       t.string('name', 255).notNullable();
       t.string('password', 255).notNullable();
