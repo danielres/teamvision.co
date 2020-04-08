@@ -7,12 +7,14 @@ import knexfile from './knexfile';
 
 let cached;
 
-const getKnex = () =>
-  (cached = cached
-    ? cached
-    : new Knex(knexfile).on('query-error', e => {
-        throw wrapError(e);
-      }));
+const getKnex = () => {
+  cached =
+    cached ||
+    new Knex(knexfile).on('query-error', e => {
+      throw wrapError(e);
+    });
+  return cached;
+};
 
 const close = async () => {
   if (!cached) return;

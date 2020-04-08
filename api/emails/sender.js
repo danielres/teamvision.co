@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 export default {
   signUpSuccess: ({ name, email }) => {
     console.log('');

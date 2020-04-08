@@ -1,4 +1,4 @@
-const isTest = process.env.NODE_ENV == 'test';
+const isTest = process.env.NODE_ENV === 'test';
 
 export default {
   auth: {
@@ -10,7 +10,7 @@ export default {
   },
 
   bcrypt: {
-    saltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS) || 11,
+    saltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS, 10) || 11,
   },
 
   pg: {

@@ -2,7 +2,7 @@ import signUp from './mutations/signUp';
 
 const resolvers = {
   Query: {
-    topics: (parent, args, context) => {
+    topics: () => {
       return [];
     },
   },
