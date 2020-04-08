@@ -13,4 +13,12 @@ export const hashPassword = password => bcrypt.hash(password, saltRounds);
 
 export const verifyPassword = bcrypt.compare;
 
+export const reportError = error => {
+  console.error('');
+  console.error('== REPORT '.padEnd(70, '='));
+  console.error(error);
+  console.error(''.padEnd(70, '='));
+  console.error('');
+};
+
 export const sleep = duration => new Promise(resolve => setTimeout(resolve, duration));

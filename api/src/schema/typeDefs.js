@@ -8,6 +8,10 @@ const typeDefs = gql`
   type Topic {
     id: ID!
   }
+
+  type Mutation {
+    signUp(email: String!, name: String!, password: String!): Boolean!
+  }
 `;
 
 export default typeDefs;

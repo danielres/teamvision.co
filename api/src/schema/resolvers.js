@@ -1,10 +1,13 @@
-import store from '../../store/store';
+import signUp from './mutations/signUp';
 
 const resolvers = {
   Query: {
     topics: (parent, args, context) => {
       return [];
     },
+  },
+  Mutation: {
+    signUp,
   },
 };
 
