@@ -29,5 +29,6 @@ app.use(
 app.use(bundler.middleware());
 
 app.listen(config.devServerPort, () => {
+  // eslint-disable-next-line no-console
   console.log(`[UI] devServer: http://localhost:${config.devServerPort}`);
 });

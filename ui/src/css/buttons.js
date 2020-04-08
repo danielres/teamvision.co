@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 const base = `inline-block `;
 const link = `text-gray-600 rounded hover:underline `;
 const spacing = `py-2 px-4 `;

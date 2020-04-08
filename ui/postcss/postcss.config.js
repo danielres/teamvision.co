@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const purgecss = require('@fullhuman/postcss-purgecss')({
   content: ['./src/**/*.jsx', './src/**/*.tsx', './src/**/*.js', './**/*.html'],
   css: ['./src/**/*.css'],
