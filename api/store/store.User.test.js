@@ -7,7 +7,7 @@ import { samples } from './test/support';
 
 const {
   tenants: { tenant1, tenant2 },
-  users: { anne, john, user1_1, user1_2, user2_1, user2_2 },
+  users: { anne, user1_1, user1_2, user2_1, user2_2 },
 } = samples;
 
 afterAll(store.close);
@@ -22,6 +22,8 @@ describe(`User(tenantId)`, () => {
       const { id: tenantId2 } = await Tenant.insert(tenant2);
       const User1 = store.User(tenantId1);
       const User2 = store.User(tenantId2);
+      await User1.insert(user1_1);
+      await User1.insert(user1_2);
       await User2.insert(user2_1);
       await User2.insert(user2_2);
 
@@ -76,11 +78,10 @@ describe(`User(tenantId)`, () => {
 
       it(`requires [name, tenantId] to be unique`, async () => {
         const { id: tenantId1 } = await Tenant.insert(tenant1);
-        const { id: tenantId2 } = await Tenant.insert(tenant2);
-        const User1 = store.User(tenantId1);
-        const User2 = store.User(tenantId2);
+        const { id: tenantId2 } = await Tenant.insert(tenant2); // eslint-disable-line no-unused-vars
+        const User = store.User(tenantId1);
 
-        return User1.insert({ ...user1_1, name: 'same' }).catch(e => {
+        return User.insert({ ...user1_1, name: 'same' }).catch(e => {
           expect(e.columns).toEqual(['name', 'tenantId']);
           expect(e.constraint).toEqual('user_name_tenantid_unique');
           expect(e instanceof UniqueViolationError).toEqual(true);

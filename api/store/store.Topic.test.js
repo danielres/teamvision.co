@@ -21,6 +21,7 @@ describe(`Topic(tenantId)`, () => {
 
       const Topic1 = store.Topic(tenantId1);
       await Topic1.insert(topic1_1);
+      await Topic1.insert(topic1_2);
 
       const Topic2 = store.Topic(tenantId2);
 
