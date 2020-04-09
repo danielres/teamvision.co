@@ -36,6 +36,42 @@ describe(`User(tenantId)`, () => {
     });
   });
 
+  describe('constraints', () => {
+    it(`requires [name, tenantId] to be unique`, async () => {
+      const { id: tenantId1 } = await Tenant.insert(tenant1);
+      const { id: tenantId2 } = await Tenant.insert(tenant2); // eslint-disable-line no-unused-vars
+      const User1 = store.User(tenantId1);
+      const User2 = store.User(tenantId2);
+
+      const name = 'same_name';
+      await User1.insert({ ...user1_1, name });
+
+      await expect(User2.insert({ ...user2_1, name })).resolves.not.toThrow();
+      await expect(User1.insert({ ...user1_2, name })).rejects.toMatchObject({
+        name: UniqueViolationError.name,
+        columns: ['name', 'tenantId'],
+        constraint: 'user_name_tenantid_unique',
+      });
+    });
+
+    it(`requires [email, tenantId] to be unique`, async () => {
+      const { id: tenantId } = await Tenant.insert(tenant1);
+      const { id: tenantId2 } = await Tenant.insert(tenant2); // eslint-disable-line no-unused-vars
+      const User1 = store.User(tenantId);
+      const User2 = store.User(tenantId2);
+
+      const email = 'same_email@example.com';
+      await User1.insert({ ...user1_1, email });
+
+      await expect(User2.insert({ ...user2_1, email })).resolves.not.toThrow();
+      await expect(User1.insert({ ...user1_2, email })).rejects.toMatchObject({
+        name: UniqueViolationError.name,
+        columns: ['email', 'tenantId'],
+        constraint: 'user_email_tenantid_unique',
+      });
+    });
+  });
+
   describe(`insert()`, () => {
     it(`inserts a user with correct "tenantId"`, async done => {
       const { id: tenantId } = await Tenant.insert(tenant1);
@@ -66,37 +102,10 @@ describe(`User(tenantId)`, () => {
         const { id: tenantId } = await Tenant.insert(tenant1);
         const User = store.User(tenantId);
 
-        return User.insert({}).catch(e => {
-          expect(e instanceof ValidationError).toEqual(true);
-          expect(e.errors).toEqual([
-            'name is a required field',
-            'email is a required field',
-            'password is a required field',
-          ]);
-        });
-      });
-
-      it(`requires [name, tenantId] to be unique`, async () => {
-        const { id: tenantId1 } = await Tenant.insert(tenant1);
-        const { id: tenantId2 } = await Tenant.insert(tenant2); // eslint-disable-line no-unused-vars
-        const User = store.User(tenantId1);
-
-        return User.insert({ ...user1_1, name: 'same' }).catch(e => {
-          expect(e.columns).toEqual(['name', 'tenantId']);
-          expect(e.constraint).toEqual('user_name_tenantid_unique');
-          expect(e instanceof UniqueViolationError).toEqual(true);
-        });
-      });
-
-      it(`requires [email, tenantId] to be unique`, async () => {
-        const { id: tenantId } = await Tenant.insert(tenant1);
-        const User = store.User(tenantId);
-
-        await User.insert({ ...user1_1, email: 'same@example.com' });
-        return User.insert({ ...user2_1, email: 'same@example.com' }).catch(e => {
-          expect(e.columns).toEqual(['email', 'tenantId']);
-          expect(e.constraint).toEqual('user_email_tenantid_unique');
-          expect(e instanceof UniqueViolationError).toEqual(true);
+        return expect(User.insert({})).rejects.toMatchObject({
+          errors: ['name is a required field', 'email is a required field', 'password is a required field'],
+          name: ValidationError.name,
+          message: '3 errors occurred',
         });
       });
 
@@ -105,9 +114,10 @@ describe(`User(tenantId)`, () => {
           const { id: tenantId } = await Tenant.insert(tenant1);
           const User = store.User(tenantId);
 
-          return User.insert({ ...anne, email: 'invalidEmail' }).catch(e => {
-            expect(e instanceof ValidationError).toEqual(true);
-            expect(e.errors).toEqual(['email must be a valid email']);
+          return expect(User.insert({ ...anne, email: 'faultyemail' })).rejects.toMatchObject({
+            errors: ['email must be a valid email'],
+            name: ValidationError.name,
+            message: 'email must be a valid email',
           });
         });
       });
@@ -117,9 +127,10 @@ describe(`User(tenantId)`, () => {
           const { id: tenantId } = await Tenant.insert(tenant1);
           const User = store.User(tenantId);
 
-          return User.insert({ ...anne, name: 'ab' }).catch(e => {
-            expect(e instanceof ValidationError).toEqual(true);
-            expect(e.errors).toEqual(['name must be at least 3 characters']);
+          return expect(User.insert({ ...anne, name: 'ab' })).rejects.toMatchObject({
+            errors: ['name must be at least 3 characters'],
+            name: ValidationError.name,
+            message: 'name must be at least 3 characters',
           });
         });
       });
@@ -129,9 +140,10 @@ describe(`User(tenantId)`, () => {
           const { id: tenantId } = await Tenant.insert(tenant1);
           const User = store.User(tenantId);
 
-          return User.insert({ ...anne, password: '12345' }).catch(e => {
-            expect(e instanceof ValidationError).toEqual(true);
-            expect(e.errors).toEqual(['password must be at least 6 characters']);
+          return expect(User.insert({ ...anne, password: '12345' })).rejects.toMatchObject({
+            errors: ['password must be at least 6 characters'],
+            name: ValidationError.name,
+            message: 'password must be at least 6 characters',
           });
         });
       });
