@@ -1,4 +1,5 @@
-import { NotNullViolationError, UniqueViolationError } from 'db-errors';
+import { UniqueViolationError } from 'db-errors';
+import { ValidationError } from 'yup';
 import store from './store';
 import { samples } from './test/support';
 
@@ -12,6 +13,18 @@ beforeEach(store.purge);
 const { Tenant } = store;
 
 describe(`Tenant`, () => {
+  describe('constraints', () => {
+    it(`has unique name`, async () => {
+      await Tenant.insert({ name: 'Acme' });
+
+      await expect(Tenant.insert({ name: 'Acme' })).rejects.toMatchObject({
+        name: UniqueViolationError.name,
+        columns: ['name'],
+        constraint: 'tenant_name_unique',
+      });
+    });
+  });
+
   describe(`all()`, () => {
     it(`returns all`, async done => {
       await Tenant.insert(tenant1);
@@ -36,19 +49,20 @@ describe(`Tenant`, () => {
 
     describe(`validations`, () => {
       it(`requires "name"`, async () => {
-        return Tenant.insert({}).catch(e => {
-          expect(e.column).toEqual('name');
-          expect(e instanceof NotNullViolationError).toEqual(true);
+        return expect(Tenant.insert({ tenant1, name: undefined })).rejects.toMatchObject({
+          errors: ['name is a required field'],
+          name: ValidationError.name,
+          message: 'name is a required field',
         });
       });
 
-      it(`requires "name" to be unique`, async () => {
-        await Tenant.insert({ name: 'Acme' });
-
-        return Tenant.insert({ name: 'Acme' }).catch(e => {
-          expect(e.columns).toEqual(['name']);
-          expect(e.constraint).toEqual('tenant_name_unique');
-          expect(e instanceof UniqueViolationError).toEqual(true);
+      describe('name', () => {
+        it('must be at least 3 chars', async () => {
+          return expect(Tenant.insert({ tenant1, name: '12' })).rejects.toMatchObject({
+            errors: ['name must be at least 3 characters'],
+            name: ValidationError.name,
+            message: 'name must be at least 3 characters',
+          });
         });
       });
     });
