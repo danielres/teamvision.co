@@ -1,4 +1,4 @@
-import { NotNullViolationError, UniqueViolationError } from 'db-errors';
+import { ForeignKeyViolationError, NotNullViolationError, UniqueViolationError } from 'db-errors';
 import { sortBy } from 'lodash/fp';
 import store from './store';
 import { samples } from './test/support';
@@ -14,6 +14,35 @@ beforeEach(store.purge);
 const { Tenant } = store;
 
 describe(`Topic(tenantId)`, () => {
+  describe('constraints', () => {
+    it('references a tenant by tenantId', async () => {
+      const uuid = '7ec5163c-e4b5-4ba3-84e9-71536407c9bb';
+      const Topic = store.Topic(uuid);
+      await expect(Topic.insert(cooking)).rejects.toMatchObject({
+        constraint: 'topic_tenantid_foreign',
+        name: ForeignKeyViolationError.name,
+        table: 'Topic',
+      });
+    });
+
+    it(`has unique name by tenantId`, async () => {
+      const { id: tenantId1 } = await Tenant.insert(tenant1);
+      const { id: tenantId2 } = await Tenant.insert(tenant2); // eslint-disable-line no-unused-vars
+      const Topic1 = store.Topic(tenantId1);
+      const Topic2 = store.Topic(tenantId2);
+
+      const name = 'same_name';
+      await Topic1.insert({ ...topic1_1, name });
+
+      await expect(Topic2.insert({ ...topic2_1, name })).resolves.not.toThrow();
+      await expect(Topic1.insert({ ...topic1_2, name })).rejects.toMatchObject({
+        name: UniqueViolationError.name,
+        columns: ['name', 'tenantId'],
+        constraint: 'topic_name_tenantid_unique',
+      });
+    });
+  });
+
   describe(`all()`, () => {
     it(`returns all by "tenantId"`, async done => {
       const { id: tenantId1 } = await Tenant.insert(tenant1);
