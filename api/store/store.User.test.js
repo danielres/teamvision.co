@@ -4,6 +4,7 @@ import { ValidationError } from 'yup';
 import { verifyPassword } from '../src/utils';
 import store from './store';
 import { samples } from './test/support';
+import { constraints } from './test/shared';
 
 const {
   tenants: { tenant1, tenant2 },
@@ -17,49 +18,10 @@ const { Tenant } = store;
 
 describe(`User(tenantId)`, () => {
   describe('constraints', () => {
-    it('references a tenant by tenantId', async () => {
-      const uuid = '7ec5163c-e4b5-4ba3-84e9-71536407c9bb';
-      const User = store.User(uuid);
-      await expect(User.insert(anne)).rejects.toMatchObject({
-        constraint: 'user_tenantid_foreign',
-        name: ForeignKeyViolationError.name,
-        table: 'User',
-      });
-    });
-
-    it(`has unique name by tenantId`, async () => {
-      const { id: tenantId1 } = await Tenant.insert(tenant1);
-      const { id: tenantId2 } = await Tenant.insert(tenant2); // eslint-disable-line no-unused-vars
-      const User1 = store.User(tenantId1);
-      const User2 = store.User(tenantId2);
-
-      const name = 'same_name';
-      await User1.insert({ ...user1_1, name });
-
-      await expect(User2.insert({ ...user2_1, name })).resolves.not.toThrow();
-      await expect(User1.insert({ ...user1_2, name })).rejects.toMatchObject({
-        name: UniqueViolationError.name,
-        columns: ['name', 'tenantId'],
-        constraint: 'user_name_tenantid_unique',
-      });
-    });
-
-    it(`has unique email by tenantId`, async () => {
-      const { id: tenantId } = await Tenant.insert(tenant1);
-      const { id: tenantId2 } = await Tenant.insert(tenant2); // eslint-disable-line no-unused-vars
-      const User1 = store.User(tenantId);
-      const User2 = store.User(tenantId2);
-
-      const email = 'same_email@example.com';
-      await User1.insert({ ...user1_1, email });
-
-      await expect(User2.insert({ ...user2_1, email })).resolves.not.toThrow();
-      await expect(User1.insert({ ...user1_2, email })).rejects.toMatchObject({
-        name: UniqueViolationError.name,
-        columns: ['email', 'tenantId'],
-        constraint: 'user_email_tenantid_unique',
-      });
-    });
+    const table = 'User';
+    constraints.referencesTenantByTenantId({ store, table });
+    constraints.hasUniqueColumnByTenantId({ store, table, column: 'name' });
+    constraints.hasUniqueColumnByTenantId({ store, table, column: 'email' });
   });
 
   describe(`all()`, () => {
