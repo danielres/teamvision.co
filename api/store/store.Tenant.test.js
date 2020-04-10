@@ -1,10 +1,10 @@
 import { UniqueViolationError } from 'db-errors';
 import { ValidationError } from 'yup';
 import store from './store';
-import { samples } from './test/support';
+import samples from './test/samples';
 
 const {
-  tenants: { tenant1, tenant2 },
+  Tenant: { tenant1, tenant2 },
 } = samples;
 
 afterAll(store.close);

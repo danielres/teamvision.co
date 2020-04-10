@@ -1,14 +1,13 @@
-import { ForeignKeyViolationError, UniqueViolationError } from 'db-errors';
 import { sortBy } from 'lodash/fp';
 import { ValidationError } from 'yup';
 import { verifyPassword } from '../src/utils';
 import store from './store';
-import { samples } from './test/support';
+import samples from './test/samples';
 import { constraints } from './test/shared';
 
 const {
-  tenants: { tenant1, tenant2 },
-  users: { anne, user1_1, user1_2, user2_1, user2_2 },
+  Tenant: { tenant1, tenant2 },
+  User: { anne, user1_1, user1_2, user2_1, user2_2 },
 } = samples;
 
 afterAll(store.close);

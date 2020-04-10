@@ -1,13 +1,13 @@
 import { ForeignKeyViolationError, UniqueViolationError } from 'db-errors';
-import { samples } from './support';
+import samples from './samples';
 
 const {
-  tenants: { tenant1 },
+  Tenant: { tenant1 },
 } = samples;
 
 export const constraints = {};
 
-const getSamplesForTable = table => Object.values(samples[`${table.toLowerCase()}s`]);
+const getSamplesForTable = table => Object.values(samples[table]);
 
 constraints.referencesTenantByTenantId = ({ store, table }) =>
   it('references a tenant by tenantId', async () => {

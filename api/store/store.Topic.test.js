@@ -1,12 +1,12 @@
 import { NotNullViolationError, UniqueViolationError } from 'db-errors';
 import { sortBy } from 'lodash/fp';
 import store from './store';
+import samples from './test/samples';
 import { constraints } from './test/shared';
-import { samples } from './test/support';
 
 const {
-  tenants: { tenant1, tenant2 },
-  topics: { cooking, topic1_1, topic1_2, topic2_1, topic2_2 },
+  Tenant: { tenant1, tenant2 },
+  Topic: { cooking, topic1_1, topic1_2, topic2_1, topic2_2 },
 } = samples;
 
 afterAll(store.close);
