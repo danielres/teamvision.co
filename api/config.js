@@ -1,6 +1,9 @@
+import { boolean, number, object, string } from 'yup';
+
+const isDev = process.env.NODE_ENV === 'development';
 const isTest = process.env.NODE_ENV === 'test';
 
-export default {
+const config = {
   auth: {
     cookie: {
       key1: process.env.AUTH_COOKIE_KEY1,
@@ -21,3 +24,28 @@ export default {
       : { database: process.env.PG_DB, port: process.env.PG_PORT }),
   },
 };
+
+const validator = object().shape({
+  auth: object().shape({
+    cookie: object().shape({
+      key1: string().min(20).required(),
+      key2: string().min(20).required(),
+      secure: boolean().required(),
+    }),
+  }),
+
+  bcrypt: object().shape({
+    saltRounds: number().integer().positive().required(),
+  }),
+
+  pg: object().shape({
+    password: string()
+      .min(isTest || isDev ? 3 : 20)
+      .required(),
+    user: string().min(3).required(),
+  }),
+});
+
+validator.validate(config, { abortEarly: false });
+
+export default config;
