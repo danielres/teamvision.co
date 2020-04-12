@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 
 const response = `bg-gray-100 px-4 py-2 rounded-lg overflow-auto font-mono text-xs`;
 
 const css = {
-  data: `bg-white` + ' ' + response,
-  error: `bg-red-200` + ' ' + response,
+  data: `${`bg-white` + ' '}${  response}`,
+  error: `${`bg-red-200` + ' '}${  response}`,
 };
 
 export default function Inspector({ data = null, error = null }) {

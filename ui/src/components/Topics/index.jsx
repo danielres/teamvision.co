@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/react-hooks';
-import * as React from 'react';
+import React from 'react';
 import * as queries from '../../queries';
 import Inspector from '../Inspector';
 

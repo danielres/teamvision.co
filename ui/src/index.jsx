@@ -1,7 +1,8 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+/* eslint-disable react/jsx-fragments */
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
-import 'regenerator-runtime/runtime';
+import 'regenerator-runtime/runtime'; // eslint-disable-line import/no-extraneous-dependencies
 import Header from './components/Header';
 import Topics from './components/Topics';
 import './global.css';
@@ -34,8 +35,8 @@ ReactDOM.render(
 
 function Home() {
   return (
-    <React.Fragment>
+    <>
       <h2>Home</h2>
-    </React.Fragment>
+    </>
   );
 }
