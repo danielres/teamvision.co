@@ -7,7 +7,7 @@
     "dev": "run-p store:up dev:server",
     "dev:server": "NODE_ENV=development env-cmd -f .env nodemon -r esm src",
     "test": "yarn test:once --watch",
-    "test:once": "env-cmd jest --verbose --runInBand",
+    "test:once": "NODE_ENV=test env-cmd jest --verbose --runInBand",
     "store:up": "env-cmd run-s 'dc up'",
     "store:replay": "run-s 'knex migrate:rollback' 'knex migrate:latest'",
     "store:test:replay": "NODE_ENV=test yarn store:replay",
