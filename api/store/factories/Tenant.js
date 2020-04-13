@@ -1,4 +1,4 @@
-import tenantValidator from '../validators/tenantValidator';
+import validate from './validators/validateTenant';
 
 export default knex => {
   const queries = {};
@@ -6,8 +6,8 @@ export default knex => {
   queries.all = () => knex('Tenant');
 
   queries.insert = async args => {
-    await tenantValidator.insert.validate(args, { abortEarly: false });
-    return (await knex('Tenant').insert(args).returning('*'))[0];
+    const validArgs = await validate.insert(args);
+    return (await knex('Tenant').insert(validArgs).returning('*'))[0];
   };
 
   return queries;

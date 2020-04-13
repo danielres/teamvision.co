@@ -5,6 +5,7 @@ exports.up = async knex => {
     .createTable('Tenant', t => {
       t.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       t.string('name', 255).notNullable().index().unique();
+      t.string('shortId', 255).notNullable().index().unique();
       t.timestamp('createdAt').defaultTo(knex.fn.now());
       t.timestamp('updatedAt');
     })

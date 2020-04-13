@@ -23,6 +23,15 @@ describe(`Tenant`, () => {
         constraint: 'tenant_name_unique',
       });
     });
+
+    it(`has unique shortId`, async () => {
+      const { shortId } = await Tenant.insert({ name: 'Acme' });
+      await expect(Tenant.insert({ name: 'Acme2', shortId })).rejects.toMatchObject({
+        name: UniqueViolationError.name,
+        columns: ['shortId'],
+        constraint: 'tenant_shortid_unique',
+      });
+    });
   });
 
   describe(`all()`, () => {
@@ -49,7 +58,7 @@ describe(`Tenant`, () => {
 
     describe(`validations`, () => {
       it(`requires "name"`, async () => {
-        return expect(Tenant.insert({ tenant1, name: undefined })).rejects.toMatchObject({
+        return expect(Tenant.insert({ ...tenant1, name: undefined })).rejects.toMatchObject({
           errors: ['name is a required field'],
           name: ValidationError.name,
           message: 'name is a required field',
@@ -58,10 +67,20 @@ describe(`Tenant`, () => {
 
       describe('name', () => {
         it('must be at least 3 chars', async () => {
-          return expect(Tenant.insert({ tenant1, name: '12' })).rejects.toMatchObject({
+          return expect(Tenant.insert({ ...tenant1, name: '12' })).rejects.toMatchObject({
             errors: ['name must be at least 3 characters'],
             name: ValidationError.name,
             message: 'name must be at least 3 characters',
+          });
+        });
+      });
+
+      describe('shortId', () => {
+        it('must be at least 2 chars', async () => {
+          return expect(Tenant.insert({ ...tenant1, shortId: '12' })).rejects.toMatchObject({
+            errors: ['shortId must be at least 3 characters'],
+            name: ValidationError.name,
+            message: 'shortId must be at least 3 characters',
           });
         });
       });
