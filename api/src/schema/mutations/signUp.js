@@ -4,7 +4,7 @@ import store from '../../../store/store';
 import { reportError } from '../../utils';
 import ServerError from '../errors/ServerError';
 
-export default async (parent, args) => {
+export default async (parent, { args }) => {
   try {
     const { Tenant } = store;
     const tenant = await Tenant.insert({ name: `Tenant-${Math.random()}` });

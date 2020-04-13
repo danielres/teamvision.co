@@ -10,7 +10,13 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    signUp(email: String!, name: String!, password: String!): Boolean!
+    signUp(args: SignUpInput!): Boolean!
+  }
+
+  input SignUpInput {
+    email: String!
+    name: String!
+    password: String!
   }
 `;
 

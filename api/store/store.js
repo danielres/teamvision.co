@@ -32,6 +32,7 @@ const purge = async () => {
 
 export default {
   close,
+  getKnex,
   purge,
   Tenant: Tenant(getKnex()),
   Topic: Topic(getKnex()),
