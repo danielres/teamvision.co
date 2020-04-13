@@ -1,5 +1,5 @@
-import { NotNullViolationError, UniqueViolationError } from 'db-errors';
 import { sortBy } from 'lodash/fp';
+import { ValidationError } from 'yup';
 import store from './store';
 import samples from './test/samples';
 import { constraints } from './test/shared';
@@ -61,30 +61,27 @@ describe(`Topic(tenantId)`, () => {
     });
 
     describe(`validations`, () => {
-      it(`requires "name"`, async () => {
+      it(`requires name`, async () => {
         const { id: tenantId } = await Tenant.insert(tenant1);
         const Topic = store.Topic(tenantId);
 
-        return Topic.insert({}).catch(e => {
-          expect(e.column).toEqual('name');
-          expect(e instanceof NotNullViolationError).toEqual(true);
+        return expect(Topic.insert({ ...cooking, name: undefined })).rejects.toMatchObject({
+          errors: ['name is a required field'],
+          name: ValidationError.name,
+          message: 'name is a required field',
         });
       });
 
-      it(`requires ["name", "tenantId"] to be unique`, async () => {
-        const { id: tenantId1 } = await Tenant.insert(tenant1);
-        const { id: tenantId2 } = await Tenant.insert(tenant2);
+      describe('name', () => {
+        it('must be at least 2 chars', async () => {
+          const { id: tenantId } = await Tenant.insert(tenant1);
+          const Topic = store.Topic(tenantId);
 
-        const Topic1 = store.Topic(tenantId1);
-        const Topic2 = store.Topic(tenantId2);
-
-        await Topic1.insert(cooking);
-        await Topic2.insert(cooking);
-
-        return Topic1.insert(cooking).catch(e => {
-          expect(e.columns).toEqual(['name', 'tenantId']);
-          expect(e.constraint).toEqual('topic_name_tenantid_unique');
-          expect(e instanceof UniqueViolationError).toEqual(true);
+          return expect(Topic.insert({ ...cooking, name: 'a' })).rejects.toMatchObject({
+            errors: ['name must be at least 2 characters'],
+            name: ValidationError.name,
+            message: 'name must be at least 2 characters',
+          });
         });
       });
     });
