@@ -1,18 +1,18 @@
 import { hashPassword } from '../../src/utils';
-import userValidator from '../validators/userValidator';
+import validate from './validators/validateUser';
 
 export default knex => tenantId => {
   const queries = {};
 
   queries.all = () => knex('User').where('tenantId', tenantId);
 
-  queries.insert = async ({ password, ...args }) => {
-    await userValidator.insert.validate({ password, ...args }, { abortEarly: false });
-    const hash = await hashPassword(password);
+  queries.insert = async args => {
+    const { password, ...rest } = await validate.insert(args);
 
+    const hash = await hashPassword(password);
     return (
       await knex('User')
-        .insert({ tenantId, password: hash, ...args })
+        .insert({ tenantId, password: hash, ...rest })
         .returning('*')
     )[0];
   };
