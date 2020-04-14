@@ -9,7 +9,7 @@ export const GraphqlClient = ({ server = Server() } = {}) => {
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({ query, variables })
-      .then(({ body }) => body);
+      .then(({ body, headers }) => ({ body, headers }));
 
   return client;
 };

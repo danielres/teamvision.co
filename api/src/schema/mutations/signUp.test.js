@@ -25,7 +25,7 @@ describe('mutation SignUp', () => {
   describe('on success', () => {
     beforeAll(async () => {
       sender.signUpSuccess = jest.fn();
-      data = (await mutate({ query: queries.SIGN_UP, variables: { args } })).data;
+      data = (await mutate({ query: queries.SIGN_UP, variables: { args } })).body.data;
     });
 
     it('returns true', () => {
@@ -53,16 +53,22 @@ describe('mutation SignUp', () => {
 
   describe('errors', () => {
     describe('on invalid email', () => {
+      const variables = { args: { ...args, email: 'faulty@' } };
+
       it('returns an informative error', async () => {
-        const { errors } = await mutate({ query: queries.SIGN_UP, variables: { args: { ...args, email: 'faulty@' } } });
-        return expect(errors[0].message).toEqual('email must be a valid email');
+        const { body } = await mutate({ query: queries.SIGN_UP, variables });
+        const [error] = body.errors;
+        return expect(error.message).toEqual('email must be a valid email');
       });
     });
 
     describe('on invalid name', () => {
+      const variables = { args: { ...args, name: 'a' } };
+
       it('returns an informative error', async () => {
-        const { errors } = await mutate({ query: queries.SIGN_UP, variables: { args: { ...args, name: 'a' } } });
-        return expect(errors[0].message).toEqual('name must be at least 3 characters');
+        const { body } = await mutate({ query: queries.SIGN_UP, variables });
+        const [error] = body.errors;
+        return expect(error.message).toEqual('name must be at least 3 characters');
       });
     });
   });
