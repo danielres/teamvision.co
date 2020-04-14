@@ -5,6 +5,8 @@ export default knex => {
 
   queries.all = () => knex('Tenant');
 
+  queries.byShortId = ({ shortId }) => knex('Tenant').where('shortId', shortId);
+
   queries.insert = async args => {
     const validArgs = await validate.insert(args);
     return (await knex('Tenant').insert(validArgs).returning('*'))[0];
