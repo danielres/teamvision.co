@@ -6,6 +6,8 @@ export default knex => tenantId => {
 
   queries.all = () => knex('User').where('tenantId', tenantId);
 
+  queries.byEmail = ({ email }) => knex('User').where('tenantId', tenantId).where('email', email);
+
   queries.insert = async args => {
     const { password, ...rest } = await validate.insert(args);
 
