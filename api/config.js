@@ -8,6 +8,7 @@ const config = {
     cookie: {
       key1: process.env.AUTH_COOKIE_KEY1,
       key2: process.env.AUTH_COOKIE_KEY2,
+      maxAgeMinutes: process.env.AUTH_COOKIE_MAX_AGE_MINUTES,
       secure: process.env.AUTH_COOKIE_UNSECURE !== 'true',
     },
   },
@@ -30,6 +31,7 @@ const validator = object().shape({
     cookie: object().shape({
       key1: string().min(20).required(),
       key2: string().min(20).required(),
+      maxAgeMinutes: number().integer().positive().required(),
       secure: boolean().required(),
     }),
   }),

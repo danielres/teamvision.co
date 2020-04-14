@@ -25,7 +25,8 @@ export const Server = () => {
   });
 
   const path = '/';
-  const { key1, key2, secure } = config.auth.cookie;
+  const { key1, key2, maxAgeMinutes, secure } = config.auth.cookie;
+  const ONE_MINUTE_IN_MILISECONDS = 60 * 1000;
 
   app.use(path, bodyParser.json(), cookieParser());
 
@@ -33,7 +34,7 @@ export const Server = () => {
     cookieSession({
       name: 'session',
       keys: [key1, key2],
-      maxAge: 100000,
+      maxAge: maxAgeMinutes * ONE_MINUTE_IN_MILISECONDS,
       secure,
     }),
   );
