@@ -9,8 +9,21 @@ const typeDefs = gql`
     id: ID!
   }
 
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+  }
+
   type Mutation {
+    signIn(args: SignInInput!): User!
     signUp(args: SignUpInput!): Boolean!
+  }
+
+  input SignInInput {
+    email: String!
+    password: String!
+    tenantShortId: ID!
   }
 
   input SignUpInput {
