@@ -1,3 +1,4 @@
+import signIn from './mutations/signIn';
 import signUp from './mutations/signUp';
 
 const resolvers = {
@@ -7,6 +8,7 @@ const resolvers = {
     },
   },
   Mutation: {
+    signIn,
     signUp,
   },
 };

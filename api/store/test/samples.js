@@ -21,13 +21,15 @@ export default {
     user2_2: { name: 'user2-2', email: 'user2-2@example.com', password: '123456' },
   },
 
+  SignInInput: {
+    jane: (tenantShortId, { email = 'jane@example.com', password = 'pass56' } = {}) => ({
+      args: { email, password, tenantShortId },
+    }),
+  },
+
   SignUpInput: {
-    jane: ({ email = 'jane@example.com', name = 'Jane', password = 'ertyuiopkjhgfdfhjk' } = {}) => ({
-      args: {
-        email,
-        name,
-        password,
-      },
+    jane: ({ email = 'jane@example.com', name = 'Jane', password = 'pass56' } = {}) => ({
+      args: { email, name, password },
     }),
   },
 };
