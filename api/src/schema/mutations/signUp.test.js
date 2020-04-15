@@ -1,74 +1,72 @@
 import sender from '../../../emails/sender';
 import store from '../../../store/store';
-import { GraphqlClient } from '../../../test/graphlClient';
+import samples from '../../../store/test/samples';
 import isUuid from '../../../test/isUuid';
-import queries from '../../../test/queries';
+import { signUp } from '../../../test/queries';
+
+jest.mock('../../../emails/sender'); // Disable sending mails
 
 afterAll(store.close);
+beforeAll(store.purge);
 
-const { mutate } = GraphqlClient();
+const { jane: janeFactory } = samples.SignUpInput;
+const jane = janeFactory();
 
-const args = {
-  email: 'jane@example.com',
-  name: 'Jane',
-  password: 'ertyuiopkjhgfdfhjk',
+const db = {
+  Tenant: { first: () => store.getKnex()('Tenant').first() },
+  User: { first: () => store.getKnex()('User').first() },
 };
 
-let data;
-
-beforeAll(async () => {
-  jest.resetAllMocks();
-  await store.purge();
-});
-
 describe('mutation SignUp', () => {
+  let data;
+
   describe('on success', () => {
     beforeAll(async () => {
       sender.signUpSuccess = jest.fn();
-      data = (await mutate({ query: queries.SIGN_UP, variables: { args } })).body.data;
+      data = (await signUp(jane)).data;
     });
 
     it('returns true', () => {
       return expect(data.signUp).toEqual(true);
     });
 
-    it('inserts the user in the db', async done => {
-      const [user] = await store.getKnex()('User');
-      expect(user).toMatchObject({ email: args.email, name: args.name });
+    it('inserts the user in the db with reference to new default tenant', async done => {
+      const { email, name } = jane.args;
+      const user = await db.User.first();
+      expect(user).toMatchObject({ email, name });
       expect(isUuid(user.id)).toBe(true);
       expect(isUuid(user.tenantId)).toBe(true);
       done();
     });
 
     it('calls sender.signUpSuccess with email + name', () => {
-      return expect(sender.signUpSuccess).toHaveBeenCalledWith({ email: args.email, name: args.name });
+      const { email, name } = jane.args;
+      return expect(sender.signUpSuccess).toHaveBeenCalledWith({ email, name });
     });
 
     it('creates a default tenant for the user', async () => {
-      const [user] = await store.getKnex()('User');
-      const [tenant] = await store.getKnex()('Tenant');
+      const user = await db.User.first();
+      const tenant = await db.Tenant.first();
       return expect(user.tenantId).toEqual(tenant.id);
     });
   });
 
   describe('errors', () => {
     describe('on invalid email', () => {
-      const variables = { args: { ...args, email: 'faulty@' } };
+      const variables = janeFactory({ email: 'faulty@' });
 
       it('returns an informative error', async () => {
-        const { body } = await mutate({ query: queries.SIGN_UP, variables });
-        const [error] = body.errors;
-        return expect(error.message).toEqual('email must be a valid email');
+        const { errors } = await signUp(variables);
+        return expect(errors[0].message).toEqual('email must be a valid email');
       });
     });
 
     describe('on invalid name', () => {
-      const variables = { args: { ...args, name: 'a' } };
+      const variables = janeFactory({ name: 'a' });
 
       it('returns an informative error', async () => {
-        const { body } = await mutate({ query: queries.SIGN_UP, variables });
-        const [error] = body.errors;
-        return expect(error.message).toEqual('name must be at least 3 characters');
+        const { errors } = await signUp(variables);
+        return expect(errors[0].message).toEqual('name must be at least 3 characters');
       });
     });
   });
