@@ -1,11 +1,7 @@
 export default {
   SIGN_IN: /* GraphQL */ `
     mutation SignIn($args: SignInInput!) {
-      signIn(args: $args) {
-        id
-        email
-        name
-      }
+      signIn(args: $args)
     }
   `,
 

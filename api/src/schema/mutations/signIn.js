@@ -18,7 +18,7 @@ export default async (parent, { args }, { req }) => {
     if (!isCorrectPassword) return new SignInError();
 
     req.session.me = { id: dbUser.id };
-    return dbUser;
+    return true;
   } catch (error) {
     reportError(error);
     return new ServerError();

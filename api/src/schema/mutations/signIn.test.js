@@ -28,8 +28,8 @@ describe('mutation SignIn', () => {
       response = await signIn(jane);
     });
 
-    it('returns the user', () => {
-      expect(response.data.signIn.name).toEqual(SignUpInput.jane().args.name);
+    it('returns true', () => {
+      expect(response.data.signIn).toEqual(true);
     });
 
     it('set a session cookie containing the current user id', () => {
