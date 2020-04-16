@@ -5,6 +5,12 @@ export default {
     }
   `,
 
+  SIGN_OUT: /* GraphQL */ `
+    mutation SignOut {
+      signOut
+    }
+  `,
+
   SIGN_UP: /* GraphQL */ `
     mutation SignUp($args: SignUpInput!) {
       signUp(args: $args)

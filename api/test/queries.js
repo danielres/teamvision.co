@@ -10,6 +10,13 @@ export const signIn = variables =>
     headers,
   }));
 
+export const signOut = () =>
+  mutate({ query: queries.SIGN_OUT }).then(({ body: { data, errors }, headers }) => ({
+    data,
+    errors,
+    headers,
+  }));
+
 export const signUp = variables =>
   mutate({ query: queries.SIGN_UP, variables }).then(({ body: { data, errors }, headers }) => ({
     data,

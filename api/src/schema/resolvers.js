@@ -1,4 +1,5 @@
 import signIn from './mutations/signIn';
+import signOut from './mutations/signOut';
 import signUp from './mutations/signUp';
 
 const resolvers = {
@@ -9,6 +10,7 @@ const resolvers = {
   },
   Mutation: {
     signIn,
+    signOut,
     signUp,
   },
 };

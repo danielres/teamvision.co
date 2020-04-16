@@ -17,6 +17,7 @@ const typeDefs = gql`
 
   type Mutation {
     signIn(args: SignInInput!): Boolean!
+    signOut: Boolean!
     signUp(args: SignUpInput!): Boolean!
   }
 
