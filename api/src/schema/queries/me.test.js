@@ -34,7 +34,7 @@ describe('query Me', () => {
 
   describe('with correct session + session.sig cookies', () => {
     it('returns the current user details', async () => {
-      const { data } = await me({ headers: { Cookie: cookie } });
+      const { data } = await me({}, { headers: { Cookie: cookie } });
       const testedFields = ['id', 'email'];
       expect(pick(testedFields, data.me)).toEqual(pick(testedFields, user));
     });

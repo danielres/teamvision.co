@@ -1,32 +1,14 @@
 import queries from '../src/schema/queries';
-import { GraphqlClient } from './graphlClient';
+import client from './graphlClient';
 
-const { mutate, query } = GraphqlClient();
-
-export const me = ({ headers: reqHeaders } = {}) =>
-  query({ query: queries.ME, headers: reqHeaders }).then(({ body: { data, errors }, headers }) => ({
+const useClient = query => (variables, { headers: reqHeaders } = {}) =>
+  client({ headers: reqHeaders, query, variables }).then(({ body: { data, errors }, headers }) => ({
     data,
     errors,
     headers,
   }));
 
-export const signIn = variables =>
-  mutate({ query: queries.SIGN_IN, variables }).then(({ body: { data, errors }, headers }) => ({
-    data,
-    errors,
-    headers,
-  }));
-
-export const signOut = () =>
-  mutate({ query: queries.SIGN_OUT }).then(({ body: { data, errors }, headers }) => ({
-    data,
-    errors,
-    headers,
-  }));
-
-export const signUp = variables =>
-  mutate({ query: queries.SIGN_UP, variables }).then(({ body: { data, errors }, headers }) => ({
-    data,
-    errors,
-    headers,
-  }));
+export const me = useClient(queries.ME);
+export const signIn = useClient(queries.SIGN_IN);
+export const signOut = useClient(queries.SIGN_OUT);
+export const signUp = useClient(queries.SIGN_UP);
