@@ -11,9 +11,10 @@ export default async (parent, { args }) => {
     const { Tenant } = store;
     const tenant = await Tenant.insert({ name: `Tenant-${Math.random()}`, shortId: shortid.generate() });
     const User = store.User(tenant.id);
-    const { email, name } = await User.insert(args);
+    const user = await User.insert(args);
+    testSpy.spy({ SignUp: { tenant, user } });
+    const { email, name } = user;
     await sender.signUpSuccess({ email, name });
-    testSpy.spy({ SignUp: { tenant } });
     return true;
   } catch (error) {
     if (error instanceof ValidationError) return error;
