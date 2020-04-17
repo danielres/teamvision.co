@@ -1,7 +1,7 @@
-import signIn from './mutations/signIn';
-import signOut from './mutations/signOut';
-import signUp from './mutations/signUp';
-import me from './queries/me';
+import signIn from './resolvers/signIn';
+import signOut from './resolvers/signOut';
+import signUp from './resolvers/signUp';
+import me from './resolvers/me';
 
 const resolvers = {
   Query: {
