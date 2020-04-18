@@ -1,6 +1,10 @@
+import { useQuery } from '@apollo/react-hooks';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import buttons from '../../css/buttons';
+import queries from '../../queries';
+import UserMenu from './UserMenu';
+import Spacer from './Spacer';
 
 const css = {
   buttons,
@@ -15,10 +19,11 @@ const css = {
       item: `inline-block ml-4`,
     },
   },
-  spacer: `px-4 inline-block`,
 };
 
 export default () => {
+  const { data, loading } = useQuery(queries.ME);
+
   return (
     <header className={css.header}>
       <div className={css.cols.outer}>
@@ -27,14 +32,16 @@ export default () => {
             Home
           </Link>
 
-          <div className={css.spacer} />
+          <Spacer />
 
           <Link className={css.buttons.text} to="/topics">
             Topics
           </Link>
         </div>
 
-        <div className={css.cols.right.outer}>[PLACEHOLDER]</div>
+        <div className={css.cols.right.outer}>
+          <UserMenu data={data} loading={loading} />
+        </div>
       </div>
     </header>
   );

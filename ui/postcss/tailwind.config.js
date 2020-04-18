@@ -3,7 +3,11 @@ module.exports = {
   important: '#root',
 
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        warning: '0 0 0 3px rgba(197,48,48,0.2)',
+      },
+    },
   },
   variants: {},
   plugins: [require('@tailwindcss/custom-forms')],

@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Topics from './components/Topics';
 import './global.css';
 import Providers from './services/Providers';
+import Auth from './components/Auth';
 
 if (module.hot) module.hot.accept();
 
@@ -18,12 +19,16 @@ ReactDOM.render(
 
     <div className="mx-8">
       <div className={css.container}>
+        <Route path="/auth">
+          <Auth />
+        </Route>
+
         <Switch>
           <Route path="/topics">
             <Topics />
           </Route>
 
-          <Route path="/">
+          <Route path="/" exact>
             <Home />
           </Route>
         </Switch>
