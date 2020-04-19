@@ -2,6 +2,7 @@ export default {
   Tenant: {
     tenant1: { name: 'tenant1' },
     tenant2: { name: 'tenant2' },
+    tenant3: { name: 'tenant3' },
   },
 
   Topic: {

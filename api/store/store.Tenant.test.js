@@ -4,7 +4,8 @@ import store from './store';
 import samples from './test/samples';
 
 const {
-  Tenant: { tenant1, tenant2 },
+  Tenant: { tenant1, tenant2, tenant3 },
+  User: { anne, john },
 } = samples;
 
 afterAll(store.close);
@@ -41,6 +42,24 @@ describe(`Tenant`, () => {
       const actual = await Tenant.all();
       expect(actual.map(t => t.name).sort()).toEqual(['tenant1', 'tenant2']);
       done();
+    });
+  });
+
+  describe(`byUserEmail()`, () => {
+    it('returns all tenants for a user email', async () => {
+      const t1 = await Tenant.insert(tenant1);
+      const t2 = await Tenant.insert(tenant2);
+      const t3 = await Tenant.insert(tenant3);
+      await store.User(t1.id).insert(anne);
+      await store.User(t2.id).insert(anne);
+      await store.User(t1.id).insert(john);
+      await store.User(t3.id).insert(john);
+
+      const actual1 = await Tenant.byUserEmail({ email: anne.email });
+      expect(actual1).toEqual([t1, t2]);
+
+      const actual2 = await Tenant.byUserEmail({ email: john.email });
+      expect(actual2).toEqual([t1, t3]);
     });
   });
 
