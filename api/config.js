@@ -11,6 +11,13 @@ const config = {
       maxAgeMinutes: process.env.AUTH_COOKIE_MAX_AGE_MINUTES,
       secure: process.env.AUTH_COOKIE_UNSECURE !== 'true',
     },
+
+    resetPassword: {
+      jwt: {
+        expSeconds: parseInt(process.env.AUTH_RESET_PASSWORD_JWT_EXP_SECONDS, 10) || 15 * 60,
+        secret: process.env.AUTH_RESET_PASSWORD_JWT_SECRET,
+      },
+    },
   },
 
   bcrypt: {
@@ -24,6 +31,10 @@ const config = {
       ? { database: process.env.PG_DB_TEST, port: process.env.PG_PORT_TEST }
       : { database: process.env.PG_DB, port: process.env.PG_PORT }),
   },
+
+  ui: {
+    host: process.env.UI_HOST,
+  },
 };
 
 const validator = object().shape({
@@ -33,6 +44,13 @@ const validator = object().shape({
       key2: string().min(20).required(),
       maxAgeMinutes: number().integer().positive().required(),
       secure: boolean().required(),
+    }),
+
+    resetPassword: object().shape({
+      jwt: object().shape({
+        expSeconds: number().integer().positive().required(),
+        secret: string().min(20).required(),
+      }),
     }),
   }),
 
@@ -45,6 +63,10 @@ const validator = object().shape({
       .min(isTest || isDev ? 3 : 20)
       .required(),
     user: string().min(3).required(),
+  }),
+
+  ui: object().shape({
+    host: isTest || isDev ? string().required() : string().url().required(),
   }),
 });
 
