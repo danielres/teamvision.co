@@ -19,5 +19,11 @@ export default knex => tenantId => {
     )[0];
   };
 
+  queries.updatePassword = async args => {
+    const { id, password } = await validate.updatePassword(args);
+    const hash = await hashPassword(password);
+    return knex('User').where({ id }).update({ password: hash });
+  };
+
   return queries;
 };

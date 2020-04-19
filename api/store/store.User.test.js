@@ -61,7 +61,7 @@ describe(`User(tenantId)`, () => {
         const User = store.User(tenantId);
 
         await User.insert(anne);
-        const dbAnne = (await User.all())[0];
+        const [dbAnne] = await User.all();
         const isCorrectPassword = await verifyPassword(anne.password, dbAnne.password);
         expect(isCorrectPassword).toBe(true);
         done();
@@ -112,6 +112,54 @@ describe(`User(tenantId)`, () => {
           const User = store.User(tenantId);
 
           return expect(User.insert({ ...anne, password: '12345' })).rejects.toMatchObject({
+            errors: ['password must be at least 6 characters'],
+            name: ValidationError.name,
+            message: 'password must be at least 6 characters',
+          });
+        });
+      });
+    });
+  });
+
+  describe('updatePassword()', () => {
+    it('hashes and updates the password', async () => {
+      const { id: tenantId } = await Tenant.insert(tenant1);
+      const User = store.User(tenantId);
+      const dbAnne = await User.insert(anne);
+
+      const newPassword = '12345XXXXX';
+      await User.updatePassword({ id: dbAnne.id, password: newPassword });
+      const [dbAnneUpdated] = await User.all();
+      const isCorrectPassword = await verifyPassword(newPassword, dbAnneUpdated.password);
+
+      expect(isCorrectPassword).toEqual(true);
+    });
+
+    describe('validations', () => {
+      let id;
+      let User;
+
+      beforeAll(async () => {
+        const { id: tenantId } = await Tenant.insert(tenant2);
+        User = store.User(tenantId);
+        id = (await User.insert(anne)).id;
+      });
+
+      describe('user id', () => {
+        it('must be a valid uuid', async () => {
+          const password = 'validPassword';
+          expect(User.updatePassword({ id: 'WRONG', password })).rejects.toMatchObject({
+            errors: ['User id is not in correct format'],
+            name: ValidationError.name,
+            message: 'User id is not in correct format',
+          });
+        });
+      });
+
+      describe('password', () => {
+        it('must be at least 6 chars', async () => {
+          const password = 'BAD';
+          expect(User.updatePassword({ id, password })).rejects.toMatchObject({
             errors: ['password must be at least 6 characters'],
             name: ValidationError.name,
             message: 'password must be at least 6 characters',
