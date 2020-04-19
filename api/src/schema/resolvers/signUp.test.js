@@ -1,8 +1,8 @@
 import sender from '../../../emails/sender';
 import store from '../../../store/store';
 import samples from '../../../store/test/samples';
-import isUuid from '../../../test/isUuid';
 import { signUp } from '../../../test/queries';
+import isUuid from '../../isUuid';
 
 jest.mock('../../../emails/sender'); // Disable sending mails
 

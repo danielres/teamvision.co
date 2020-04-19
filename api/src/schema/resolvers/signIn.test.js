@@ -1,10 +1,10 @@
 import store from '../../../store/store';
 import samples from '../../../store/test/samples';
 import decodeJwt from '../../../test/decodeJwt';
-import isUuid from '../../../test/isUuid';
 import parseCookie from '../../../test/parseCookie';
 import { signIn, signUp } from '../../../test/queries';
 import testSpy from '../../../test/testSpy';
+import isUuid from '../../isUuid';
 import SignInError from './SignInError';
 
 jest.mock('../../../emails/sender'); // Disable sending mails
