@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
 import 'regenerator-runtime/runtime'; // eslint-disable-line import/no-extraneous-dependencies
+import ResetPassword from './components/Auth/ResetPassword';
+import Sign from './components/Auth/Sign';
 import Header from './components/Header';
 import Topics from './components/Topics';
 import './global.css';
 import Providers from './services/Providers';
-import Auth from './components/Auth';
-import ResetPassword from './components/Auth/ResetPassword';
 
 if (module.hot) module.hot.accept();
 
@@ -20,8 +20,12 @@ ReactDOM.render(
     <div className="mx-8">
       <div className={css.container}>
         <Switch>
-          <Route path="/auth">
-            <Auth />
+          <Route path="/" exact>
+            <Home />
+          </Route>
+
+          <Route path="/auth" exact>
+            <Sign />
           </Route>
 
           <Route path="/auth/reset" exact>
@@ -30,10 +34,6 @@ ReactDOM.render(
 
           <Route path="/topics">
             <Topics />
-          </Route>
-
-          <Route path="/" exact>
-            <Home />
           </Route>
         </Switch>
       </div>
