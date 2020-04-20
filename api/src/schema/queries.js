@@ -8,6 +8,12 @@ export default {
     }
   `,
 
+  RESET_PASSWORD: /* GraphQL */ `
+    mutation ResetPassword($password: String!, $token: String!) {
+      resetPassword(password: $password, token: $token)
+    }
+  `,
+
   RESET_PASSWORD_REQUEST: /* GraphQL */ `
     mutation ResetPasswordRequest($email: String!, $tenantShortId: String!) {
       resetPasswordRequest(email: $email, tenantShortId: $tenantShortId)

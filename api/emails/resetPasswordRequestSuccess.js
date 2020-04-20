@@ -1,11 +1,7 @@
-import jwt from 'jsonwebtoken';
 import config from '../config';
 import render from './render';
 
 export default ({ email, expiresIn, token }) => {
-  // const { expSeconds: expiresIn, secret } = config.auth.resetPassword.jwt;
-  // const token = jwt.sign({ id: userId }, secret, { expiresIn });
-  // const url = `${config.ui.host}/auth/reset?token=${token}`;
   const url = `${config.ui.host}/auth/reset?token=${token}`;
 
   render({

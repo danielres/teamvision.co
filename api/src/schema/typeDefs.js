@@ -17,6 +17,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    resetPassword(password: String!, token: String!): Boolean!
     resetPasswordRequest(email: String!, tenantShortId: String!): Boolean!
     signIn(args: SignInInput!): Boolean!
     signOut: Boolean!
