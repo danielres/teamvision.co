@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-fragments */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
@@ -8,6 +7,7 @@ import Topics from './components/Topics';
 import './global.css';
 import Providers from './services/Providers';
 import Auth from './components/Auth';
+import ResetPassword from './components/Auth/ResetPassword';
 
 if (module.hot) module.hot.accept();
 
@@ -19,11 +19,15 @@ ReactDOM.render(
 
     <div className="mx-8">
       <div className={css.container}>
-        <Route path="/auth">
-          <Auth />
-        </Route>
-
         <Switch>
+          <Route path="/auth">
+            <Auth />
+          </Route>
+
+          <Route path="/auth/reset" exact>
+            <ResetPassword />
+          </Route>
+
           <Route path="/topics">
             <Topics />
           </Route>

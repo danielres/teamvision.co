@@ -6,6 +6,7 @@ const css = {
   row: `mb-4`,
   label: `text-gray-700 block mb-1`,
   inputs: {
+    email: inputs.text,
     text: inputs.text,
     password: inputs.text,
     error: `shadow-none border-red-500 shadow-warning`,
