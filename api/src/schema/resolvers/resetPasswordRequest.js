@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
+import config from '../../../config';
 import sender from '../../../emails/sender';
 import store from '../../../store/store';
-import { reportError } from '../../utils';
+import reportError from '../../utils/reportError';
 import validate from './validators/validateResetPasswordRequest';
-import config from '../../../config';
 
 const { Tenant } = store;
 

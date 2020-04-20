@@ -1,5 +1,6 @@
 import store from '../../../store/store';
-import { reportError, verifyPassword } from '../../utils';
+import reportError from '../../utils/reportError';
+import verifyPassword from '../../utils/verifyPassword';
 import ServerError from '../errors/ServerError';
 import SignInError from './SignInError';
 

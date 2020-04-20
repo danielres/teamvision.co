@@ -3,7 +3,7 @@ import { ValidationError } from 'yup';
 import sender from '../../../emails/sender';
 import store from '../../../store/store';
 import testSpy from '../../../test/testSpy';
-import { reportError } from '../../utils';
+import reportError from '../../utils/reportError';
 import ServerError from '../errors/ServerError';
 
 export default async (parent, { args }) => {

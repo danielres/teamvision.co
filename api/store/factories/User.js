@@ -1,5 +1,5 @@
-import { hashPassword } from '../../src/utils';
 import validate from './validators/validateUser';
+import hashPassword from '../../src/utils/hashPassword';
 
 export default knex => tenantId => {
   const queries = {};

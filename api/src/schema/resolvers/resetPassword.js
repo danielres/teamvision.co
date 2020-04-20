@@ -1,7 +1,7 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import config from '../../../config';
 import store from '../../../store/store';
-import { reportError } from '../../utils';
+import reportError from '../../utils/reportError';
 
 export default async (parent, { password, token }) => {
   try {

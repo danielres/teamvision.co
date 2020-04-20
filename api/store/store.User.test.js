@@ -1,6 +1,6 @@
 import { sortBy } from 'lodash/fp';
 import { ValidationError } from 'yup';
-import { verifyPassword } from '../src/utils';
+import verifyPassword from '../src/utils/verifyPassword';
 import store from './store';
 import samples from './test/samples';
 import { constraints } from './test/shared';
