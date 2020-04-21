@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
+import VerifyEmail from './components/Auth/VerifyEmail';
 import 'regenerator-runtime/runtime'; // eslint-disable-line import/no-extraneous-dependencies
 import ResetPassword from './components/Auth/ResetPassword';
 import Sign from './components/Auth/Sign';
@@ -30,6 +31,10 @@ ReactDOM.render(
 
           <Route path="/auth/reset" exact>
             <ResetPassword />
+          </Route>
+
+          <Route path="/auth/verify" exact>
+            <VerifyEmail />
           </Route>
 
           <Route path="/topics">
