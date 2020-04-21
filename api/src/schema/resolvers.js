@@ -4,6 +4,7 @@ import resetPasswordRequest from './resolvers/resetPasswordRequest';
 import signIn from './resolvers/signIn';
 import signOut from './resolvers/signOut';
 import signUp from './resolvers/signUp';
+import verifyEmail from './resolvers/verifyEmail';
 
 const resolvers = {
   Query: {
@@ -18,6 +19,7 @@ const resolvers = {
     signIn,
     signOut,
     signUp,
+    verifyEmail,
   },
 };
 

@@ -37,4 +37,10 @@ export default {
       signUp(args: $args)
     }
   `,
+
+  VERIFY_EMAIL: /* GraphQL */ `
+    mutation VerifyEmai($token: String!) {
+      verifyEmail(token: $token)
+    }
+  `,
 };

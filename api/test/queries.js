@@ -14,3 +14,4 @@ export const resetPasswordRequest = useClient(queries.RESET_PASSWORD_REQUEST);
 export const signIn = useClient(queries.SIGN_IN);
 export const signOut = useClient(queries.SIGN_OUT);
 export const signUp = useClient(queries.SIGN_UP);
+export const verifyEmail = useClient(queries.VERIFY_EMAIL);
