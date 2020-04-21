@@ -1,5 +1,7 @@
+import jwt from 'jsonwebtoken';
 import shortid from 'shortid';
 import { ValidationError } from 'yup';
+import config from '../../../config';
 import sender from '../../../emails/sender';
 import store from '../../../store/store';
 import testSpy from '../../../test/testSpy';
@@ -14,7 +16,11 @@ export default async (parent, { args }) => {
     const user = await User.insert(args);
     testSpy.spy({ SignUp: { tenant, user } });
     const { email, name } = user;
-    await sender.signUpSuccess({ email, name });
+
+    const { expSeconds: expiresIn, secret } = config.auth.verifyEmail.jwt;
+    const token = jwt.sign({ id: user.id }, secret, { expiresIn });
+    await sender.verifyEmail({ email, expiresIn, name, token });
+
     return true;
   } catch (error) {
     if (error instanceof ValidationError) return error;
