@@ -49,7 +49,16 @@ describe(`User(tenantId)`, () => {
       const User = store.User(tenantId);
 
       const actual = await User.insert(anne);
-      expect(Object.keys(actual)).toEqual(['id', 'tenantId', 'email', 'name', 'password', 'createdAt', 'updatedAt']);
+      expect(Object.keys(actual)).toEqual([
+        'id',
+        'tenantId',
+        'email',
+        'emailVerifiedAt',
+        'name',
+        'password',
+        'createdAt',
+        'updatedAt',
+      ]);
       expect(actual.name).toEqual(anne.name);
       expect(actual.tenantId).toEqual(tenantId);
       done();
