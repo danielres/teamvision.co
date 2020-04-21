@@ -18,6 +18,13 @@ const config = {
         secret: process.env.AUTH_RESET_PASSWORD_JWT_SECRET,
       },
     },
+
+    verifyEmail: {
+      jwt: {
+        expSeconds: parseInt(process.env.AUTH_RESET_PASSWORD_JWT_EXP_SECONDS, 10) || 15 * 60,
+        secret: process.env.AUTH_RESET_PASSWORD_JWT_SECRET,
+      },
+    },
   },
 
   bcrypt: {
@@ -47,6 +54,13 @@ const validator = object().shape({
     }),
 
     resetPassword: object().shape({
+      jwt: object().shape({
+        expSeconds: number().integer().positive().required(),
+        secret: string().min(20).required(),
+      }),
+    }),
+
+    verifyEmail: object().shape({
       jwt: object().shape({
         expSeconds: number().integer().positive().required(),
         secret: string().min(20).required(),
