@@ -22,7 +22,7 @@ describe('mutation SignUp', () => {
 
   describe('on success', () => {
     beforeAll(async () => {
-      sender.signUpSuccess = jest.fn();
+      sender.verifyEmail = jest.fn();
       data = (await signUp(jane)).data;
     });
 
@@ -39,9 +39,9 @@ describe('mutation SignUp', () => {
       done();
     });
 
-    it('calls sender.signUpSuccess with email + name', () => {
+    it('calls sender.verifyEmail with email + name', () => {
       const { email, name } = jane.args;
-      return expect(sender.signUpSuccess).toHaveBeenCalledWith({ email, name });
+      return expect(sender.verifyEmail).toHaveBeenCalledWith({ email, name });
     });
 
     it('creates a default tenant for the user', async () => {

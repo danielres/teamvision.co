@@ -1,9 +1,9 @@
 import resetPasswordRequestFailureAltTenants from './resetPasswordRequestFailureAltTenants';
 import resetPasswordRequestSuccess from './resetPasswordRequestSuccess';
-import signUpSuccess from './signUpSuccess';
+import verifyEmail from './verifyEmail';
 
 export default {
   resetPasswordRequestFailureAltTenants,
   resetPasswordRequestSuccess,
-  signUpSuccess,
+  verifyEmail,
 };
