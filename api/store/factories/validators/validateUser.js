@@ -14,9 +14,14 @@ const schemas = {
     id: yup.string().matches(REGEX_UUID, 'User id is not in correct format').required(),
     password,
   }),
+
+  verifyEmail: yup.object().shape({
+    id: yup.string().matches(REGEX_UUID, 'User id is not in correct format').required(),
+  }),
 };
 
 export default {
   insert: args => schemas.insert.validate(args, { abortEarly: false }),
   updatePassword: args => schemas.updatePassword.validate(args, { abortEarly: false }),
+  verifyEmail: args => schemas.verifyEmail.validate(args, { abortEarly: false }),
 };

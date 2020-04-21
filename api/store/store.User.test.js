@@ -4,6 +4,7 @@ import verifyPassword from '../src/utils/verifyPassword';
 import store from './store';
 import samples from './test/samples';
 import { constraints } from './test/shared';
+import isValidDate from '../../ui/src/utils/isValidDate';
 
 const {
   Tenant: { tenant1, tenant2 },
@@ -175,6 +176,20 @@ describe(`User(tenantId)`, () => {
           });
         });
       });
+    });
+  });
+
+  describe('verifyEmail()', () => {
+    it('sets emailVerifiedAt to now', async () => {
+      const { id: tenantId } = await Tenant.insert(tenant1);
+      const User = store.User(tenantId);
+      const dbAnne = await User.insert(anne);
+
+      await User.verifyEmail({ id: dbAnne.id });
+      const [dbAnneVerified] = await User.all();
+
+      expect(dbAnne.emailVerifiedAt).toBe(null);
+      expect(isValidDate(dbAnneVerified.emailVerifiedAt)).toBe(true);
     });
   });
 });

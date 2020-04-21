@@ -25,5 +25,11 @@ export default knex => tenantId => {
     return knex('User').where({ id }).update({ password: hash });
   };
 
+  queries.verifyEmail = async args => {
+    const { id } = await validate.verifyEmail(args);
+    const now = new Date();
+    return knex('User').where({ id }).update({ emailVerifiedAt: now });
+  };
+
   return queries;
 };
