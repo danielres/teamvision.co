@@ -22,6 +22,7 @@ const typeDefs = gql`
     signIn(args: SignInInput!): Boolean!
     signOut: Boolean!
     signUp(args: SignUpInput!): Boolean!
+    verifyEmail(token: String!): Boolean!
   }
 
   input SignInInput {
