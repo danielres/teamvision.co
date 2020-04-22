@@ -14,7 +14,9 @@ export default ({ error }) => {
     return (
       <ul className={css.alerts.danger.outer}>
         {asyncErrors.map(e => (
-          <li className={css.alerts.danger.item}>{upperFirst(e.message)}</li>
+          <li key={e.message} className={css.alerts.danger.item}>
+            {upperFirst(e.message)}
+          </li>
         ))}
       </ul>
     );
