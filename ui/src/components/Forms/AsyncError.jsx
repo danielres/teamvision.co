@@ -1,6 +1,6 @@
 import get from 'lodash/get';
-import React from 'react';
 import upperFirst from 'lodash/upperFirst';
+import React from 'react';
 import alerts from '../../css/alerts';
 
 const css = {
@@ -12,9 +12,9 @@ export default ({ error }) => {
 
   if (asyncErrors.length > 0)
     return (
-      <ul className={css.alerts.warning.outer}>
+      <ul className={css.alerts.danger.outer}>
         {asyncErrors.map(e => (
-          <li className={css.alerts.warning.item}>{upperFirst(e.message)}</li>
+          <li className={css.alerts.danger.item}>{upperFirst(e.message)}</li>
         ))}
       </ul>
     );

@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       boxShadow: {
-        warning: '0 0 0 3px rgba(197,48,48,0.2)',
+        danger: '0 0 0 3px rgba(197,48,48,0.2)',
       },
     },
   },

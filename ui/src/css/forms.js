@@ -9,7 +9,7 @@ const css = {
     email: inputs.text,
     text: inputs.text,
     password: inputs.text,
-    error: `shadow-none border-red-500 shadow-warning`,
+    error: `shadow-none border-red-500 shadow-danger`,
   },
   error: `text-red-700 text-sm`,
 };
