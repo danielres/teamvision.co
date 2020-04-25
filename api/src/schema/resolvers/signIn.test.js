@@ -23,7 +23,8 @@ describe('mutation SignIn', () => {
     beforeAll(async () => {
       jest.resetAllMocks();
       await signUp(SignUpInput.jane());
-      const { tenant } = spy.mock.calls[0][0].SignUp;
+      const { tenant, user } = spy.mock.calls[0][0].SignUp;
+      await store.User(tenant.id).verifyEmail({ id: user.id });
       const jane = SignInInput.jane(tenant.shortId);
       response = await signIn(jane);
     });
@@ -42,39 +43,62 @@ describe('mutation SignIn', () => {
   describe('on error', () => {
     describe('when user previously signed up', () => {
       let tenant;
+      let userId;
 
       beforeAll(async () => {
         jest.resetAllMocks();
         await signUp(SignUpInput.jane());
         tenant = spy.mock.calls[0][0].SignUp.tenant;
+        userId = spy.mock.calls[0][0].SignUp.user.id;
       });
 
-      describe('on wrong email', () => {
+      describe('on email not verified', () => {
         it('returns a SignInError', async () => {
-          const { errors } = await signIn(SignInInput.jane(tenant.shortId, { email: 'wrong@example.com' }));
+          jest.resetAllMocks();
+          const { errors } = await signIn(SignInInput.jane(tenant.shortId));
           expect(errors[0].name).toEqual(SignInError.name);
+          expect(spy.mock.calls[0][0].SignInError.internalData).toEqual('EMAIL_NOT_VERIFIED');
         });
       });
 
-      describe('on wrong password', () => {
-        it('returns a SignInError', async () => {
-          const { errors } = await signIn(SignInInput.jane(tenant.shortId, { password: 'wrong' }));
-          expect(errors[0].name).toEqual(SignInError.name);
-        });
-      });
+      describe('on email verified', () => {
+        beforeAll(() => store.User(tenant.id).verifyEmail({ id: userId }));
 
-      describe('on wrong tenantShortId', () => {
-        it('returns a SignInError', async () => {
-          const anotherTenant = await store.Tenant.insert(samples.Tenant.tenant2);
-          const { errors } = await signIn(SignInInput.jane(anotherTenant.shortId));
-          expect(errors[0].name).toEqual(SignInError.name);
+        describe('on wrong email', () => {
+          it('returns a SignInError (USER_NOT_FOUND)', async () => {
+            jest.resetAllMocks();
+            const { errors } = await signIn(SignInInput.jane(tenant.shortId, { email: 'wrong@example.com' }));
+            expect(errors[0].name).toEqual(SignInError.name);
+            expect(spy.mock.calls[0][0].SignInError.internalData).toEqual('USER_NOT_FOUND');
+          });
         });
-      });
 
-      describe('on non-existing tenantShortId', () => {
-        it('returns a SignInError', async () => {
-          const { errors } = await signIn(SignInInput.jane('XQGYJOgnaK'));
-          expect(errors[0].name).toEqual(SignInError.name);
+        describe('on wrong password', () => {
+          it('returns a SignInError (PASSWORD_NOT_CORRECT)', async () => {
+            jest.resetAllMocks();
+            const { errors } = await signIn(SignInInput.jane(tenant.shortId, { password: 'wrong' }));
+            expect(errors[0].name).toEqual(SignInError.name);
+            expect(spy.mock.calls[0][0].SignInError.internalData).toEqual('PASSWORD_NOT_CORRECT');
+          });
+        });
+
+        describe('on wrong tenantShortId', () => {
+          it('returns a SignInError (USER_NOT_FOUND)', async () => {
+            jest.resetAllMocks();
+            const anotherTenant = await store.Tenant.insert(samples.Tenant.tenant2);
+            const { errors } = await signIn(SignInInput.jane(anotherTenant.shortId));
+            expect(errors[0].name).toEqual(SignInError.name);
+            expect(spy.mock.calls[0][0].SignInError.internalData).toEqual('USER_NOT_FOUND');
+          });
+        });
+
+        describe('on non-existing tenantShortId', () => {
+          it('returns a SignInError (TENANT_NOT_FOUND)', async () => {
+            jest.resetAllMocks();
+            const { errors } = await signIn(SignInInput.jane('XQGYJOgnaK'));
+            expect(errors[0].name).toEqual(SignInError.name);
+            expect(spy.mock.calls[0][0].SignInError.internalData).toEqual('TENANT_NOT_FOUND');
+          });
         });
       });
     });
@@ -83,19 +107,22 @@ describe('mutation SignIn', () => {
       let tenant;
 
       beforeAll(async () => {
-        jest.resetAllMocks();
         tenant = await store.Tenant.insert(samples.Tenant.tenant1);
       });
 
-      it('returns a SignInError', async () => {
+      it('returns a SignInError (USER_NOT_FOUND)', async () => {
+        jest.resetAllMocks();
         const { errors } = await signIn(SignInInput.jane(tenant.shortId));
         expect(errors[0].name).toEqual(SignInError.name);
+        expect(spy.mock.calls[0][0].SignInError.internalData).toEqual('USER_NOT_FOUND');
       });
 
       describe('on non-existing tenantShortId', () => {
-        it('returns a SignInError', async () => {
+        it('returns a SignInError (TENANT_NOT_FOUND)', async () => {
+          jest.resetAllMocks();
           const { errors } = await signIn(SignInInput.jane('XQGYJOgnaK'));
           expect(errors[0].name).toEqual(SignInError.name);
+          expect(spy.mock.calls[0][0].SignInError.internalData).toEqual('TENANT_NOT_FOUND');
         });
       });
     });

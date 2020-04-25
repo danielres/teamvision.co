@@ -16,7 +16,7 @@ const spy = jest.spyOn(testSpy, 'spy');
 const { SignInInput, SignUpInput } = samples;
 
 describe('query Me', () => {
-  let user;
+  let dbJane;
   let cookie;
 
   beforeAll(async () => {
@@ -24,8 +24,9 @@ describe('query Me', () => {
     await signUp(SignUpInput.jane());
     const spyResult = spy.mock.calls[0][0].SignUp;
     const { tenant } = spyResult;
-    user = spyResult.user;
+    dbJane = spyResult.user;
     const jane = SignInInput.jane(tenant.shortId);
+    await store.User(null).verifyEmail({ id: dbJane.id });
     const response = await signIn(jane);
     const { session } = parseCookie(response.headers['set-cookie'][0]);
     const sessionSig = parseCookie(response.headers['set-cookie'][1])['session.sig'];
@@ -36,7 +37,7 @@ describe('query Me', () => {
     it('returns the current user details', async () => {
       const { data } = await me({}, { headers: { Cookie: cookie } });
       const testedFields = ['id', 'email'];
-      expect(pick(testedFields, data.me)).toEqual(pick(testedFields, user));
+      expect(pick(testedFields, data.me)).toEqual(pick(testedFields, dbJane));
     });
 
     it('with missing cookies', async () => {
