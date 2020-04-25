@@ -1,4 +1,9 @@
+import { compose } from 'lodash/fp';
 import me from './resolvers/me';
+import benchmark from './resolvers/middlewares/benchmark';
+import ensureAuth from './resolvers/middlewares/ensureAuth';
+import findMe from './resolvers/middlewares/findMe';
+import applyAll from './resolvers/middlewares/utils/applyAll';
 import resetPassword from './resolvers/resetPassword';
 import resetPasswordRequest from './resolvers/resetPasswordRequest';
 import signIn from './resolvers/signIn';
@@ -8,10 +13,10 @@ import verifyEmail from './resolvers/verifyEmail';
 
 const resolvers = {
   Query: {
-    me,
-    topics: () => {
+    me: compose(ensureAuth, findMe)(me),
+    topics: compose(ensureAuth)(() => {
       return [];
-    },
+    }),
   },
   Mutation: {
     resetPassword,
@@ -23,4 +28,4 @@ const resolvers = {
   },
 };
 
-export default resolvers;
+export default applyAll(benchmark)(resolvers);

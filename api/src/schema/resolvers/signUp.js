@@ -5,8 +5,7 @@ import config from '../../../config';
 import sender from '../../../emails/sender';
 import store from '../../../store/store';
 import testSpy from '../../../test/testSpy';
-import reportError from '../../utils/reportError';
-import ServerError from '../errors/ServerError';
+import InputValidationError from '../../errors/InputValidationError';
 
 export default async (parent, { args }) => {
   try {
@@ -22,9 +21,8 @@ export default async (parent, { args }) => {
     await sender.verifyEmail({ email, expiresIn, name, token });
 
     return true;
-  } catch (error) {
-    if (error instanceof ValidationError) return error;
-    reportError(error);
-    return new ServerError();
+  } catch (originalError) {
+    if (originalError instanceof ValidationError) throw new InputValidationError({ originalError });
+    throw originalError;
   }
 };

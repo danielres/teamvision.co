@@ -4,8 +4,8 @@ import decodeJwt from '../../../test/decodeJwt';
 import parseCookie from '../../../test/parseCookie';
 import { signIn, signUp } from '../../../test/queries';
 import testSpy from '../../../test/testSpy';
+import SignInError from '../../errors/SignInError';
 import isUuid from '../../isUuid';
-import SignInError from './SignInError';
 
 jest.mock('../../../emails/sender'); // Disable sending mails
 
@@ -52,14 +52,14 @@ describe('mutation SignIn', () => {
       describe('on wrong email', () => {
         it('returns a SignInError', async () => {
           const { errors } = await signIn(SignInInput.jane(tenant.shortId, { email: 'wrong@example.com' }));
-          expect(errors[0].message).toEqual(new SignInError().message);
+          expect(errors[0].name).toEqual(SignInError.name);
         });
       });
 
       describe('on wrong password', () => {
         it('returns a SignInError', async () => {
           const { errors } = await signIn(SignInInput.jane(tenant.shortId, { password: 'wrong' }));
-          expect(errors[0].message).toEqual(new SignInError().message);
+          expect(errors[0].name).toEqual(SignInError.name);
         });
       });
 
@@ -67,14 +67,14 @@ describe('mutation SignIn', () => {
         it('returns a SignInError', async () => {
           const anotherTenant = await store.Tenant.insert(samples.Tenant.tenant2);
           const { errors } = await signIn(SignInInput.jane(anotherTenant.shortId));
-          expect(errors[0].message).toEqual(new SignInError().message);
+          expect(errors[0].name).toEqual(SignInError.name);
         });
       });
 
       describe('on non-existing tenantShortId', () => {
         it('returns a SignInError', async () => {
           const { errors } = await signIn(SignInInput.jane('XQGYJOgnaK'));
-          expect(errors[0].message).toEqual(new SignInError().message);
+          expect(errors[0].name).toEqual(SignInError.name);
         });
       });
     });
@@ -89,13 +89,13 @@ describe('mutation SignIn', () => {
 
       it('returns a SignInError', async () => {
         const { errors } = await signIn(SignInInput.jane(tenant.shortId));
-        expect(errors[0].message).toEqual(new SignInError().message);
+        expect(errors[0].name).toEqual(SignInError.name);
       });
 
       describe('on non-existing tenantShortId', () => {
         it('returns a SignInError', async () => {
           const { errors } = await signIn(SignInInput.jane('XQGYJOgnaK'));
-          expect(errors[0].message).toEqual(new SignInError().message);
+          expect(errors[0].name).toEqual(SignInError.name);
         });
       });
     });

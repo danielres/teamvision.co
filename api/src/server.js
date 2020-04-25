@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 import express from 'express';
 import config from '../config';
+import formatError from './formatError';
 import resolvers from './schema/resolvers';
 import typeDefs from './schema/typeDefs';
 
@@ -22,6 +23,7 @@ export const Server = () => {
       res,
       session: req.session,
     }),
+    formatError,
   });
 
   const path = '/';

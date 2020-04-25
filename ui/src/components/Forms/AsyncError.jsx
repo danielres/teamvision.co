@@ -8,18 +8,26 @@ const css = {
 };
 
 export default ({ error }) => {
-  const asyncErrors = get(error, 'graphQLErrors', []);
+  const asyncErrors = get(error, 'graphQLErrors');
 
-  if (asyncErrors.length > 0)
+  if (asyncErrors)
     return (
       <ul className={css.alerts.danger.outer}>
         {asyncErrors.map(e => (
-          <li key={e.message} className={css.alerts.danger.item}>
-            {upperFirst(e.message)}
-          </li>
+          <ErrorMessages key={e.message} error={e} />
         ))}
       </ul>
     );
 
   return null;
+};
+
+const ErrorMessages = ({ error }) => {
+  const messages = get(error, 'messages', [error.message]);
+
+  return messages.map(e => (
+    <li className={css.alerts.danger.item} key={e}>
+      {upperFirst(e)}
+    </li>
+  ));
 };

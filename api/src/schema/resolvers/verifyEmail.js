@@ -1,7 +1,7 @@
-import jwt, { TokenExpiredError } from 'jsonwebtoken';
+import jwt, { TokenExpiredError as JwtTokenExpiredError } from 'jsonwebtoken';
 import config from '../../../config';
 import store from '../../../store/store';
-import reportError from '../../utils/reportError';
+import TokenExpiredError from '../../errors/TokenExpiredError';
 
 export default async (parent, { token }) => {
   try {
@@ -11,9 +11,7 @@ export default async (parent, { token }) => {
     await User.verifyEmail({ id });
     return true;
   } catch (error) {
-    if (error instanceof TokenExpiredError) return error;
-
-    reportError(error);
+    if (error instanceof JwtTokenExpiredError) throw new TokenExpiredError();
     throw error;
   }
 };

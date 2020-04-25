@@ -4,7 +4,7 @@ import samples from '../../../store/test/samples';
 import parseCookie from '../../../test/parseCookie';
 import { me, signIn, signUp } from '../../../test/queries';
 import testSpy from '../../../test/testSpy';
-import AuthenticationError from '../errors/AuthenticationError';
+import TokenAuthenticationError from '../../errors/TokenAuthenticationError';
 
 jest.mock('../../../emails/sender'); // Disable sending mails
 
@@ -41,12 +41,12 @@ describe('query Me', () => {
 
     it('with missing cookies', async () => {
       const { errors } = await me();
-      expect(errors[0].message).toEqual(new AuthenticationError().message);
+      expect(errors[0].name).toEqual(TokenAuthenticationError.name);
     });
 
     it('with wrong cookies', async () => {
       const { errors } = await me({ headers: { Cookie: 'wrong' } });
-      expect(errors[0].message).toEqual(new AuthenticationError().message);
+      expect(errors[0].name).toEqual(TokenAuthenticationError.name);
     });
   });
 
@@ -54,14 +54,14 @@ describe('query Me', () => {
     describe('on missing cookies', () => {
       it('returns error AuthenticationError', async () => {
         const { errors } = await me();
-        expect(errors[0].message).toEqual(new AuthenticationError().message);
+        expect(errors[0].name).toEqual(TokenAuthenticationError.name);
       });
     });
 
     describe('on wrong cookies', () => {
       it('returns error AuthenticationError', async () => {
         const { errors } = await me({ headers: { Cookie: 'wrong' } });
-        expect(errors[0].message).toEqual(new AuthenticationError().message);
+        expect(errors[0].name).toEqual(TokenAuthenticationError.name);
       });
     });
   });

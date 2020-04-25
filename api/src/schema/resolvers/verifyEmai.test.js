@@ -1,9 +1,10 @@
 /* eslint-disable no-return-assign */
-import jwt, { TokenExpiredError } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import lolex from 'lolex';
 import config from '../../../config';
 import store from '../../../store/store';
 import { verifyEmail } from '../../../test/queries';
+import TokenExpiredError from '../../errors/TokenExpiredError';
 
 const { expSeconds: expiresIn, secret } = config.auth.verifyEmail.jwt;
 
