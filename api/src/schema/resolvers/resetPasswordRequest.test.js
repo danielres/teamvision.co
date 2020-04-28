@@ -35,8 +35,8 @@ describe('mutation ResetPasswordRequest(_, { email, tenantShortId })', () => {
     });
 
     describe('sender.resetPasswordRequestSuccess', () => {
-      it('is called with email + expiresIn + token', async () => {
-        expect(Object.keys(senderArgs)).toEqual(['email', 'expiresIn', 'token']);
+      it('is called with email + expiresIn + tenantShortId + token', async () => {
+        expect(Object.keys(senderArgs)).toEqual(['email', 'expiresIn', 'tenantShortId', 'token']);
       });
 
       it(`receives the user's email`, () => {

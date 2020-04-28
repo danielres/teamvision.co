@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 
 const base = `inline-block`;
-const link = `text-gray-600 rounded hover:underline`;
+const link = `text-gray-700 rounded hover:underline`;
 const spacing = `py-2 px-4`;
 
 const colored = color =>
@@ -18,4 +18,7 @@ export default {
   primary: colored('blue'),
   transparent: classnames(base, spacing, link),
   text: link,
+  inverted: {
+    text: `text-gray-200 rounded hover:underline`,
+  },
 };

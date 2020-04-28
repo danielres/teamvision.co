@@ -16,7 +16,7 @@ export default () => {
   };
 
   return (
-    <button className={css.buttons.text} onClick={handleSignout} type="button">
+    <button className={css.buttons.inverted.text} onClick={handleSignout} type="button">
       Sign out
     </button>
   );

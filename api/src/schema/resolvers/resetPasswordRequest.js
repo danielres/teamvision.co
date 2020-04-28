@@ -24,7 +24,7 @@ export default async (parent, args) => {
 
   const { expSeconds: expiresIn, secret } = config.auth.resetPassword.jwt;
   const token = jwt.sign({ id: user.id }, secret, { expiresIn });
-  await sender.resetPasswordRequestSuccess({ email, expiresIn, token });
+  await sender.resetPasswordRequestSuccess({ email, expiresIn, tenantShortId: tenant.shortId, token });
 
   return true;
 };

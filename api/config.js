@@ -41,6 +41,10 @@ const config = {
 
   ui: {
     host: process.env.UI_HOST,
+    paths: {
+      passwordReset: process.env.UI_PATH_PASSWORD_RESET,
+      verifyEmail: process.env.UI_PATH_VERIFY_EMAIL,
+    },
   },
 };
 
@@ -81,6 +85,10 @@ const validator = object().shape({
 
   ui: object().shape({
     host: isTest || isDev ? string().required() : string().url().required(),
+    paths: object().shape({
+      passwordReset: string().required(),
+      verifyEmail: string().required(),
+    }),
   }),
 });
 

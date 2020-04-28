@@ -48,8 +48,8 @@ describe('mutation SignUp', () => {
     });
 
     describe('sender.verifyEmail', () => {
-      it('is called with email + expiresIn + name + token', async () => {
-        expect(Object.keys(senderArgs)).toEqual(['email', 'expiresIn', 'name', 'token']);
+      it('is called with email + expiresIn + name + tenantShortId + token', async () => {
+        expect(Object.keys(senderArgs)).toEqual(['email', 'expiresIn', 'name', 'tenantShortId', 'token']);
       });
 
       it(`receives the user's email`, () => {

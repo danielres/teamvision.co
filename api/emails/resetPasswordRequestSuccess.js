@@ -1,8 +1,9 @@
 import config from '../config';
+import uiResolveUrl from '../src/utils/uiResolveUrl';
 import render from './render';
 
-export default ({ email, expiresIn, token }) => {
-  const url = `${config.ui.host}/auth/reset?token=${token}`;
+export default ({ email, expiresIn, tenantShortId, token }) => {
+  const url = uiResolveUrl(config.ui.paths.passwordReset, { tenantShortId, token });
 
   render({
     email,

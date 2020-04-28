@@ -3,13 +3,14 @@ import classnames from 'classnames';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useHistory } from 'react-router-dom';
-import buttons from '../../../../css/buttons';
-import forms from '../../../../css/forms';
-import queries from '../../../../queries';
-import parseQs from '../../../../utils/parseQs';
-import AsyncError from '../../../Forms/AsyncError';
-import Input from '../../../Forms/Input';
-import ButtonSubmit from '../../../Forms/ButtonSubmit';
+import buttons from '../../css/buttons';
+import forms from '../../css/forms';
+import { paths, toDashboard } from '../../pages/paths';
+import queries from '../../queries';
+import parseQs from '../../utils/parseQs';
+import AsyncError from '../Forms/AsyncError';
+import ButtonSubmit from '../Forms/ButtonSubmit';
+import Input from '../Forms/Input';
 
 const css = {
   buttons,
@@ -20,25 +21,33 @@ const css = {
   success: { outer: `py-12 text-center` },
 };
 
-export default ({ onSuccess }) => {
-  const [resetPassword, { data, loading, error }] = useMutation(queries.RESET_PASSWORD);
+export default () => {
+  const [isSuccess, setIsSuccess] = React.useState(false);
+  const onSuccess = () => setIsSuccess(true);
+
+  if (isSuccess)
+    return (
+      <div className={css.success.outer}>
+        <p>Password reset successfully!</p>
+        <br />
+
+        <Link className={css.buttons.primary} to={toDashboard()}>
+          Sign in
+        </Link>
+      </div>
+    );
+
+  return <FormResetPassword onSuccess={onSuccess} />;
+};
+
+const FormResetPassword = ({ onSuccess }) => {
+  const [resetPassword, { loading, error }] = useMutation(queries.RESET_PASSWORD);
   const { token } = parseQs();
   const { register, handleSubmit, errors } = useForm();
   const history = useHistory();
   const onSubmit = ({ password }) => {
     resetPassword({ variables: { password, token } }).then(onSuccess);
   };
-
-  if (data && data.resetPassword)
-    return (
-      <div className={css.success.outer}>
-        <p>Your password has been updated successfully.</p>
-        <br />
-        <Link className={css.buttons.primary} to="/auth">
-          Back
-        </Link>
-      </div>
-    );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -64,7 +73,7 @@ export default ({ onSuccess }) => {
           className={css.buttons.transparent}
           onClick={e => {
             e.preventDefault();
-            history.push('/');
+            history.push(paths.HOME);
           }}
           type="button"
         >

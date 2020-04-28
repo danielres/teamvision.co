@@ -1,8 +1,9 @@
 import config from '../config';
 import render from './render';
+import uiResolveUrl from '../src/utils/uiResolveUrl';
 
-export default ({ email, expiresIn, name, token }) => {
-  const url = `${config.ui.host}/auth/verify?token=${token}`;
+export default ({ email, expiresIn, name, tenantShortId, token }) => {
+  const url = uiResolveUrl(config.ui.paths.verifyEmail, { tenantShortId, token });
 
   render({
     email,

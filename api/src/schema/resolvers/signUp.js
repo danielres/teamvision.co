@@ -18,7 +18,7 @@ export default async (parent, { args }) => {
 
     const { expSeconds: expiresIn, secret } = config.auth.verifyEmail.jwt;
     const token = jwt.sign({ id: user.id }, secret, { expiresIn });
-    await sender.verifyEmail({ email, expiresIn, name, token });
+    await sender.verifyEmail({ email, expiresIn, name, tenantShortId: tenant.shortId, token });
 
     return true;
   } catch (originalError) {
