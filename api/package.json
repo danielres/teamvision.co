@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "run-p store:up dev:server",
     "dev:server": "NODE_ENV=development env-cmd -f .env nodemon -r esm src",
+    "e2e": "NODE_ENV=test env-cmd -f .env nodemon -r esm src",
     "test": "yarn test:once --watch",
     "test:once": "NODE_ENV=test env-cmd jest --verbose --runInBand",
     "store:up": "env-cmd run-s 'dc up'",
