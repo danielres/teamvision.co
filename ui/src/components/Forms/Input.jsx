@@ -10,9 +10,11 @@ export default ({
   form: { errors, register },
   input: { defaultValue, name, placeholder, type = 'text' },
   label: { className: labelClassName = css.forms.label, text: label },
+  test: { prefix } = {},
   validations,
 }) => {
   const id = `${name}-${Math.random()}`;
+  const testId = prefix ? `${prefix}.inputs.${name}` : undefined;
 
   return (
     <>
@@ -20,6 +22,7 @@ export default ({
         {label && <span className={labelClassName}>{label}</span>}
         <input
           className={classnames(css.forms.inputs[type], { [css.forms.inputs.error]: errors[name] })}
+          data-testId={testId}
           defaultValue={defaultValue}
           id={id}
           name={name}
