@@ -35,6 +35,7 @@ const FormSignUp = ({ onSuccess }) => {
             type: 'email',
           }}
           label={{ text: 'Email' }}
+          test={{ prefix: 'formSignUp' }}
           validations={{ required: true }}
         />
       </div>
@@ -49,6 +50,7 @@ const FormSignUp = ({ onSuccess }) => {
             type: 'password',
           }}
           label={{ text: 'Password' }}
+          test={{ prefix: 'formSignUp' }}
           validations={{ required: true }}
         />
       </div>
@@ -62,12 +64,15 @@ const FormSignUp = ({ onSuccess }) => {
             placeholder: 'Your username',
           }}
           label={{ text: 'Username' }}
+          test={{ prefix: 'formSignUp' }}
           validations={{ required: true }}
         />
       </div>
 
       <div className={classnames(css.forms.row)}>
-        <ButtonSubmit isDisabled={loading}>Sign up</ButtonSubmit>
+        <ButtonSubmit isDisabled={loading} test={{ prefix: 'formSignUp' }}>
+          Sign up
+        </ButtonSubmit>
       </div>
     </form>
   );

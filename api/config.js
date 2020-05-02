@@ -4,6 +4,10 @@ const isDev = process.env.NODE_ENV === 'development';
 const isTest = process.env.NODE_ENV === 'test';
 
 const config = {
+  api: {
+    port: isTest ? process.env.API_PORT_TEST : process.env.API_PORT,
+  },
+
   auth: {
     cookie: {
       key1: process.env.AUTH_COOKIE_KEY1,
@@ -40,7 +44,7 @@ const config = {
   },
 
   ui: {
-    host: process.env.UI_HOST,
+    host: isTest ? process.env.UI_HOST_TEST : process.env.UI_HOST,
     paths: {
       passwordReset: process.env.UI_PATH_PASSWORD_RESET,
       verifyEmail: process.env.UI_PATH_VERIFY_EMAIL,
@@ -49,6 +53,10 @@ const config = {
 };
 
 const validator = object().shape({
+  api: object().shape({
+    port: number().required(),
+  }),
+
   auth: object().shape({
     cookie: object().shape({
       key1: string().min(20).required(),

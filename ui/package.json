@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "run-p css:dev js:dev",
     "build": "run-s css:build js:build",
+    "e2e": "NODE_ENV=test env-cmd -f .env node -r esm devServer.js",
     "css:dev": "NODE_ENV=development yarn css:build -w",
     "css:build": "postcss src/**/*.pcss --base src --ext css -d src --config postcss",
     "js:dev": "NODE_ENV=development env-cmd -f .env node -r esm devServer.js",
@@ -29,7 +30,8 @@
     "react-icons": "^3.8.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "yup": "^0.28.5"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^1.3.0",
