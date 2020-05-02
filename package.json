@@ -6,12 +6,14 @@
   "private": true,
   "workspaces": [
     "api",
+    "e2e",
     "ui"
   ],
   "scripts": {
     "dev": "run-p 'api dev' 'ui dev'",
     "lint": "yarn eslint --cache . ",
     "api": "yarn workspace api run",
+    "e2e": "yarn workspace e2e run",
     "ui": "yarn workspace ui run"
   },
   "husky": {
