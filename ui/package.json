@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "run-p css:dev js:dev",
     "build": "run-s css:build js:build",
+    "e2e": "NODE_ENV=test env-cmd -f .env node -r esm devServer.js",
     "css:dev": "NODE_ENV=development yarn css:build -w",
     "css:build": "postcss src/**/*.pcss --base src --ext css -d src --config postcss",
     "js:dev": "NODE_ENV=development env-cmd -f .env node -r esm devServer.js",
