@@ -1,0 +1,24 @@
+{
+  "name": "mailcatcher",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "ui": "node ./ui",
+    "ui:dev": "nodemon ./ui",
+    "test": "yarn test:once --watch",
+    "test:once": "jest"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mailparser": "^2.7.7",
+    "smtp-server": "^3.5.0",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {
+    "jest": "^25.5.4",
+    "nodemailer": "^6.4.6",
+    "nodemon": "^2.0.3",
+    "portfinder-sync": "^0.0.2"
+  }
+}
