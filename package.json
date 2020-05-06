@@ -11,10 +11,11 @@
     "ui"
   ],
   "scripts": {
-    "dev": "run-p 'api dev' 'ui dev'",
+    "dev": "run-p 'api dev' 'ui dev' 'mailcatcher ui'",
     "lint": "yarn eslint --cache . ",
     "api": "yarn workspace api run",
     "e2e": "yarn workspace e2e run",
+    "mailcatcher": "yarn workspace mailcatcher run",
     "ui": "yarn workspace ui run"
   },
   "husky": {
