@@ -1,23 +1,34 @@
 import config from '../config';
-import render from './render';
 import uiResolveUrl from '../src/utils/uiResolveUrl';
+import sendMail from './sendMail';
 
-export default ({ email, expiresIn, name, tenantShortId, token }) => {
+export default async ({ email, expiresIn, name, tenantShortId, token }) => {
+  const subject = 'Please verify your email';
   const url = uiResolveUrl(config.ui.paths.verifyEmail, { tenantShortId, token });
 
-  render({
-    email,
-    content: `
-      Hi ${name}!
+  const content = `
+  <h1>Hi ${name}!</h1>
 
-      Thank you for signing up.
-      Your account has been created.
+  <p>
+    Thank you for signing up.<br/>
+    Your account has been created.
+  </p>
 
-      Please click on the following link to verify your email:
+  <p>
+    Please click on the following link to verify your email:
+  </p>
 
-      ${url}
+  <p>
+    <a data-testId="verifyEmail.links.verify" href="${url}">Verify my email</a>
+  </p>
 
-      Note: the above link will expire in ${expiresIn / 60} minutes.
-    `,
-  });
+  <p>
+    Note: the above link will expire in ${expiresIn / 60} minutes.
+  </p>
+`;
+
+  const text = content;
+  const html = content;
+
+  await sendMail({ to: email, subject, text, html });
 };
