@@ -35,6 +35,19 @@ const config = {
     saltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS, 10) || 11,
   },
 
+  mailer: {
+    from: process.env.MAILER_FROM,
+    smtp: {
+      auth: {
+        user: process.env.MAILER_SMTP_AUTH_USER,
+        pass: process.env.MAILER_SMTP_AUTH_PASSWORD,
+      },
+      host: process.env.MAILER_SMTP_HOST,
+      port: parseInt(process.env.MAILER_SMTP_PORT, 10),
+      secure: process.env.MAILER_SMTP_SECURE !== 'false',
+    },
+  },
+
   pg: {
     password: process.env.PG_PASSWORD,
     user: process.env.PG_USER,
@@ -82,6 +95,19 @@ const validator = object().shape({
 
   bcrypt: object().shape({
     saltRounds: number().integer().positive().required(),
+  }),
+
+  mailer: object().shape({
+    from: string().email().required(),
+    smtp: object().shape({
+      auth: object().shape({
+        user: string().required(),
+        pass: string().required(),
+      }),
+      host: string().required(),
+      port: number().required(),
+      secure: boolean().required(),
+    }),
   }),
 
   pg: object().shape({
