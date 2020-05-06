@@ -1,5 +1,6 @@
 import { number, object, string } from 'yup';
 
+const isDev = process.env.NODE_ENV === 'development';
 const isTest = process.env.NODE_ENV === 'test';
 
 const config = {
@@ -10,6 +11,12 @@ const config = {
   devServer: {
     port: isTest ? process.env.UI_DEV_SERVER_PORT_TEST : process.env.UI_DEV_SERVER_PORT,
   },
+
+  mailcatcher: {
+    ui: {
+      url: process.env.MAILCATCHER_UI_URL,
+    },
+  },
 };
 
 const validator = object().shape({
@@ -19,6 +26,12 @@ const validator = object().shape({
 
   devServer: object().shape({
     port: number().required(),
+  }),
+
+  mailcatcher: object().shape({
+    ui: object().shape({
+      url: isDev || isTest ? string().required() : string(),
+    }),
   }),
 });
 
