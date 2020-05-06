@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "ui": "node ./ui",
-    "ui:dev": "nodemon ./ui",
+    "ui": "env-cmd node ./ui",
+    "ui:dev": "env-cmd nodemon ./ui",
     "test": "yarn test:once --watch",
     "test:once": "jest"
   },
@@ -16,6 +16,7 @@
     "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "jest": "^25.5.4",
     "nodemailer": "^6.4.6",
     "nodemon": "^2.0.3",

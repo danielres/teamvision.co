@@ -9,10 +9,10 @@ module.exports = {
   mailcatcher: {
     logger: isDev ? console.log : () => {}, // eslint-disable-line no-console
     smtp: {
-      port: isTest ? portfinder.getPort(2510) : parseInt(process.env.MAILCATCHER_SMTP_PORT, 10) || 2500,
+      port: isTest ? portfinder.getPort(2510) : parseInt(process.env.MAILCATCHER_SMTP_PORT, 10),
     },
     ui: {
-      port: parseInt(process.env.MAILCATCHER_UI_PORT, 10) || 2600,
+      port: parseInt(process.env.MAILCATCHER_UI_PORT, 10),
     },
   },
 };
