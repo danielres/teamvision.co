@@ -1,10 +1,10 @@
 import { sortBy } from 'lodash/fp';
 import { ValidationError } from 'yup';
+import isValidDate from '../src/utils/isValidDate';
 import verifyPassword from '../src/utils/verifyPassword';
 import store from './store';
 import samples from './test/samples';
 import { constraints } from './test/shared';
-import isValidDate from '../../ui/src/utils/isValidDate';
 
 const {
   Tenant: { tenant1, tenant2 },
