@@ -14,13 +14,15 @@ const app = express();
 const server = http.createServer(app);
 const io = Io(server);
 
-const { port } = config.mailcatcher.ui;
-const { logger: log } = config.mailcatcher;
-const host = 'localhost';
+const MC_UI_HOSTNAME = new URL(config.mailcatcher.ui.url).hostname;
+const MC_UI_PORT = new URL(config.mailcatcher.ui.url).port;
+const MC_UI_URL = config.mailcatcher.ui.url;
+
+const log = config.logger;
 
 const mailcatcher = Mailcatcher({
   onEmail: email => {
-    logEmail({ email, url: `http://${host}:${port}/last` });
+    logEmail({ email, href: `${MC_UI_URL}/last` });
     io.emit('browserReload');
   },
 });
@@ -37,8 +39,8 @@ const serve = async () => {
     res.send(lastEmail ? viewEmail(lastEmail) : viewEmailNotFound());
   });
 
-  server.listen(port, host, () => {
-    log(`[mailcatcher] UI listening on http://${host}:${port}`);
+  server.listen(MC_UI_PORT, MC_UI_HOSTNAME, () => {
+    log(`[mailcatcher] UI listening on ${MC_UI_URL}`);
   });
 
   io.on('connection', () => {

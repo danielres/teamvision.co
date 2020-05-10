@@ -3,10 +3,8 @@ import proxy from 'http-proxy-middleware';
 import Bundler from 'parcel-bundler';
 import config from './config';
 
-const {
-  api: { uri: graphqlTarget },
-  devServer: { port },
-} = config;
+const DEV_SERVER_PORT = config.devServer.port;
+const API_URL = config.api.url;
 
 const bundler = new Bundler('src/index.html', {
   cache: true,
@@ -19,7 +17,7 @@ const app = express();
 app.use(
   '/graphql',
   proxy({
-    target: graphqlTarget,
+    target: API_URL,
     ws: true,
     pathRewrite: {
       '^/graphql': '/',
@@ -29,7 +27,7 @@ app.use(
 
 app.use(bundler.middleware());
 
-app.listen(port, () => {
+app.listen(DEV_SERVER_PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`[UI] devServer: http://localhost:${port}`);
+  console.log(`[UI] devServer: http://localhost:${DEV_SERVER_PORT}`);
 });

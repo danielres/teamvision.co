@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const config = require('../../config');
 
 module.exports = ({
-  port = config.mailcatcher.smtp.port,
+  port = config.smtp.port,
   secure = false,
   message: {
     from = 'noreply@example.com',

@@ -4,7 +4,7 @@ import config from '../../config';
 export default ({ shortId, shortIds }) => {
   const mailGenerator = new Mailgen({
     product: {
-      link: `${config.ui.host}`,
+      link: `${config.ui.url}`,
       name: `Teamvision`,
     },
   });

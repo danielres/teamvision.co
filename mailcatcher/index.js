@@ -2,9 +2,9 @@ const { SMTPServer } = require('smtp-server');
 const { simpleParser } = require('mailparser');
 const config = require('./config');
 
-const { logger: log } = config.mailcatcher;
+const { logger: log } = config;
 
-const Mailcatcher = ({ logger = false, onEmail = () => {}, port = config.mailcatcher.smtp.port } = {}) => {
+const Mailcatcher = ({ logger = false, onEmail = () => {}, port = config.smtp.port } = {}) => {
   let emails = [];
   const host = 'localhost';
 

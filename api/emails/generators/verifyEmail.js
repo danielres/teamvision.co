@@ -8,7 +8,7 @@ export default ({ expiresIn, name, tenantShortId, token }) => {
 
   const mailGenerator = new Mailgen({
     product: {
-      link: `${config.ui.host}/${tenantShortId}`,
+      link: `${config.ui.url}/${tenantShortId}`,
       name: `Teamvision/${tenantShortId}`,
     },
   });

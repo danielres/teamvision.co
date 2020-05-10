@@ -4,30 +4,29 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "run-p store:up dev:server",
-    "dev:server": "NODE_ENV=development env-cmd -f .env nodemon -r esm src",
-    "e2e": "NODE_ENV=test env-cmd -f .env nodemon -r esm src",
+    "watch": "run-p store:up watch:server",
+    "watch:server": "nodemon -r esm src",
+    "server": "node -r esm src",
     "test": "yarn test:once --watch",
-    "test:once": "NODE_ENV=test env-cmd jest --verbose --runInBand",
-    "store:up": "env-cmd run-s 'dc up'",
-    "store:replay": "NODE_ENV=development run-s 'knex migrate:rollback' 'knex migrate:latest'",
-    "store:test:replay": "NODE_ENV=test run-s 'knex migrate:rollback' 'knex migrate:latest'",
-    "store:destroy": "env-cmd run-s 'dc down' 'dc rm -f'",
+    "test:once": "jest --verbose --runInBand",
+    "store:up": "yarn dc up",
+    "store:replay": "run-s 'knex migrate:rollback' 'knex migrate:latest'",
+    "store:destroy": "run-s 'dc down' 'dc rm -f'",
     "store:stop:all": "docker stop $(docker ps -aq)",
     "dc": "docker-compose -f store/docker-compose.yml",
-    "knex": "env-cmd knex --knexfile store/knexfile.js --esm"
+    "knex": "knex --knexfile store/knexfile.js --esm"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "babel-jest": "^25.2.6",
-    "env-cmd": "^10.1.0",
     "jest": "^25.2.6",
     "lolex": "^6.0.0",
     "nodemon": "^2.0.2",
     "npm-run-all": "^4.1.5"
   },
   "dependencies": {
+    "@danielres/validate-config": "^0.0.1",
     "apollo-server": "^2.10.1",
     "apollo-server-express": "^2.10.0",
     "bcrypt": "^4.0.1",
@@ -45,6 +44,7 @@
     "nodemailer": "^6.4.6",
     "pg": "^8.0.0",
     "shortid": "^2.2.15",
+    "superstruct": "^0.8.3",
     "supertest": "^4.0.2",
     "winston": "^3.2.1",
     "yup": "^0.28.3"

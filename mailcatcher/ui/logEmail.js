@@ -1,17 +1,13 @@
 const config = require('../config');
 
-const { logger: log } = config.mailcatcher;
+const { logger: log } = config;
 
-module.exports = ({ email, url }) => {
+module.exports = ({ email, href }) => {
   log('');
-  log(`== MAILCATCHER: email caught ==`.padEnd(70, '='));
-  log(`NODE_ENV: ${process.env.NODE_ENV}`);
-  log(`view: ${url}`);
-  log('');
+  log(`== MAILCATCHER: email caught `.padEnd(70, '='));
+  log(`href: ${href}`);
   log(`to: ${email.to.value.map(v => v.address).join(', ')}`);
   log(`date: ${email.date}`);
-  log('');
-  log(email.html);
-  log(''.padEnd(70, '='));
+  log(`== [ ${process.env.NODE_ENV} ] `.padEnd(70, '='));
   log('');
 };

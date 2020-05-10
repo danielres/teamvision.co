@@ -11,12 +11,12 @@
     "ui"
   ],
   "scripts": {
-    "dev": "run-p 'api dev' 'ui dev' 'mailcatcher ui'",
+    "watch": "env-cmd run-p -l 'mc watch' 'api watch' 'ui watch'",
     "lint": "yarn eslint --cache . ",
-    "api": "yarn workspace api run",
-    "e2e": "yarn workspace e2e run",
-    "mailcatcher": "yarn workspace mailcatcher run",
-    "ui": "yarn workspace ui run"
+    "api": "env-cmd yarn workspace api run",
+    "e2e": "env-cmd yarn workspace e2e run",
+    "mc": "env-cmd yarn workspace mailcatcher run",
+    "ui": "env-cmd yarn workspace ui run"
   },
   "husky": {
     "hooks": {
@@ -24,6 +24,7 @@
     }
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.10.1",

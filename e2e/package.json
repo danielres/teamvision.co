@@ -7,7 +7,7 @@
     "prepare": "run-p 'api store:test:replay' 'ui css:build'",
     "serve": "run-p 'api e2e' 'ui e2e'",
     "test": "run-s 'test:once --watch'",
-    "test:once": "NODE_ENV=test env-cmd -f ../api/.env jest --runInBand server.test.js ",
+    "test:once": "jest --runInBand",
     "api": "yarn workspace api run",
     "e2e": "yarn workspace e2e run",
     "ui": "yarn workspace ui run"
@@ -16,7 +16,6 @@
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "babel-jest": "^25.5.1",
-    "env-cmd": "^10.1.0",
     "jest": "^25.5.3",
     "jest-puppeteer": "^4.4.0",
     "npm-run-all": "^4.1.5",
