@@ -1,4 +1,8 @@
 /* eslint-disable global-require */
+const isDev = process.env.NODE_ENV === 'development';
+const isE2e = process.env.NODE_ENV === 'e2e';
+const isTest = process.env.NODE_ENV === 'test';
+
 const purgecss = require('@fullhuman/postcss-purgecss')({
   content: ['./src/**/*.jsx', './src/**/*.tsx', './src/**/*.js', './**/*.html'],
   css: ['./src/**/*.css'],
@@ -8,7 +12,7 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
 
 const plugins = [
   require('tailwindcss')('postcss/tailwind.config.js'),
-  ...(process.env.NODE_ENV === 'development' ? [] : [purgecss]),
+  ...(isDev || isE2e || isTest ? [] : [purgecss]),
   require('autoprefixer'),
 ];
 

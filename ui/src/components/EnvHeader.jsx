@@ -1,18 +1,24 @@
+import classnames from 'classnames';
 import React from 'react';
 import config from '../../config';
 
-const API_URL = config.api.uri;
+const { NODE_ENV } = process.env;
+
+const API_URL = config.api.url;
 const MAILCATCHER_UI_URL = config.mailcatcher.ui.url;
 
 const css = {
-  outer: tint => `py-1 px-8 text-sm text-${tint}-200 bg-${tint}-600 flex justify-between`,
+  outer: classnames(`py-1 px-8 text-sm flex justify-between`, {
+    'text-gray-200 bg-gray-600': NODE_ENV === 'development',
+    'text-purple-200 bg-purple-600': NODE_ENV === 'e2e',
+    'text-orange-200 bg-orange-600': NODE_ENV === 'staging',
+    'text-green-200 bg-green-600': NODE_ENV === 'test',
+  }),
   right: {
     outer: `flex`,
   },
   separator: `px-2`,
 };
-
-const { NODE_ENV } = process.env;
 
 const EnvHeader = ({ className }) => {
   return (
@@ -29,7 +35,7 @@ const EnvHeader = ({ className }) => {
         <div className={css.separator} />
 
         <div>
-          <a href={MAILCATCHER_UI_URL} rel="noopener noreferrer" target="_blank">
+          <a href={`${MAILCATCHER_UI_URL}/last`} rel="noopener noreferrer" target="_blank">
             mailcatcher
           </a>
         </div>
@@ -38,10 +44,4 @@ const EnvHeader = ({ className }) => {
   );
 };
 
-export default () => {
-  if (NODE_ENV === 'development') return <EnvHeader className={css.outer('gray')} />;
-  if (NODE_ENV === 'staging') return <EnvHeader className={css.outer('green')} />;
-  if (NODE_ENV === 'test') return <EnvHeader className={css.outer('test')} />;
-
-  return null;
-};
+export default () => <EnvHeader className={css.outer} />;
