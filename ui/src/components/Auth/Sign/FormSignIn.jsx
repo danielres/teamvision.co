@@ -39,7 +39,7 @@ export default () => {
     });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form data-testid="FormSignIn" onSubmit={handleSubmit(onSubmit)}>
       <AsyncError error={error} />
 
       {params.tenantShortId && (

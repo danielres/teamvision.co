@@ -21,7 +21,7 @@ const FormSignUp = ({ onSuccess }) => {
   const onSubmit = args => mutate({ variables: { args } }).then(onSuccess);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form data-testid="FormSignUp" onSubmit={handleSubmit(onSubmit)}>
       <AsyncError error={error} />
       <h2 className={css.heading}>Sign up</h2>
 
@@ -35,7 +35,6 @@ const FormSignUp = ({ onSuccess }) => {
             type: 'email',
           }}
           label={{ text: 'Email' }}
-          test={{ prefix: 'formSignUp' }}
           validations={{ required: true }}
         />
       </div>
@@ -50,7 +49,6 @@ const FormSignUp = ({ onSuccess }) => {
             type: 'password',
           }}
           label={{ text: 'Password' }}
-          test={{ prefix: 'formSignUp' }}
           validations={{ required: true }}
         />
       </div>
@@ -64,15 +62,12 @@ const FormSignUp = ({ onSuccess }) => {
             placeholder: 'Your username',
           }}
           label={{ text: 'Username' }}
-          test={{ prefix: 'formSignUp' }}
           validations={{ required: true }}
         />
       </div>
 
       <div className={classnames(css.forms.row)}>
-        <ButtonSubmit isDisabled={loading} test={{ prefix: 'formSignUp' }}>
-          Sign up
-        </ButtonSubmit>
+        <ButtonSubmit isDisabled={loading}>Sign up</ButtonSubmit>
       </div>
     </form>
   );

@@ -1,11 +1,11 @@
 import React from 'react';
-import Header from '../../components/Header';
+import AppHeader from '../../components/AppHeader';
 import LayoutBare from './LayoutBare';
 
 export default ({ children }) => {
   return (
     <>
-      <Header />
+      <AppHeader />
       <LayoutBare>{children}</LayoutBare>
     </>
   );

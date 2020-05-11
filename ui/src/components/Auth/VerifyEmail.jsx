@@ -28,13 +28,13 @@ export default () => {
   if (!token) return <Redirect to={toHome()} />;
 
   return (
-    <div className={css.success.outer}>
+    <div data-testid="VerifyEmail" className={css.success.outer}>
       <p>Thank you!</p>
       <br />
       <p>Your email has been verfied successfully</p>
       <br />
       <p>
-        <Link className={css.buttons.primary} to={toDashboard()}>
+        <Link data-testid="buttons.signIn" className={css.buttons.primary} to={toDashboard()}>
           sign in
         </Link>
       </p>

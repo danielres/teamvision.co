@@ -16,7 +16,13 @@ export default () => {
   };
 
   return (
-    <button className={css.buttons.inverted.text} onClick={handleSignout} type="button">
+    <button
+      //
+      data-testid="buttons.signOut"
+      className={css.buttons.inverted.text}
+      onClick={handleSignout}
+      type="button"
+    >
       Sign out
     </button>
   );

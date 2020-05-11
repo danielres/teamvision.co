@@ -28,7 +28,7 @@ export default () => {
   const { data, loading } = useQuery(queries.ME);
 
   return (
-    <>
+    <div data-testid="AppHeader">
       <header className={css.header1}>
         <div className={css.cols.outer}>
           <div className={css.cols.left.outer}>
@@ -54,6 +54,6 @@ export default () => {
           </div>
         </div>
       </header>
-    </>
+    </div>
   );
 };
