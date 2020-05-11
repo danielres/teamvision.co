@@ -1,8 +1,16 @@
+const config = require('./config');
+
+const getSlowMoValue = () => {
+  if (config.slowMo) return config.slowMo;
+  if (config.headless) return 0;
+  return 5;
+};
+
 module.exports = {
   launch: {
-    headless: true,
+    headless: config.headless,
+    slowMo: getSlowMoValue(),
     // dumpio: true,
-    // slowMo: 5,
   },
   browser: 'chromium',
   browserContext: 'default',
