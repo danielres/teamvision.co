@@ -1,4 +1,4 @@
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'dev';
 
 module.exports = {
   logger: isDev ? console.log : () => {}, // eslint-disable-line no-console

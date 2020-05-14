@@ -1,4 +1,4 @@
-const defaultValues = ['development'].includes(process.env.NODE_ENV)
+const defaultValues = ['dev'].includes(process.env.NODE_ENV)
   ? {
       email: `bob-${process.env.NODE_ENV}@example.com`,
       name: 'Bob',

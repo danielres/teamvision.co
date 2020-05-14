@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'dev';
 const isE2e = process.env.NODE_ENV === 'e2e';
 const isTest = process.env.NODE_ENV === 'test';
 

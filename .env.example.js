@@ -1,4 +1,4 @@
-if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
+if (!process.env.NODE_ENV) process.env.NODE_ENV = 'dev';
 
 const { BASE_PORT, NODE_ENV } = process.env;
 

@@ -2,7 +2,7 @@ import validateConfig from '@danielres/validate-config';
 import isValidEmail from './src/utils/isValidEmail';
 
 const { env } = process;
-const isSensitiveEnv = !['development', 'test', 'e2e'].includes(env.NODE_ENV);
+const isSensitiveEnv = !['dev', 'test', 'e2e'].includes(env.NODE_ENV);
 
 const checks = {
   email: [isValidEmail, String, 'should be a valid email'],

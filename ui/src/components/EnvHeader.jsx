@@ -9,7 +9,7 @@ const MAILCATCHER_UI_URL = config.mailcatcher.ui.url;
 
 const css = {
   outer: classnames(`py-1 px-8 text-sm flex justify-between`, {
-    'text-gray-200 bg-gray-600': NODE_ENV === 'development',
+    'text-gray-200 bg-gray-600': NODE_ENV === 'dev',
     'text-purple-200 bg-purple-600': NODE_ENV === 'e2e',
     'text-orange-200 bg-orange-600': NODE_ENV === 'staging',
     'text-green-200 bg-green-600': NODE_ENV === 'test',
