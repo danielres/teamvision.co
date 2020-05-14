@@ -8,7 +8,7 @@
     "watch:server": "nodemon -r esm src",
     "server": "node -r esm src",
     "test": "yarn test:once --watch",
-    "test:once": "jest --verbose --runInBand",
+    "test:once": "jest --runInBand",
     "store:up": "yarn dc up",
     "store:replay": "run-s 'knex migrate:rollback' 'knex migrate:latest'",
     "store:destroy": "run-s 'dc down' 'dc rm -f'",
