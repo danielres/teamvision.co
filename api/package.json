@@ -4,16 +4,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "watch": "run-p store:up watch:server",
-    "watch:server": "nodemon -r esm src",
+    "watch": "nodemon -r esm src",
     "server": "node -r esm src",
     "test": "yarn test:once --watch",
     "test:once": "jest --runInBand",
-    "store:up": "yarn dc up",
-    "store:replay": "run-s 'knex migrate:rollback' 'knex migrate:latest'",
-    "store:destroy": "run-s 'dc down' 'dc rm -f'",
-    "store:stop:all": "docker stop $(docker ps -aq)",
-    "dc": "docker-compose -f store/docker-compose.yml",
     "knex": "knex --knexfile store/knexfile.js --esm"
   },
   "devDependencies": {

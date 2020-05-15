@@ -1,0 +1,9 @@
+#!/bin/bash
+echo
+echo =====================================================================
+echo " Admin UI: http://localhost:$PG_ADMINER_PORT"
+echo " User/password: $PG_USER/$PG_PASSWORD"
+echo
+echo -Databases---------------------------------------------------------
+COMPOSE_INTERACTIVE_NO_CLI=1 docker-compose exec db psql -U $PG_USER -d postgres -tc "\\list"
+echo =====================================================================

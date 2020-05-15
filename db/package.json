@@ -1,0 +1,25 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "up": "yarn dc up -d",
+    "create": "bin/create",
+    "migrate": "knex migrate:latest",
+    "kill": "docker-compose kill",
+    "kill:all": "docker stop $(docker ps -aq)",
+    "rm": "run-s 'dc kill' 'dc rm -f'",
+    "info": "bin/info",
+    "drop": "bin/drop",
+    "dc": "docker-compose"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "dependencies": {
+    "@danielres/validate-config": "^0.0.11",
+    "knex": "^0.21.1"
+  }
+}

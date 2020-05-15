@@ -1,0 +1,4 @@
+#!/bin/bash
+echo Creating db "$PG_DB"...
+echo
+COMPOSE_INTERACTIVE_NO_CLI=1 docker-compose exec db psql -U $PG_USER -d postgres -tc "CREATE DATABASE $PG_DB"

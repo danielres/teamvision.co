@@ -6,15 +6,22 @@
   "private": true,
   "workspaces": [
     "api",
+    "db",
     "e2e",
     "mailcatcher",
     "ui"
   ],
   "scripts": {
-    "watch": "env-cmd run-p -l 'mc watch' 'api watch' 'ui watch'",
+    "watch": "env-cmd run-p -l 'db up' 'mc watch' 'api watch' 'ui watch'",
+    "db:replay": "run-s -c 'db drop' 'db create' 'db migrate'",
+    "db:replay:all": "(NODE_ENV=test yarn db:replay) & (NODE_ENV=e2e yarn db:replay) & (NODE_ENV=dev yarn db:replay)",
+    "test": "run-s test:*",
+    "test:api": "NODE_ENV=test yarn api test:once",
+    "test:e2e": "NODE_ENV=e2e run-p -r watch 'e2e test:once'",
     "lint": "yarn eslint --cache . ",
     "api": "env-cmd yarn workspace api run",
-    "e2e": "env-cmd yarn workspace e2e run",
+    "db": "env-cmd yarn workspace db run",
+    "e2e": "NODE_ENV=e2e env-cmd yarn workspace e2e run",
     "mc": "env-cmd yarn workspace mailcatcher run",
     "ui": "env-cmd yarn workspace ui run"
   },
