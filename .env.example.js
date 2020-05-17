@@ -2,6 +2,9 @@ if (!process.env.NODE_ENV) process.env.NODE_ENV = 'dev';
 
 const { BASE_PORT, NODE_ENV } = process.env;
 
+const PG_ADMINER_PORT = 8000
+const PG_PORT = 8001
+
 const environments = {
   dev: 3000,
   e2e: 4000,
@@ -13,12 +16,12 @@ if (!Object.keys(environments).includes(NODE_ENV)) throw new Error(`Environment 
 const basePort = BASE_PORT ? Number(BASE_PORT) : environments[NODE_ENV];
 
 const env = {
+  PG_ADMINER_PORT,
+  PG_PORT,
   UI_PORT: basePort,
   API_PORT: basePort + 10,
   MAILCATCHER_UI_PORT: basePort + 20,
   SMTP_PORT: basePort + 21,
-  PG_ADMINER_PORT: basePort + 30,
-  PG_PORT: basePort + 31,
 
   API_AUTH_COOKIE_KEY1_SECRET: 'secret-hgvkgvsdjbad9876svdhkasq',
   API_AUTH_COOKIE_KEY2_SECRET: 'secret-870oh3beucgTTIFCKJuihoew',
